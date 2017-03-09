@@ -12,6 +12,8 @@ class is_liste_manquants(models.Model):
 
     product_id              = fields.Many2one('product.product', 'Article')
     type_val                = fields.Char('Type')
+    picking_id              = fields.Many2one('stock.picking', 'Réception')
+    purchase_line_id        = fields.Many2one('purchase.order.line', 'Ligne de commande')
     date                    = fields.Date("Date")
     uom_id                  = fields.Many2one('product.uom', 'Unité')
     qt                      = fields.Float('Quantité', digits=(14,2))
@@ -23,11 +25,13 @@ class is_liste_manquants(models.Model):
         cr.execute("""
             CREATE OR REPLACE view is_liste_manquants_tmp AS (
                 select 
-                    res.product_id, res.type_val, res.date, res.uom_id, res.qt
+                    res.product_id, res.type_val, res.picking_id, res.purchase_line_id, res.date, res.uom_id, res.qt
                 from (
                     select 
                         pp.id product_id,
                         'stock' type_val,
+                        null as picking_id,
+                        null as purchase_line_id,
                         '2000-01-01' date,
                         pt.uom_id,
                         (
@@ -43,24 +47,29 @@ class is_liste_manquants(models.Model):
                     select 
                         sm.product_id,
                         'cde' type_val,
-                        sm.date_expected::date date,
+                        sm.picking_id as picking_id,
+                        sm.purchase_line_id as purchase_line_id,
+                        COALESCE(pol.is_date_ar, sm.date_expected::date) date,
                         sm.product_uom uom_id,
-                        sum(sm.product_uom_qty) qt
+                        sm.product_uom_qty qt
                     from stock_move sm inner join stock_picking sp on sm.picking_id=sp.id
+                                             left outer join purchase_order_line pol on sm.purchase_line_id=pol.id
                     where sm.state not in ('cancel','done') and sp.picking_type_id=1   
-                    group by sm.product_id, sm.date_expected::date, sm.product_uom
+
 
                     union
 
                     select 
                         sm.product_id,
                         'prod' type_val,
+                        sm.picking_id as picking_id,
+                        null as purchase_line_id,
                         sm.date_expected::date date,
                         sm.product_uom uom_id,
                         -sum(sm.product_uom_qty) qt
                     from stock_move sm inner join mrp_production mp on sm.raw_material_production_id=mp.id
                     where sm.state not in ('cancel','done')    
-                    group by sm.product_id, sm.date_expected::date, sm.product_uom
+                    group by sm.product_id, sm.date_expected::date, sm.product_uom, sm.picking_id
                 ) res   inner join product_product pp on res.product_id=pp.id
                         inner join product_template pt on pp.product_tmpl_id=pt.id
                 where pt.purchase_ok='t' 
@@ -72,6 +81,8 @@ class is_liste_manquants(models.Model):
                     row_number() over(order by tmp.product_id, tmp.date) as id,
                     tmp.product_id, 
                     tmp.type_val, 
+                    tmp.picking_id, 
+                    tmp.purchase_line_id,
                     tmp.date, 
                     tmp.uom_id, 
                     tmp.qt,

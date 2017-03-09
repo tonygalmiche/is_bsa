@@ -9,6 +9,7 @@ import product
 import mrp
 import email_template
 import bsa_fnc
+import purchase
 
 import views
 
