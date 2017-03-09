@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+
+<template id="is_report_saleorder_document" name="is_report_saleorder_document" inherit_id="sale.report_saleorder_document">
+
+    <xpath expr="//div[@class='page']/table[@class='table table-condensed']" position="replace">
+
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Taxes</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Unit Price</th>
+                        <th class="text-right">Date prévue</th>
+                        <!--<th groups="sale.group_discount_per_so_line">Disc.(%)</th>-->
+                        <th class="text-right">Price</th>
+                        <th class="text-right"></th>
+                    </tr>
+               </thead>
+               <tbody class="sale_tbody">
+                    <tr t-foreach="o.order_line" t-as="l">
+                        <td>
+                           <span t-field="l.name"/>
+                        </td>
+                        <td>
+                            <span t-esc="', '.join(map(lambda x: x.name, l.tax_id))"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.product_uom_qty"/>
+                            <span groups="product.group_uom" t-field="l.product_uom"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.price_unit"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="l.is_date_prevue"/>
+                        </td>
+
+                        <!--<td groups="sale.group_discount_per_so_line">
+                            <span t-field="l.discount"/>
+                        </td>-->
+                        <td class="text-right">
+                            <span t-field="l.price_subtotal"
+                                t-field-options='{"widget": "monetary", "display_currency": "o.pricelist_id.currency_id"}'/>
+                        </td>
+
+                        <td class="text-right">
+                            <t t-if="l.product_id.is_ce_en1090">
+                                <img t-att-src="'/is_bsa/static/description/logoCE1166.png'" style="height:40px"/>
+                            </t>
+                        </td>
+
+
+
+
+                    </tr>
+                </tbody>
+            </table>
+
+
+
+    </xpath>
+</template>
+
+
+
+
+</data>
+</openerp>

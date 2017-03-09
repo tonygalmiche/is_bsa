@@ -1,0 +1,13 @@
+
+
+.openerp .oe_form_sheetbg {
+    padding: 16px 0;
+    max-width: none !important;
+}
+.openerp .oe_form_sheet_width_wider {
+    max-width: 95%;
+}
+
+.openerp .announcement_bar {
+    display:none;
+}

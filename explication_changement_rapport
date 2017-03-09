@@ -1,0 +1,2 @@
+ne pas oublier de rajouter la ligne pour charger le rapport dans __openerp__.py
+dans le cas des sales order, on a céé un heritage du rapport initial avec inherit_id

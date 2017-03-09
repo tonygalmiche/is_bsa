@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+
+        <!-- Sequence bsa.fnc --> 
+        <record id="bsa_fnc_type_seq" model="ir.sequence.type">
+            <field name="name">FNC</field>
+            <field name="code">bsa.fnc</field>
+        </record>
+        <record id="bsa_fnc_seq" model="ir.sequence">
+            <field name="name">FNC</field>
+            <field name="code">bsa.fnc</field>
+            <field name="prefix">FNC-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <!-- bsa.fnc --> 
+        <record model="ir.ui.view" id="bsa_fnc_form_view">
+            <field name="name">bsa_fnc_form_view</field>
+            <field name="model">bsa.fnc</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>  
+                    <header>
+                        <button name="action_send_mail" string="Envoie par mail" type="object" />
+                        <field name="state" widget="statusbar"  clickable="True" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"  /> 
+                                <field name="createur_id"  /> 
+                                <field name="date_creation"  />
+                            </group>
+                            <group>
+                                <field name="type_fnc"  /> 
+                                <field name="partner_id" domain="[('is_company','=',True)]" /> 
+                                <field name="ref_partenaire"  /> 
+                             </group>
+                        </group>
+                        <group>
+                            <field name="description"  /> 
+                            <field name="action"  /> 
+                            <field name="resolution"  /> 
+                            <field name="evaluation"  /> 
+                            <field name="date_evaluation"  /> 
+                            <field name="evaluateur_id"  /> 
+
+                            <field name="attachment_ids" widget="many2many_binary" />
+
+
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="bsa_fnc_tree_view">
+            <field name="name">bsa_fnc_tree_view</field>
+            <field name="model">bsa.fnc</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/> 
+                    <field name="createur_id"/> 
+                    <field name="date_creation"/> 
+                    <field name="type_fnc"/> 
+                    <field name="partner_id"/> 
+                    <field name="ref_partenaire"/> 
+                    <field name="description"/> 
+                    <field name="state"/> 
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="bsa_fnc_search_view" >
+            <field name="name">bsa_fnc_search_view</field>
+            <field name="model">bsa.fnc</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/> 
+                    <field name="type_fnc"/> 
+                    <field name="partner_id"/> 
+                    <field name="ref_partenaire"/> 
+                    <field name="description"/> 
+                    <field name="state"/> 
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="bsa_fnc_action">
+            <field name="name">FNC</field>
+            <field name="res_model">bsa.fnc</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- menu -->
+        <menuitem id="bsa_fnc_menu"    sequence="2"  name="FNC" parent="base.menu_base_partner" />
+        <menuitem id="bsa_fnc_menu_10" sequence="10" name="FNC" parent="bsa_fnc_menu" action="bsa_fnc_action" />
+
+
+
+
+
+
+
+
+
+        <!--Email template -->
+        <record id="bsa_fnc_email_template4" model="email.template">
+            <field name="name">FNC</field>
+            <field name="email_from">${(user.email)|safe}</field>
+            <field name="email_to">${object.partner_id.email}</field>
+            <field name="email_cc"></field>
+            <field name="reply_to"></field>
+            <field name="subject">${object.name|safe} </field>
+            <!--<field name="partner_to">${object.partner_id.id}</field>-->
+            <field name="model_id" ref="is_bsa.model_bsa_fnc"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+Contenu du message à mettre ici
+    
+</div>
+            ]]></field>
+        </record>
+    </data>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</openerp>

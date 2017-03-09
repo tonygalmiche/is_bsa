@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+  <data>
+
+    <!-- Formulaire -->
+    <record model="ir.ui.view" id="is_fiche_travail_form_view">
+      <field name="name">is_fiche_travail_form_view</field>
+      <field name="model">is.fiche.travail</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <form string="Form" version="7.0">  
+        <sheet>
+          <group col="2" colspan="4">
+            <field name="name"/> 
+            <field name="ordre_fabrication"/>
+            <field name="quantite"/>
+            <field name="commentaire"/> 
+          </group>
+        </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- Tree -->
+    <record model="ir.ui.view" id="is_fiche_travail_tree_view">
+      <field name="name">is_fiche_travail_tree_view</field>
+      <field name="model">is.fiche.travail</field>
+      <field name="type">tree</field>
+       <field name="arch" type="xml">
+        <tree string="fiche_travail">
+          <field name="name"/>
+          <field name="ordre_fabrication"/>
+          <field name="quantite"/>
+          <field name="commentaire"/>
+        </tree>
+      </field>
+    </record>
+
+
+    <!-- Recherche -->
+    <record model="ir.ui.view" id="is_fiche_travail_filter_view" >
+      <field name="name">is_fiche_travail_filter_view</field>
+      <field name="model">is.fiche.travail</field>
+      <field name="arch" type="xml">
+      <search string="Recherche">
+        <field name="name" />
+        <field name="ordre_fabrication"/>
+        <field name="quantite"/>
+        <field name="commentaire" />
+      </search>
+      </field>
+    </record>
+
+
+    <!-- Action -->
+    <record model="ir.actions.act_window" id="is_fiche_travail_action">
+      <field name="name">Fiche de travail</field>
+      <field name="res_model">is.fiche.travail</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_is_fiche_travail" parent="mrp.menu_mrp_manufacturing" action="is_fiche_travail_action" sequence="90" />
+
+  </data>
+</openerp>

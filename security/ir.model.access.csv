@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_is_fiche_travail,is_fiche_travail,model_is_fiche_travail,base.group_user,1,1,1,1
+access_is_stock_category,access_is_stock_category,model_is_stock_category,base.group_user,1,1,1,1
+access_bsa_fnc,access_bsa_fnc,model_bsa_fnc,base.group_user,1,1,1,1
+access_is_gabarit,access_is_gabarit,model_is_gabarit,base.group_user,1,1,1,1
+access_is_liste_manquants,access_is_liste_manquants,model_is_liste_manquants,base.group_user,1,0,0,0
+

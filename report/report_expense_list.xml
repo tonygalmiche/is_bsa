@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="report_expense_list">
+    <div class="page">
+            <h2>Note de frais</h2>    
+		<t t-set="total" t-value="0"/>  
+                       
+
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Personne</th>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Note</th>
+                                <th class="text-right">Prix</th>
+                            </tr>
+                        </thead>       
+			
+	
+                        <t t-foreach="docs" t-as="o">
+	
+
+                    	
+
+                        <tbody>
+                            <tr t-foreach="o.line_ids" t-as="line">
+                                <td><span t-field="o.employee_id.name"/></td>  
+                                <td><span t-field="line.date_value"/></td>
+                                <td>
+                                    <span t-field="line.name"/> 
+                                    <span t-field="line.description"/><br/>
+                                    <span t-field="line.analytic_account.complete_name" t-if="line.analytic_account"/>
+                                </td>
+                              <td><span t-field="o.note"/></td>
+                                <td class="text-right">
+                                    <span t-field="line.total_amount"
+                                        t-field-options='{"widget": "monetary", "display_currency":"o.currency_id"}'/>
+					
+                                        
+                                </td>
+                            </tr>
+                        </tbody>
+        
+
+                <t t-set="total" t-value="o.amount + total"/>     
+               </t>   
+                   
+             </table>
+             Total :  <span t-esc="total" /> 
+               
+       </div>
+            
+       
+    
+</template>
+</data>
+</openerp>

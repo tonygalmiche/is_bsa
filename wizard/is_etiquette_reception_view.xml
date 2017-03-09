@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="is_etiquette_reception_form_view" model="ir.ui.view">
+            <field name="name">is_etiquette_reception_form_view</field>
+            <field name="model">is.etiquette.reception</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group colspan="4">
+                        <!--
+                        <field name="stock_picking_id" readonly="1"/>
+                        <field name="stock_move_id" readonly="1"/>
+                        -->
+                        <field name="quantite" string="Nombre d'étiquettes à imprimer" />
+                    </group>
+                    <footer>
+                        <button string="Imprimer" name="check_wizard" type="object" class="oe_highlight"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="is_etiquette_reception_action" model="ir.actions.act_window">
+            <field name="name">Impression des étiquettes de réception</field>
+            <field name="res_model">is.etiquette.reception</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="is_etiquette_reception_form_view"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="is_product_inherit_view" model="ir.ui.view">
+            <field name="name">is_product_inherit_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view" />
+            <field name="arch" type="xml">
+                <field name="active" position="before">
+                    <field name="is_ce_en1090" />
+                </field>
+            </field>
+        </record>
+
+
+        <record id="is_product_template_search_view" model="ir.ui.view">
+            <field name="name">is_product_template_search_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_search_view" />
+            <field name="arch" type="xml">
+
+                <field name="name" position="after">
+                    <field name="seller_ids" string="Référence fournisseur" filter_domain="[('seller_ids.product_code','ilike',self)]"/>
+                </field>
+
+            </field>
+        </record>
+
+
+
+
+
+
+    </data>
+</openerp>

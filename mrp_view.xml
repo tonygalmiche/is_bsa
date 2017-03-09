@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+
+        <!-- form view -->
+        <record id="is_mrp_production_form_view" model="ir.ui.view">
+            <field name="name">is_mrp_production_form_view</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_cancel']" position="replace">
+                    <button 
+                        name="action_cancel" type="object" states="confirmed" string="Annuler la production" 
+                        confirm="Voulez-vous vraiment annuler cette production ?"
+                    />
+                </xpath>
+                <field name="date_planned" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date_planned" position="after">
+                    <field name="is_date_planifiee" />
+                    <field name="is_gabarit_id" />
+                </field>
+                <field name="origin" position="after">
+                    <field name="is_sale_order_line_id" />
+                    <field name="is_sale_order_id" />
+                </field>
+            </field>
+        </record>
+
+
+        <!-- tree view -->
+        <record id="bsa_mrp_production_tree_view" model="ir.ui.view">
+            <field name="name">bsa_mrp.production.tree</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+                <field name="date_planned" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date_planned" position="after">
+                    <field name="is_date_planifiee" />
+                    <field name="is_gabarit_id" />
+                </field>
+                <field name="cycle_total" position="replace">
+                    <field name="sale_ref" />
+                </field>
+                <field name="origin" position="after">
+                    <field name="is_sale_order_line_id" />
+                </field>
+            </field>
+        </record>
+    
+
+        <!-- tree view (new) -->
+        <record id="bsa_mrp_production_tree_view2" model="ir.ui.view">
+            <field name="name">bsa_mrp_production_tree_view2</field>
+            <field name="model">mrp.production</field>
+            <field name="priority" eval="99"/>
+            <field name="arch" type="xml">
+                <tree 
+                    editable="top" 
+                    fonts="bold:message_unread==True" 
+                    colors="red:is_date_prevue&lt;is_date_planifiee;"
+                    string="Manufacturing Orders"
+                >
+                    <field name="message_unread" invisible="1"/>
+                    <field name="name" />
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="is_date_prevue" />
+                    <field name="is_date_planifiee" />
+                    <field name="is_gabarit_id" />
+                    <field name="hour_total" sum="Total Hours"/>
+                    <field name="is_sale_order_line_id" readonly="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <!-- mrp.production Kanban View -->
+        <record id="bsa_mrp_production_kanban_view" model="ir.ui.view" >
+            <field name="name">bsa_mrp_production_kanban_view</field>
+            <field name="model">mrp.production</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="is_date_prevue"/>
+                    <field name="is_date_planifiee"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_content" style="background-color:white;margin:0.5em;padding:0.5em">
+                                <h4><a type="open"><field name="name"/></a> <field name="is_sale_order_id"/></h4>
+                                <ul>
+                                    <li><field name="product_id"/></li>
+                                    <li>Qt : <field name="product_qty"/></li>
+                                    <li>Prévu : <field name="is_date_prevue"/></li>
+                                    <li>Planifié : <field name="is_date_planifiee"/></li>
+                                </ul>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+        <record id="bsa_view_mrp_production_filter" model="ir.ui.view">
+            <field name="name">bsa_view_mrp_production_filter</field>
+            <field name="model">mrp.production</field>
+            <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="is_gabarit_id" />
+                </field>
+
+                <filter string="Product" position="after">
+                    <filter name="group_by_gabarit" string="Gabarit" context="{'group_by':'is_gabarit_id'}"/>
+                </filter>
+
+            </field>
+        </record>
+
+
+       <!-- action Affectation gabarit -->
+        <record  id="bsa_affectation_gabarit_action" model="ir.actions.act_window">
+            <field name="name">Affectation gabarit</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_id" ref="bsa_mrp_production_kanban_view"/>
+            <field name="domain">[('state', 'not in', ['done', 'cancel'])]</field>
+            <field name="context">{"search_default_group_by_gabarit":1}</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+        <menuitem id="bsa_affectation_gabarit_menu" parent="mrp.menu_mrp_manufacturing" action="bsa_affectation_gabarit_action" sequence="10" />
+
+
+
+        <record id="bsa_mrp_production_planification_calendar_view" model="ir.ui.view">
+            <field name="name">bsa_mrp_production_planification_calendar</field>
+            <field name="model">mrp.production</field>
+            <field name="arch" type="xml">
+                <calendar color="is_gabarit_id" date_start="is_date_planifiee">
+                    <field name="name"/>
+                    <field name="is_sale_order_id"/>
+                    <field name="product_id"/>
+                    <field name="is_date_prevue"/>
+                    <field name="is_date_planifiee"/>
+                </calendar>
+            </field>
+        </record>
+
+
+
+       <!-- action Planification fabrication -->
+        <record id="bsa_mrp_production_planification_action" model="ir.actions.act_window">
+            <field name="name">Planification fabrication</field>
+            <field name="res_model">mrp.production</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">calendar,tree,form,graph</field>
+        </record>
+        <record id="bsa_mrp_production_planification_calendar" model="ir.actions.act_window.view">
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="bsa_mrp_production_planification_calendar_view" />
+            <field name="act_window_id" ref="bsa_mrp_production_planification_action" />
+        </record>
+        <record id="bsa_mrp_production_planification_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="bsa_mrp_production_tree_view2" />
+            <field name="act_window_id" ref="bsa_mrp_production_planification_action" />
+        </record>
+        <menuitem id="bsa_mrp_production_planification_menu" parent="mrp.menu_mrp_manufacturing" action="bsa_mrp_production_planification_action" sequence="11" />
+
+
+
+
+        <!--
+        <record model="ir.actions.act_window" id="bsa_mrp_production_planification_action">
+            <field name="name">Planification fabrication</field>
+            <field name="res_model">mrp.production</field>
+            <field name="view_id" ref="bsa_mrp_production_planification_calendar"/>
+            <field name="domain">[('state', 'not in', ['done', 'cancel'])]</field>
+            <field name="view_mode">calendar,tree,form,graph</field>
+        </record>
+
+        -->
+
+        <!-- Gabarit -->
+        <record id="is_gabarit_tree_view" model="ir.ui.view" >
+            <field name="name">is_gabarit_tree_view</field>
+            <field name="model">is.gabarit</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_gabarit_action" model="ir.actions.act_window" >
+            <field name="name">Gabarit</field>
+            <field name="res_model">is.gabarit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+        </record>
+        <menuitem name="Gabarits" id="is_gabarit_menu" parent="mrp.menu_mrp_manufacturing" action="is_gabarit_action" sequence="90" />
+
+       
+    </data>
+</openerp>
+
+

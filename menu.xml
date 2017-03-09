@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+  <data>
+
+    <menuitem id="is_liste_manquants_menu" sequence="90"  name="Liste des manquants" action="is_liste_manquants_action" parent="stock.menu_stock_inventory_control"/>
+
+    <menuitem id="menu_is_autre"           sequence="90"  name="Autre"/>
+    <menuitem id="mail.mail_feeds_main"    sequence="90"  name="Messagerie"          parent="menu_is_autre"/>
+
+  </data>
+</openerp>
+

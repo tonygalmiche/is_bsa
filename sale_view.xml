@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="is_view_order_line_form2" model="ir.ui.view">
+            <field name="name">is_view_order_line_form2</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_form2"/>
+            <field name="arch" type="xml">
+                <field name="product_uom_qty" position="after">
+                    <field name="is_date_demandee" />
+                    <field name="is_date_prevue" />
+                </field>
+            </field>
+        </record>
+
+        <record id="is_view_order_line_tree2" model="ir.ui.view">
+            <field name="name">is.sale.order.line.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Order Lines" editable="top">
+                    <field name="product_id"                   invisible="1"/>
+                    <field name="order_id"                     readonly="True"/>
+                    <field name="order_partner_id"             readonly="True"/>
+                    <field name="is_client_order_ref"          readonly="True"/>
+                    <field name="name"                         readonly="True"/>
+                    <field name="is_date_demandee" />
+                    <field name="is_date_prevue" />
+                    <field name="product_uom_qty" string="Qt commandée" readonly="True"/>
+                    <field name="is_fabrication_prevue" />
+                    <field name="is_reste" />
+                    <button
+                        string="Créer OF" name="action_creer_of" type="object" icon="gtk-add" 
+                        attrs="{'invisible':['|',('state','not in',('draft','confirmed')),('is_reste','&lt;=',0)]}" 
+                    />
+                    <field name="salesman_id" readonly="True"/>
+                    <field name="price_subtotal" sum="Total" readonly="True"/>
+                    <field name="state" readonly="True"/>
+                    <field name="invoiced" readonly="True"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="is_view_sales_order_line_filter">
+            <field name="name">is_view_sales_order_line_filter</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_id']" position="after">
+                    <field name="is_client_order_ref"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- graph view -->
+        <record id="is_view_order_line_graph_view" model="ir.ui.view">
+            <field name="name">is_view_order_line_graph_view</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <graph string="view" type="pivot">
+                    <field name="name"    type="row"/>
+                    <field name="is_date_prevue"  type="col" interval="week"/>
+                    <field name="product_uom_qty"  type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+       <!-- Action -->
+        <record model="ir.actions.act_window" id="is_sale_order_line_acion">
+            <field name="name">Lignes des commandes</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="view_id" ref="is_view_order_line_tree2"/>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+        <menuitem id="is_sale_order_line_menu" parent="base.menu_sales" action="is_sale_order_line_acion" sequence="90" />
+
+
+
+
+        <!-- sale.order -->
+        <record id="is_view_order_form" model="ir.ui.view">
+            <field name="name">is.sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="attributes">
+                    <attribute name="class">oe_form_sheet_width_wider</attribute>
+                </xpath>
+                <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                    <field name="is_date_demandee"/>
+                    <field name="is_date_prevue"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="is_view_order_tree">
+            <field name="name">is.sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="client_order_ref" />
+                </field>
+                <field name="amount_total" position="after">
+                    <field name="order_policy" />
+                </field>
+                <field name="date_order" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        <record id="is_view_order_tree_date" model="ir.ui.view">
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_order_dates.view_order_tree_date"/>
+            <field name="arch" type="xml">
+                <field name="requested_date"  position="replace" />
+                <field name="commitment_date" position="replace" />
+            </field>
+        </record>
+
+
+
+
+
+        <record model="ir.ui.view" id="is_view_sales_order_filter">
+            <field name="name">is.sale.order.list.select</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="client_order_ref" string="Commande client" filter_domain="[('client_order_ref','ilike',self)]"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Cela permet de corriger le bug d'affichage de la liste des ventes en supprimant le context qui pointe sur la variante et non pas sur le produit -->
+        <record id="sale.action_order_line_product_tree" model="ir.actions.act_window">
+            <field name="context">{}</field>
+        </record>
+
+        <!-- Ajout du total sur les quantités -->
+        <record id="is_view_order_line_tree" model="ir.ui.view">
+            <field name="name">is.sale.order.line.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_uom_qty" position="replace">
+                    <field name="product_uom_qty" string="Qty" sum="Total"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+
+</openerp>

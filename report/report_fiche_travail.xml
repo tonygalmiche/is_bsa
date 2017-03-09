@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="report_fiche_travail">
+
+
+
+<t t-call="report.html_container">
+    <t t-foreach="docs" t-as="o">
+        <t t-foreach="o.ordre_fabrication.routing_id.workcenter_lines" t-as="operation">
+            <t t-call="report.external_layout">
+
+                <div class="page">
+                    <h1>Fiche de travail : <span t-field="o.name"/> / <span t-field="o.ordre_fabrication"/></h1>
+                    <p>Quantité à fabriquer : <span t-field="o.quantite"/></p>
+                    
+                    <p>Gamme : <span t-field="o.ordre_fabrication.routing_id"/></p>
+                    <p>Opération : <span t-field="operation.name"/></p>
+                    <t t-set="htotal" t-value="operation.hour_nbr * o.quantite"/>
+                    <p>Nb Heures : <span t-esc="'{0:,.2f}'.format(htotal)"/></p>
+ 		    
+                    <p>Nb Heures : <span t-esc="'{0:,.0f}'.format(htotal)"/></p>
+
+<!--
+	
+                    <h2>Composants de l'ordre de fabrication</h2>
+                    <table style="margin-left:5mm;border-collapse:collapse" cellspacing="0px">
+                      <t t-foreach="o.ordre_fabrication.product_lines" t-as="line">
+                        <tr>
+                          <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.product_id.name"/></td>
+                          <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.product_qty"/></td>
+                        </tr>
+                      </t>
+                    </table>
+-->
+                    <h2>Lignes de la nomenclature</h2>
+                    <table style="margin-left:5mm;border-collapse:collapse" cellspacing="0px">
+                        <tr>
+                          <th style="padding:2px;border-bottom:1px solid grey">Article</th>
+                          <th style="padding:2px;border-bottom:1px solid grey">Qt unitaire</th>
+                          <th style="padding:2px;border-bottom:1px solid grey">Qt totale</th>
+                        </tr>
+
+                      <t t-foreach="o.ordre_fabrication.bom_id.bom_line_ids" t-as="line">
+                        <t t-set="total" t-value="0"/>
+                        <t t-set="total" t-value="line.product_qty * o.quantite"/>
+                        <tr>
+                          <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.product_id"/></td>
+                          <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.product_qty"/></td>
+                          <td style="padding:2px;border-bottom:1px solid grey"><span t-esc="total"/></td>
+                        </tr>
+                      </t>
+                    </table>
+
+
+
+
+
+                </div>
+            </t>
+        </t>
+    </t>
+</t>
+
+
+
+
+
+<!--
+<t t-call="report.html_container">
+    <t t-foreach="docs" t-as="o">
+        <t t-call="report.external_layout">
+            <div class="page">
+                <h1>Fiche de travail : <span t-field="o.name"/> / <span t-field="o.ordre_fabrication"/></h1>
+                <h2>Quantité à fabriquer : <span t-field="o.quantite"/></h2>
+                
+
+                <h2>Composants nécessaires</h2>
+
+                <table style="margin-left:5mm;border-collapse:collapse" cellspacing="0px">
+                  <t t-foreach="o.ordre_fabrication.product_lines" t-as="line">
+                    <tr>
+                      <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.product_id.name"/></td>
+                      <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.product_qty"/></td>
+                    </tr>
+                  </t>
+                </table>
+
+
+                <h2>Gamme</h2>
+                <p>Gamme : <span t-field="o.ordre_fabrication.routing_id"/></p>
+
+                <table style="margin-left:5mm;border-collapse:collapse" cellspacing="0px">
+                  <t t-foreach="o.ordre_fabrication.routing_id.workcenter_lines" t-as="line">
+                    <tr>
+                      <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.name"/></td>
+                      <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.hour_nbr"/></td>
+                    </tr>
+                  </t>
+                </table>
+
+
+
+
+            </div>
+        </t>
+    </t>
+</t>
+-->
+
+
+</template>
+
+</data>
+</openerp>

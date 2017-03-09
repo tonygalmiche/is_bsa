@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+    
+        <record id="view_is_stock_category_form" model="ir.ui.view">
+            <field name="name">is.stock.category.form</field>
+            <field name="model">is.stock.category</field>
+            <field name="arch" type="xml">
+                <form string="Stock Category" version="7.0">                    
+                    <sheet>                
+                        <group>
+                            <field name="name"  />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_is_stock_category_tree" model="ir.ui.view">
+            <field name="name">is.stock.category.tree</field>
+            <field name="model">is.stock.category</field>
+            <field name="arch" type="xml">
+                <tree string="Category">
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_is_stock_category_config" model="ir.actions.act_window">
+            <field name="name">Catégorie de stock</field>
+            <field name="res_model">is.stock.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem action="action_is_stock_category_config" id="menu_stock_category"
+            parent="stock.menu_stock_configuration" sequence="12" />
+
+        <record id="product_template_form_inherit_view" model="ir.ui.view">
+            <field name="name">product.template.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <field name="type" position="after">
+                    <field name="is_stock_category_id" />
+                </field>                
+            </field>
+        </record>
+        
+        <record id="stock_quant_tree_inherit_view" model="ir.ui.view">
+            <field name="name">stock.quant.tree.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field name="product_stock_category_id" />
+                </field>                
+            </field>
+        </record>
+        
+        <record id="stock_quant_search_inherit_view" model="ir.ui.view">
+            <field name="name">stock.quant.search.inherit</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.quant_search_view"/>
+            <field name="arch" type="xml">
+                <field name="owner_id" position="after">
+                    <field name="product_stock_category_id" />
+                </field>                
+            </field>
+        </record>
+        
+        <record id="stock_inventory_form_inherit_view" model="ir.ui.view">
+            <field name="name">stock.inventory.form.inherit</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+                <field name="filter" position="after">
+                    <field name="product_stock_category_id" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                </field>
+                <field name="product_id" position="attributes">
+                    <attribute name="domain">[('type','=','product'),'|',('is_stock_category_id', '=', False),('is_stock_category_id', '=', product_stock_category_id)]</attribute>
+                </field>
+                <xpath expr="//field[@name='line_ids']/tree/field[@name='product_id']" position="attributes">
+                    <attribute name="domain">[('type','=','product'),'|',('is_stock_category_id', '=', False),('is_stock_category_id', '=', parent.product_stock_category_id)]</attribute>
+                </xpath>                
+            </field>
+        </record>
+
+        <!-- Ajout date du transfert = date de la livraison -->
+        <record id="is_vpicktree" model="ir.ui.view">
+            <field name="name">is_stock.picking.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <field name="min_date" position="after">
+                    <field name="date_done" />
+                </field>
+            </field>
+        </record>
+
+        <record id="is_view_picking_internal_search" model="ir.ui.view">
+            <field name="name">is.stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+            <field name="arch" type="xml">
+                <filter name="late" position="after">
+                    <filter string="Livré cette année" name="cette_annee" domain="['|', ('date_done', '=', False), '&amp;',('date_done','&lt;=', time.strftime('%%Y-12-31')),('date_done','&gt;=',time.strftime('%%Y-01-01'))]" />
+                    <filter string="Livré ce mois"     name="ce_mois"     domain="[('date_done','&lt;=', time.strftime('%Y-%m-%d')),('date','&gt;=',time.strftime('%Y-%m-01'))]" />
+                </filter>
+                <filter string="Expected Date" position="after">
+                    <filter string="Date livraison" icon="terp-go-month" domain="[]"  context="{'group_by':'date_done'}"/>
+                </filter>
+            </field>
+        </record>
+
+
+        <!--
+        <record id="view_picking_internal_search" model="ir.ui.view">
+            <field name="name">stock.picking.internal.search</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="Picking Lists">
+                    <field name="name" string="Picking List" filter_domain="['|',('name','ilike', self),('origin','ilike',self)]"/>
+                    <filter icon="terp-check" name="draft" string="Draft" domain="[('state','=','draft')]" help="Draft Moves"/>
+                    <filter icon="terp-check" name="available" string="Ready" domain="[('state','in',('assigned', 'partially_available'))]" help="Assigned Moves"/>
+                    <filter icon="terp-check" name="waiting" string="Waiting Availability" domain="[('state','=', 'confirmed')]" help="Waiting Moves"/>
+                    <filter icon="terp-camera_test" name="confirmed" string="Confirmed" domain="[('state','in', ('confirmed', 'waiting', 'assigned'))]" help="Confirmed Moves"/>
+                    <filter icon="terp-dialog-close" name="done" string="Done" domain="[('state','=','done')]" help="Pickings already processed"/>
+                    <separator/>
+                    <filter name="late" string="Late" domain="[('min_date','&lt;', time.strftime('%%Y-%%m-%%d %%H:%%M:%%S'))]" help="Pickings that are late on scheduled time"/>
+                    <separator/>
+                    <filter name="backorder" string="Backorders" domain="[('backorder_id','&lt;&gt;', False)]" help="Remaining parts of picking partially processed"/>
+                    <field name="partner_id" filter_domain="[('partner_id','child_of',self)]"/>
+                    <field name="product_id"/>
+                    <field name="picking_type_id"/>
+                    <field name="group_id"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" icon="terp-stock_effects-object-colorize" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Order Date" icon="terp-go-month" domain="[]"  context="{'group_by':'date'}"/>
+                        <filter string="Expected Date" icon="terp-go-month" domain="[]"  context="{'group_by':'min_date'}"/>
+                        <filter string="Origin" domain="[]" context="{'group_by':'origin'}"/>
+                        <filter string="Picking Type" domain="[]" context="{'group_by':'picking_type_id'}"/>
+                        <filter string="Procurement Group" domain="[]" context="{'group_by':'group_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        -->
+
+
+
+    </data>
+</openerp>

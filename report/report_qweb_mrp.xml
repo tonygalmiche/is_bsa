@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="mrp_production_workcenter_line">
+
+
+<t t-call="report.html_container">
+    <t t-foreach="docs" t-as="o">
+        <t t-call="report.external_layout">
+            <div class="page">
+		<h1>Bon de travail :<span t-field="o.name"/></h1>                
+		<h2>bon de fabrication :
+                <span t-field="o.production_id"/></h2>
+		
+                <h2>Poste de travail :
+                <span t-field="o.workcenter_id"/></h2>
+                <div>code article  :<div t-field="o.production_id.product_id.default_code"/></div>
+                <div>type d'article  :<div t-field="o.production_id.product_id.name"/></div>
+                <div>Nombre de pièces :<span t-field="o.cycle"/></div>
+                <div>Nombre d'heures prévue :<span t-field="o.hour"/></div>
+                <div>Du <span t-field="o.date_planned"/> au <span t-field="o.date_planned_end"/></div>
+
+<!--                <h2>Champs de l'ordre de fabrication</h2>
+                <div t-field="o.production_id"/>
+                <div t-field="o.production_id.name"/>
+                <div t-field="o.production_id.product_qty"/>
+                <div t-field="o.production_id.origin"/>
+-->
+                <h2>Composants nécessaires</h2>
+
+                <table style="margin-left:5mm;border-collapse:collapse" cellspacing="0px">
+                  <t t-foreach="o.production_id.product_lines" t-as="line">
+                    <tr>
+                      <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.product_id.name"/></td>
+                      <td style="padding:2px;border-bottom:1px solid grey"><span t-field="line.product_qty"/></td>
+                    </tr>
+                  </t>
+                </table>
+
+              </div>
+        </t>
+    </t>
+</t>
+
+</template>
+</data>
+</openerp>
+
