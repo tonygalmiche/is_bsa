@@ -209,6 +209,23 @@
         </record>
         <menuitem name="Gabarits" id="is_gabarit_menu" parent="mrp.menu_mrp_manufacturing" action="is_gabarit_action" sequence="90" />
 
+
+
+
+        <record id="is_mrp_production_workcenter_form_view_inherit" model="ir.ui.view">
+            <field name="name">is_mrp_production_workcenter_form_view_inherit</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_form_view_inherit" />
+            <field name="arch" type="xml">
+                <field name="sequence" position="after">
+                    <field name="is_commentaire"/>
+                </field>
+            </field>
+        </record>
+
+
+
+
        
     </data>
 </openerp>

@@ -5,6 +5,15 @@ from openerp import models,fields,api
 from openerp.tools.translate import _
 
 
+class is_gabarit(models.Model):
+    _name='is.gabarit'
+    _order='name'
+    _sql_constraints = [('name_uniq','UNIQUE(name)', 'Ce gabarit existe déjà')] 
+
+    name = fields.Char("Gabarit", required=True)
+
+
+
 class mrp_production(models.Model):
     _inherit = "mrp.production"
 
@@ -16,10 +25,9 @@ class mrp_production(models.Model):
     is_sale_order_id      = fields.Many2one('sale.order', u'Commande', related='is_sale_order_line_id.order_id', readonly=True)
 
 
-class is_gabarit(models.Model):
-    _name='is.gabarit'
-    _order='name'
-    _sql_constraints = [('name_uniq','UNIQUE(name)', 'Ce gabarit existe déjà')] 
+class mrp_production_workcenter_line(models.Model):
+    _inherit = "mrp.production.workcenter.line"
 
-    name = fields.Char("Gabarit", required=True)
+    is_commentaire = fields.Text('Commentaire')
+
 

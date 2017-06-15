@@ -3,10 +3,16 @@
 from openerp import models,fields,api
 
 
+# select sm.product_id, sm.product_uom_qty,sm.name,sm.purchase_line_id, pol.name, pol.date_planned, pol.is_date_ar from stock_move sm inner join purchase_order_line pol on sm.purchase_line_id=pol.id where sm.id=122522;                                                                                                                                                                                      
+
 class stock_move(models.Model):
     _inherit = "stock.move"
 
  
+    is_date_ar      = fields.Date(related='purchase_line_id.is_date_ar'  , string='Date AR')
+    is_date_planned = fields.Date(related='purchase_line_id.date_planned', string='Date prévue')
+
+
     def _create_invoice_line_from_vals(self, cr, uid, move, invoice_line_vals, context=None):
         invoice_line_vals['is_stock_move_id']=move.id
         res = super(stock_move, self)._create_invoice_line_from_vals(cr, uid, move, invoice_line_vals, context)
