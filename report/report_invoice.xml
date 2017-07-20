@@ -38,10 +38,15 @@
                             <strong>Invoice Date:</strong>
                             <p t-field="o.date_invoice"/>
                         </div>
+                        <div class="col-xs-3" t-if="o.date_invoice">
+                            <strong>Conditions de règlement:</strong>
+                            <p t-field="o.partner_id.property_payment_term.name"/>
+                        </div>
                         <div class="col-xs-2" t-if="o.date_invoice">
                             <strong>Date d'échéance:</strong>
                             <p t-field="o.date_due"/>
                         </div>
+
                         <div class="col-xs-2" t-if="o.partner_id.ref">
                             <strong>Customer Code:</strong>
                             <p t-field="o.partner_id.ref"/>
