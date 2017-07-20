@@ -39,9 +39,24 @@ class stock_quant(models.Model):
 
 class stock_inventory(models.Model):
     _inherit = "stock.inventory"
+    _order='date desc'
      
     product_stock_category_id = fields.Many2one('is.stock.category', string='Catégorie de stock')
-    
+    is_date_forcee            = fields.Datetime("Date forcée pour l'inventaire")
+
+
+    @api.multi
+    def action_force_date_inventaire(self):
+        cr = self._cr
+        for obj in self:
+            if obj.is_date_forcee:
+                SQL="""
+                    UPDATE stock_move set date='"""+str(obj.is_date_forcee)+"""'
+                    WHERE inventory_id="""+str(obj.id)+"""
+                """
+                res=cr.execute(SQL)
+
+
     def _get_inventory_lines(self, cr, uid, inventory, context=None):
         location_obj = self.pool.get('stock.location')
         product_obj = self.pool.get('product.product')

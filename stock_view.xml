@@ -74,8 +74,12 @@
             <field name="model">stock.inventory</field>
             <field name="inherit_id" ref="stock.view_inventory_form"/>
             <field name="arch" type="xml">
+                <button name="action_cancel_inventory" position="after">
+                    <button name="action_force_date_inventaire" states="done" string="Forcer la date de l'inventaire" confirm="Voulez-vous vraiment forcer la date des mouvements de stock de cet inventaire ?" type="object"/>
+                </button>
                 <field name="filter" position="after">
                     <field name="product_stock_category_id" attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                    <field name="is_date_forcee"/>
                 </field>
                 <field name="product_id" position="attributes">
                     <attribute name="domain">[('type','=','product'),'|',('is_stock_category_id', '=', False),('is_stock_category_id', '=', product_stock_category_id)]</attribute>
