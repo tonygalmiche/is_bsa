@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="is_view_partner_form">
+            <field name="name">is_view_partner_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="property_account_position" position="before">
+                    <field name="is_code_client" attrs="{'invisible': [('is_company','!=', True)]}"/>
+                </field>
+            </field>
+        </record>   
+    </data>
+</openerp>

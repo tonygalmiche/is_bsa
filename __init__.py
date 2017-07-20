@@ -10,6 +10,9 @@ import mrp
 import email_template
 import bsa_fnc
 import purchase
+import res_partner
+import is_export_compta
+
 
 import views
 

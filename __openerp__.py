@@ -63,7 +63,9 @@ InfoSaône - Module Odoo pour BSA
     "stock_view.xml",
     "purchase_view.xml",
     "email_template_view.xml",
+    "res_partner_view.xml",
     "bsa_fnc_view.xml",
+    "is_export_compta.xml",
     "views/is_liste_manquants.xml",
     "menu.xml",              # Reorganisation des menus
     "security/ir.model.access.csv",

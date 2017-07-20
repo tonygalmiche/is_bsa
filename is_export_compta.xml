@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+
+        <record id="is_export_compta_type_seq" model="ir.sequence.type">
+            <field name="name">Folio Export Compta</field>
+            <field name="code">is.export.compta</field>
+        </record>
+        <record id="is_export_compta_seq" model="ir.sequence">
+            <field name="name">Folio Export Compta</field>
+            <field name="code">is.export.compta</field>
+            <field name="prefix">FOLIO-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+
+        <!-- Lignes -->
+        <record id="is_export_compta_ligne_tree" model="ir.ui.view">
+            <field name="name">is.export.compta.ligne.tree</field>
+            <field name="model">is.export.compta.ligne</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="date_facture" />
+                    <field name="journal" />
+                    <field name="compte" />
+                    <field name="piece" />
+                    <field name="libelle" />
+                    <field name="debit"  sum="Total"/>
+                    <field name="credit" sum="Total"/>
+                    <field name="devise" />
+                    <field name="commentaire" />
+                </tree>
+            </field>
+        </record>
+        <record id="is_export_compta_ligne_form" model="ir.ui.view">
+            <field name="name">is.export.compta.ligne.form</field>
+            <field name="model">is.export.compta.ligne</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="export_compta_id" />
+                                <field name="date_facture" />
+                                <field name="journal" />
+                                <field name="compte" />
+                                <field name="piece" />
+                                <field name="libelle" />
+                                <field name="debit" />
+                                <field name="credit" />
+                                <field name="devise" />
+                                <field name="commentaire" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_export_compta_ligne_search" model="ir.ui.view">
+            <field name="name">is.export.compta.ligne.search</field>
+            <field name="model">is.export.compta.ligne</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="compte"/>
+                    <field name="piece"/>
+                    <field name="libelle"/>
+                    <field name="commentaire" />
+                    <group expand="0" string="Regrouper par...">
+                        <filter string="Compte"        context="{'group_by':'compte'}"/>
+                        <filter string="Pièce"         context="{'group_by':'piece'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        <record  id="is_export_compta_ligne_action" model="ir.actions.act_window">
+            <field name="name">Détail des lignes à exporter</field>
+            <field name="res_model">is.export.compta.ligne</field>
+            <field name="view_type">form</field>
+            <field name="limit">1000</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('export_compta_id','=',active_id)]</field>
+            <field name="context">{'default_export_compta_id': active_id}</field>
+        </record>
+
+
+
+
+
+
+        <record id="is_export_compta_tree" model="ir.ui.view">
+            <field name="name">is.export.compta.tree</field>
+            <field name="model">is.export.compta</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="name" />
+                    <field name="type_interface" />
+                    <field name="date_debut" />
+                    <field name="date_fin" />
+                    <field name="num_debut" />
+                    <field name="num_fin" />
+
+                </tree>
+            </field>
+        </record>
+        <record id="is_export_compta_form" model="ir.ui.view">
+            <field name="name">is.export.compta.form</field>
+            <field name="model">is.export.compta</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_export_compta"              type="object" string="Générer les lignes"/>
+                        <button name="%(is_export_compta_ligne_action)d" type="action" string="Voir les lignes"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="type_interface" />
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="date_debut" />
+                            </group>
+                            <group>
+                                <field name="date_fin" />
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="num_debut" />
+                            </group>
+                            <group>
+                                <field name="num_fin" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_export_compta_search" model="ir.ui.view">
+            <field name="name">is.export.compta.search</field>
+            <field name="model">is.export.compta</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+               </search>
+            </field>
+        </record>
+
+
+        <!-- Exportation des ventes -->
+        <record id="is_export_vente_compta_action" model="ir.actions.act_window">
+            <field name="name">Export ventes</field>
+            <field name="res_model">is.export.compta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type_interface','=','ventes')]</field>
+            <field name="context">{'default_type_interface': 'ventes'}</field>
+        </record>
+
+
+        <!-- Exportation des achats -->
+        <record id="is_export_achat_compta_action" model="ir.actions.act_window">
+            <field name="name">Export achats</field>
+            <field name="res_model">is.export.compta</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type_interface','=','achats')]</field>
+            <field name="context">{'default_type_interface': 'achats'}</field>
+        </record>
+
+
+
+
+    </data>
+</openerp>
