@@ -141,7 +141,7 @@ class is_export_compta(models.Model):
                 f.write('VE')
                 f.write('000')
                 f.write(date_facture)
-                f.write(' ')
+                f.write('F')
                 f.write(libelle)
                 f.write(sens)
                 f.write('+')

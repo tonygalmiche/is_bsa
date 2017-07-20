@@ -38,6 +38,10 @@
                             <strong>Invoice Date:</strong>
                             <p t-field="o.date_invoice"/>
                         </div>
+                        <div class="col-xs-2" t-if="o.date_invoice">
+                            <strong>Date d'échéance:</strong>
+                            <p t-field="o.date_due"/>
+                        </div>
                         <div class="col-xs-2" t-if="o.partner_id.ref">
                             <strong>Customer Code:</strong>
                             <p t-field="o.partner_id.ref"/>
@@ -115,6 +119,19 @@
                                          <span t-field="o.amount_total" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                     </td>
                                 </tr>
+
+
+                                <t t-if="o.is_acompte">
+                                    <tr class="border-black">
+                                        <td><strong>Acompte</strong></td>
+                                        <td class="text-right">
+                                             <span t-field="o.is_acompte" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                    </tr>
+                                </t>
+
+
+
                             </table>
                         </div>
                     </div>
