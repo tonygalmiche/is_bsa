@@ -68,7 +68,6 @@ class is_export_compta(models.Model):
                         aa.code, 
                         ai.number, 
                         rp.name, 
-                        aml.name,
                         ai.type, 
                         rp.is_code_client,
                         sum(aml.debit), 
@@ -78,22 +77,25 @@ class is_export_compta(models.Model):
                                                inner join account_account aa             on aml.account_id=aa.id
                                                inner join res_partner rp                 on ai.partner_id=rp.id
                     WHERE ai.id="""+str(invoice.id)+"""
-                    GROUP BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, rp.is_code_client, ai.date_due, rp.supplier
-                    ORDER BY ai.date_invoice, ai.number, rp.name, aml.name, aa.code, ai.type, rp.is_code_client, ai.date_due, rp.supplier
+                    GROUP BY ai.date_invoice, ai.number, rp.name, aa.code, ai.type, rp.is_code_client, ai.date_due, rp.supplier
+                    ORDER BY ai.date_invoice, ai.number, rp.name, aa.code, ai.type, rp.is_code_client, ai.date_due, rp.supplier
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
+                    print row
+
+
                     compte=str(row[1])
                     if obj.type_interface=='ventes' and compte=='411100':
-                        compte=str(row[6])
+                        compte=str(row[5])
                     vals={
                         'export_compta_id'  : obj.id,
                         'date_facture'      : row[0],
                         'journal'           : journal,
                         'compte'            : compte,
                         'libelle'           : row[3],
-                        'debit'             : row[7],
-                        'credit'            : row[8],
+                        'debit'             : row[6],
+                        'credit'            : row[7],
                         'devise'            : 'E',
                         'piece'             : row[2],
                         'commentaire'       : False,
@@ -113,9 +115,7 @@ class is_export_compta(models.Model):
             f = open(dest,'wb')
             for row in obj.ligne_ids:
 
-                #M01COHELIVE000030717 COHELIANCE          D+00000007200070610000000000                                      EURVE    COHELIANCE
-                #M70610000VE000030717 COHELIANCE          C+00000006000001COHELI000000                                      EURVE    COHELIANCE
-                #M44572000VE000030717 COHELIANCE          C+000000012000        000000                                      EURVE    COHELIANCE
+
 
                 compte=str(row.compte)
                 if compte=='None':
@@ -133,6 +133,8 @@ class is_export_compta(models.Model):
                 date_facture=datetime.datetime.strptime(date_facture, '%Y-%m-%d')
                 date_facture=date_facture.strftime('%d%m%y')
                 libelle=(row.libelle+u'                    ')[0:20]
+                piece=(row.piece[-8:]+u'        ')[0:8]
+
 
                 f.write('M')
                 f.write((compte+u'00000000')[0:8])
@@ -145,9 +147,22 @@ class is_export_compta(models.Model):
                 f.write('+')
                 f.write(montant)
                 f.write('        ')
-                f.write('000000                                      EURVE    ')
+                f.write('000000')
+                f.write('     ')
+                f.write(piece)
+                f.write('                 ')
+                f.write(piece)
+                f.write('EURVE    ')
                 f.write(libelle)
                 f.write('\r\n')
+
+                #M01COHELIVE000030717 COHELIANCE          D+00000007200070610000000000                                      EURVE    COHELIANCE
+                #M70610000VE000030717 COHELIANCE          C+00000006000001COHELI000000                                      EURVE    COHELIANCE
+                #M44572000VE000030717 COHELIANCE          C+000000012000        000000                                      EURVE    COHELIANCE
+                #M01COHELIVE000300717 COHELIANCE          D+00000007200070610000000000     888                      888     EURVE    COHELIANCE                      888                                                    0000000663\WIN13072017082252
+
+
+
             f.close()
             r = open(dest,'rb').read().encode('base64')
             vals = {
