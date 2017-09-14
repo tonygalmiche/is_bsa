@@ -27,7 +27,6 @@ class is_import_nomenclature(models.Model):
             boms=self.env['mrp.bom'].search([('product_tmpl_id', '=', obj.name.id)])
             if len(boms)>0:
                 raise Warning("Il existe déja une nomenclature par cet article")
-
             model='is.import.nomenclature'
             attachments = self.env['ir.attachment'].search([('res_model','=',model),('res_id','=',obj.id)])
             err=[]
@@ -45,7 +44,6 @@ class is_import_nomenclature(models.Model):
                         cols=row.split(",")
                         if len(cols)>2:
                             test=True
-
                             product_tmpl_id=str2int(cols[1])
                             if product_tmpl_id:
                                 products = self.env['product.product'].search([('product_tmpl_id','=',product_tmpl_id)])
@@ -60,7 +58,7 @@ class is_import_nomenclature(models.Model):
                                     line_id = self.env['mrp.bom.line'].create(vals)
                                     err.append(u'OK : '+cols[2]+u' x '+product.name)
                             if test:
-                                err.append(u'ERR : Composant '+cols[2]+u' (id='+cols[1]+u') non trouvé ('+cols[3]+u')')
+                                err.append(u'ERR : Composant '+cols[2]+u' (id='+(cols[1] or u'')+u') non trouvé ('+cols[3].decode('latin-1')+u')')
                     lig=lig+1
             obj.bom_id=bom_id.id
             obj.resultat='\n'.join(err)
