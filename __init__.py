@@ -12,7 +12,7 @@ import bsa_fnc
 import purchase
 import res_partner
 import is_export_compta
-
+import is_import_nomenclature
 
 import views
 

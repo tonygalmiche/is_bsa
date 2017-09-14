@@ -2,7 +2,6 @@
 
 <openerp>
     <data>
-
         <menuitem id="is_liste_manquants_menu" sequence="90"  name="Liste des manquants" action="is_liste_manquants_action" parent="stock.menu_stock_inventory_control"/>
 
         <menuitem id="menu_is_autre"           sequence="90"  name="Autre"/>
@@ -12,6 +11,14 @@
         <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu" parent="account.menu_finance_receivables" sequence="900"/>
         <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu" parent="account.menu_finance_payables" sequence="900"/>
 
+        <!-- Importation nomenclature -->
+        <menuitem   
+            name="Importation nomenclature"
+            action="is_import_nomenclature_action"  
+            id="is_import_nomenclature_menu" 
+            parent="mrp.menu_mrp_bom" 
+            sequence="900"
+        />
     </data>
 </openerp>
 
