@@ -4,9 +4,8 @@ access_is_stock_category,access_is_stock_category,model_is_stock_category,base.g
 access_bsa_fnc,access_bsa_fnc,model_bsa_fnc,base.group_user,1,1,1,1
 access_is_gabarit,access_is_gabarit,model_is_gabarit,base.group_user,1,1,1,1
 access_is_liste_manquants,access_is_liste_manquants,model_is_liste_manquants,base.group_user,1,0,0,0
-
 access_is_export_compta,access_is_export_compta,model_is_export_compta,base.group_user,1,1,1,1
 access_is_export_compta_ligne,access_is_export_compta_ligne,model_is_export_compta_ligne,base.group_user,1,1,1,1
-
 access_is_import_nomenclature,access_is_import_nomenclature,model_is_import_nomenclature,base.group_user,1,1,1,1
+access_bsa_stock_a_date,access_bsa_stock_a_date,model_bsa_stock_a_date,base.group_user,1,1,1,1
 

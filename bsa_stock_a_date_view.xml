@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <!-- bsa.stock.a.date.wizard --> 
+        <record id="bsa_stock_a_date_wizard_form_view" model="ir.ui.view">
+            <field name="name">bsa_stock_a_date_wizard_form_view</field>
+            <field name="model">bsa.stock.a.date.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group colspan="4">
+                         <field name="date"/>
+                    </group>
+
+
+
+
+                    <footer>
+                        <button string="Calculer le stock" name="calul_stock_action" type="object" class="oe_highlight"/>
+                        ou
+                        <button string="Annuler" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="bsa_stock_a_date_wizard_action" model="ir.actions.act_window">
+            <field name="name">Calculer stock à date</field>
+            <field name="res_model">bsa.stock.a.date.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="bsa_stock_a_date_wizard_form_view"/>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="bsa_stock_a_date_menu_20" sequence="20" name="Calculer stock à date" parent="is_valorisation_stock_menu" action="bsa_stock_a_date_wizard_action" />
+
+
+        <!-- bsa.stock.a.date --> 
+        <record model="ir.ui.view" id="bsa_stock_a_date_form_view">
+            <field name="name">bsa_stock_a_date_form_view</field>
+            <field name="model">bsa.stock.a.date</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>  
+                    <sheet>
+                        <group>
+                            <field name="name"  /> 
+                            <field name="default_code"  /> 
+                            <field name="uom_id"/>
+                            <field name="list_price"/>
+                            <field name="standard_price"/>
+                            <field name="stock"/>
+                            <field name="stock_valorise"/>
+                            <field name="date_stock"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="bsa_stock_a_date_tree_view">
+            <field name="name">bsa_stock_a_date_tree_view</field>
+            <field name="model">bsa.stock.a.date</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"  /> 
+                    <field name="default_code"  /> 
+                    <field name="uom_id"/>
+                    <field name="list_price"/>
+                    <field name="standard_price"/>
+                    <field name="stock"           sum="Total"/>
+                    <field name="stock_valorise"  sum="Total"/>
+                    <field name="date_stock"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="bsa_stock_a_date_search_view" >
+            <field name="name">bsa_stock_a_date_search_view</field>
+            <field name="model">bsa.stock.a.date</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/> 
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="bsa_stock_a_date_action">
+            <field name="name">Stock à date</field>
+            <field name="res_model">bsa.stock.a.date</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="bsa_stock_a_date_menu_10" sequence="30" name="Stock à date" parent="is_valorisation_stock_menu" action="bsa_stock_a_date_action" />
+
+    </data>
+</openerp>

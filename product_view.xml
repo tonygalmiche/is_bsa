@@ -13,7 +13,6 @@
             </field>
         </record>
 
-
         <record id="is_product_template_search_view" model="ir.ui.view">
             <field name="name">is_product_template_search_view</field>
             <field name="model">product.template</field>
@@ -28,6 +27,45 @@
         </record>
 
 
+
+        <record id="is_product_template_tree_view" model="ir.ui.view">
+            <field name="name">is_product_template_tree_view</field>
+            <field name="model">product.template</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="uom_id"/>
+                    <field name="list_price"/>
+                    <field name="standard_price"/>
+                    <field name="qty_available"                sum="Total" string="Quantité disponible"/>
+                    <field name="virtual_available"            sum="Total" string="Quantité prévue"/>
+                    <field name="is_stock_disponible_valorise" sum="Total"/>
+                    <field name="is_stock_prevu_valorise"      sum="Total"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_product_template_action" model="ir.actions.act_window">
+            <field name="name">Stock valorisé</field>
+            <field name="res_model">product.template</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="is_product_template_tree_view"/>
+            <field name="view_mode">tree,kanban,form,</field>
+            <field name="domain">[]</field>
+        </record>
+        <menuitem 
+            id="is_valorisation_stock_menu" 
+            sequence="10" 
+            name=" Valorisation du stock"
+            parent="stock.menu_stock_root" 
+        />
+        <menuitem 
+            id="is_product_template_menu" 
+            sequence="10" 
+            name=" Articles"
+            parent="is_valorisation_stock_menu" 
+            action="is_product_template_action" 
+        />
 
 
 
