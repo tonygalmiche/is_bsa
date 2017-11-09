@@ -7,6 +7,12 @@ from openerp.exceptions import Warning
 import datetime
 
 
+class sale_order(models.Model):
+    _inherit = "sale.order"
+
+    is_condition_livraison = fields.Char('Conditions de livraison')
+
+
 class sale_order_line(models.Model):
     _name = "sale.order.line"
     _inherit = "sale.order.line"

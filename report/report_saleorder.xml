@@ -129,6 +129,12 @@
                 </div>
             </div>
 
+            <p t-if="o.is_condition_livraison">
+                <strong>Conditions de livraison : </strong>
+                <span t-field="o.is_condition_livraison"/>
+            </p>
+
+
             <p t-field="o.note" />
             <p t-if="o.payment_term.note">
                 <strong>Payment Term:</strong>
