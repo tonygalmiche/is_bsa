@@ -3,7 +3,14 @@
 from openerp import models,fields,api
 
 
-# select sm.product_id, sm.product_uom_qty,sm.name,sm.purchase_line_id, pol.name, pol.date_planned, pol.is_date_ar from stock_move sm inner join purchase_order_line pol on sm.purchase_line_id=pol.id where sm.id=122522;                                                                                                                                                                                      
+
+
+class stock_picking(models.Model):
+    _inherit = "stock.picking"
+
+    is_commentaire = fields.Text(string='Commentaire pour le client')
+
+
 
 class stock_move(models.Model):
     _inherit = "stock.move"

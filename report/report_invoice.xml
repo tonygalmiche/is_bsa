@@ -61,6 +61,7 @@
                         <thead>
                             <tr>
                                 <th>Commande</th>
+                                <th>Cde BSA</th>
                                 <th>Référence</th>
                                 <th>Désignation</th>
                                 <th>BL</th>
@@ -73,6 +74,7 @@
                         <tbody class="invoice_tbody">
                             <tr t-foreach="o.invoice_line" t-as="l">
                                 <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref"/></td>
+                                <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.name"/></td>
                                 <td><span t-field="l.product_id.default_code"/></td>
                                 <td><span t-field="l.product_id.name"/></td>
                                 <td>

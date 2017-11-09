@@ -63,6 +63,9 @@
                             </tbody>
                             </table>
                             <br/>
+
+                            <p t-if="o.is_commentaire"><b>Remarque : </b><span t-field="o.is_commentaire"/></p>
+
                             <br/>
 
                             <table class="table table-condensed" t-if="not o.pack_operation_ids">
@@ -152,6 +155,9 @@
                                 </tr>
                               </tbody>
                             </table>
+
+
+
 
 
                             <div style="page-break-before:always"/>
