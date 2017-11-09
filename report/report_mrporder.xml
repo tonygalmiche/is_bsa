@@ -69,15 +69,15 @@
                                 <td class="text-center"><strong>Sequence</strong></td>
                                 <td class="text-center"><strong>Nom</strong></td>
                                 <td class="text-center"><strong>poste de travail</strong></td>
-                                <td class="text-center"><strong>Nombre de produit</strong></td>
-                                <td class="text-center"><strong>Temps prévu</strong></td>
+                                <!--<td class="text-center"><strong>Nombre de produit</strong></td>
+                                <td class="text-center"><strong>Temps prévu</strong></td>-->
                             </tr>
                             <tr t-foreach="o.workcenter_lines" t-as="line2">
                                 <td class="text-center"><span t-field="line2.sequence"/></td>
                                 <td class="text-center"><span t-field="line2.name"/></td>
                                 <td class="text-center"><span t-field="line2.workcenter_id.name"/></td>
-                                <td class="text-center"><span t-field="line2.cycle"/></td>
-                                <td class="text-center"><span t-field="line2.hour"/></td>
+                                <!--<td class="text-center"><span t-field="line2.cycle"/></td>
+                                <td class="text-center"><span t-field="line2.hour"/></td>-->
                             </tr>
                         </table>
                     </div>
