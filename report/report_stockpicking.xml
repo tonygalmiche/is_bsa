@@ -64,7 +64,7 @@
                             </table>
                             <br/>
 
-                            <p t-if="o.is_commentaire"><b>Remarque : </b><span t-field="o.is_commentaire"/></p>
+
 
                             <br/>
 
@@ -157,7 +157,7 @@
                             </table>
 
 
-
+                            <p t-if="o.is_commentaire"><b>Remarque : </b><span t-field="o.is_commentaire"/></p>
 
 
                             <div style="page-break-before:always"/>
