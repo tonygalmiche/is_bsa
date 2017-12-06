@@ -226,6 +226,32 @@
 
 
 
+
+
+    <!-- mrp.routing (gammes) -->
+    <record model="ir.ui.view" id="is_mrp_routing_form_view" >
+        <field name="name">is_mrp_routing_form_view</field>
+        <field name="model">mrp.routing</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="mrp.mrp_routing_form_view" />
+        <field name="arch" type="xml">
+            <field name="workcenter_lines" position="replace" > 
+                <field name="workcenter_lines">
+                    <tree editable="bottom">
+                        <field name="sequence"/>
+                        <field name="name"/>
+                        <field name="workcenter_id" widget="many2one_clickable"/>
+                        <field name="cycle_nbr" invisible="1"/>
+                        <field name="hour_nbr" widget="float_time" sum="Total"/>
+                        <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                        <field name="note" invisible="1"/>
+                    </tree>
+                </field>
+            </field>
+        </field>
+    </record>
+
+
        
     </data>
 </openerp>
