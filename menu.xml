@@ -2,6 +2,31 @@
 
 <openerp>
     <data>
+
+
+
+        <menuitem 
+            name="Lignes de commandes"
+            id="is_menu_sale_order_line" 
+            parent="base.menu_sales" 
+            action="is_action_sale_order_line" 
+            sequence="70"
+        />
+        <menuitem 
+            name="Statistique commandes"
+            id="is_sale_order_line_menu"
+            parent="base.menu_sales"
+            action="is_sale_order_line_action"
+            sequence="80"
+        />
+        <menuitem 
+            name="Catégorie client"
+            id="is_categorie_client_menu"
+            parent="base.menu_sales"
+            action="is_categorie_client_action"
+            sequence="90"
+        />
+
         <menuitem id="is_liste_manquants_menu" sequence="90"  name="Liste des manquants" action="is_liste_manquants_action" parent="stock.menu_stock_inventory_control"/>
 
         <menuitem id="menu_is_autre"           sequence="90"  name="Autre"/>
