@@ -21,6 +21,7 @@ class is_sale_order_line(models.Model):
     montant_ht             = fields.Float('Montant HT' , digits=(14,2))
     is_date_prevue         = fields.Date("Date prévue")
     is_date_demandee       = fields.Date("Date demandée")
+    state                  = fields.Char("Etat de la commande")
 
 
     def init(self, cr):
@@ -39,7 +40,8 @@ class is_sale_order_line(models.Model):
                     sol.price_unit,
                     sol.product_uom_qty*sol.price_unit montant_ht,
                     sol.is_date_prevue,
-                    sol.is_date_demandee
+                    sol.is_date_demandee,
+                    so.state
                 from sale_order_line sol inner join sale_order so on sol.order_id=so.id
                                          inner join res_partner rp on so.partner_id=rp.id
                 where 
