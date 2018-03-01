@@ -13,6 +13,7 @@ class is_sale_order_line(models.Model):
     order_id               = fields.Many2one('sale.order', 'Commande')
     date_order             = fields.Date("Date commande")
     client_order_ref       = fields.Char("Commande client")
+    contact_id             = fields.Many2one('res.partner', 'Contact')
     partner_id             = fields.Many2one('res.partner', 'Client')
     is_categorie_client_id = fields.Many2one('is.categorie.client', string='Catégorie de client')
     product_id             = fields.Many2one('product.product', 'Article')
@@ -34,7 +35,8 @@ class is_sale_order_line(models.Model):
                     sol.order_id,
                     so.date_order,
                     so.client_order_ref,
-                    so.partner_id,
+                    so.partner_id contact_id,
+                    COALESCE(rp.parent_id,so.partner_id) partner_id,
                     rp.is_categorie_client_id,
                     sol.product_id,
                     sol.product_uom_qty,
