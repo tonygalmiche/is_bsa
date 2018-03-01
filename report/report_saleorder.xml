@@ -141,6 +141,9 @@
                 <span t-field="o.payment_term.note"/>
             </p>
             <div class="oe_structure"/>
+
+            <t t-call="is_bsa.conditions_generales_de_vente" />
+
         </div>
 
     </xpath>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+
+
+<template id="conditions_generales_de_vente">
+
+    <style>
+        .cgv-titre{
+            text-align: center;
+            font-size:12pt;
+            font-weight:bold;
+            padding:0;
+            margin:0;
+            margin-bottom:1em;
+        }
+        .cgv{
+            padding:0;
+            margin:0;
+        }
+        .cgv h2{
+            font-size:10pt;
+            font-weight:bold;
+            padding:0;
+            margin-top:0.5em;
+            margin-bottom:0.2em;
+        }
+
+        .cgv p{
+            padding:0;
+            padding-bottom:0.5em;
+            margin:0;
+            line-height: 1.1em;
+            font-size:8.5pt;
+            text-align: justify;
+        }
+
+    </style>
+
+
+    <div style="page-break-before:always"/>
+
+
+
+<div class="cgv">
+
+<h1 class="cgv-titre">Conditions générales de vente BSA</h1>
+
+
+
+<h2>A ) GENERALITES :</h2>
+
+
+<p>
+    A.1 Nos conditions générales de vente s’appliquent à toute commande de matériel enregistrée par Bouquerod Saint-Amour en France
+    conformément aux dispositions ci-dessous. Toute clause contraire ou différente émanant de nos acheteurs non expressément acceptée
+    par écrit par Bouquerod Saint-Amour ne nous serait pas opposable.
+</p>
+<p>
+    A.2 Toute commande adressée à Bouquerod Saint-Amour emporte de plein droit, de la part du client, adhésion sans réserve aux
+    présentes conditions générales de vente.
+</p>
+<p>
+    A.3 Les conditions particulières de vente stipulées par Bouquerod Saint-Amour priment sur les dispositions de même nature contenues
+    dans les conditions générales d'achat du client.
+</p>
+
+
+
+<h2>B) FORMATION DU CONTRAT :</h2>
+<p>B.1 La durée de validité de nos offres est de un mois à compter de leur date d’établissement sauf confirmation écrite de Bouquerod Saint-Amour prolongeant cette durée.</p>
+<p>B.2 Toutes les commandes qui nous parviennent ne nous engagent que sous réserve de confirmation écrite de notre part.</p>
+<p>B.3 En cas de divergence entre la commande et I'accusé de réception de ladite commande, I'accusé de réception émis par Bouquerod Saint-Amour détermine le contenu du contrat, à moins que I'acheteur ne I'ait refusé par écrit dans les quinze jours de l’émission de I'accusé de réception de commande.</p>
+
+<h2>C) DOCUMENTATION :</h2>
+<p>C.1 Les spécifications figurant dans notre documentation  commerciale n'ont qu'une valeur indicative. Bouquerod Saint-Amour se réserve le droit de modifier à tout moment ces spécifications.</p>
+
+<h2>D) LIVRAISONS :</h2>
+<p>D.1 Nos délais de livraison, qui commencent à courir à compter de la date de retour des plans confirmés, sont donnés dans tous les cas a titre purement indicatif. Bouquerod Saint-Amour met tout en œuvre pour les maintenir dans la mesure du possible, mais aucun retard ne peut justifier la résiliation de la commande, donner lieu à pénalité, ni à annulation de la commande, sauf stipulation contraire acceptée par Bouquerod Saint-Amour.</p>
+<p>D.2 Le transfert des risques et de la responsabilité du matériel vendu a lieu au moment de la livraison quels que soient le mode de transport et les conditions de règlement.</p>
+<p>D.3  II appartient à I'acheteur de faire, à ses frais et pour son compte, toutes réserves, formalités et procédures éventuelles envers le transporteur en cas de retard ou défaut de livraison, d'avarie, de manquant ou autre. </p>
+
+<h2>E) RECLAMATIONS :</h2>
+<p>E.1 Pour être valable, toute réclamation doit être formulée par écrit et adressée à Bouquerod Saint-Amour par lettre recommandée avec accusé de réception dans un délai de 8 jours à compter de la date de réception de la marchandise.</p>
+<p>E.2 Toute réclamation concernant des défauts détectables sur nos produits au moment de la livraison ne saurait être prise en compte sans que des réserves écrites aient été émises	 par écrit sur le bon de livraison ou le bon de transport.</p>
+
+<h2>F) PRETS :</h2>
+<p>F.1 Le matériel de prêt devra être assuré par le client à concurrence de sa valeur marchande.</p>
+<p>F.2 Tout prêt de matériel sera consigné par contrat, comprenant un état des lieux du matériel prêté contresigné par le client.</p>
+<p>F.3 Tout prêt de matériel ne saurait dépasser une durée d'un an au delà de laquelle Bouquerod Saint-Amour se réserve le droit de facturer le matériel à hauteur de sa valeur marchande.</p>
+<p>F.4 Toute dégradation du matériel par le client durant la durée du prêt pourra entraîner des coûts de refection à charge du client.</p>
+
+<h2>G) RESERVES DE PROPRIETE :</h2>
+<p>G.1 Les produits livrés demeurent la propriété de Bouquerod Saint-Amour jusqu'au complet paiement du prix facturé.</p>
+<p>G.2 La remise de traite ou titre créant obligation de payer ne constitue pas un paiement au sens de la présente disposition.</p>
+<p>G.3 Malgré l’application de la présente clause de réserve de propriété, I'acheteur supportera la charge de l'assurance et des risques en cas de perte ou de destruction dès la livraison des produits.</p>
+
+<h2>H) PRIX :</h2>
+<p>H.1 Les prix sont toujours exprimés hors taxes.</p>
+
+<h2>I)  PAIEMENT :</h2>
+<p>I.1 Les paiements des commandes suivantes sont faits nets et sans escompte à 45 jours date  de facturation, sauf stipulations contraires consenties par Bouquerod Saint-Amour. Les moyens de paiement acceptés par Bouquerod Saint-Amour sont : traite acceptée ou lettre de change relevé, chèque,virement.</p>
+<p>I.2 Le règlement des marchandises s'effectue selon les conditions convenues au contrat et reportées sur la facture. Le transfert de propriété des marchandises ne s’opérera qu’après complet paiement de leur prix conformément a l’article G.1 ci-dessus.</p>
+<p>I.3 En cas de retard de paiement à l’échéance fixée, Bouquerod Saint-Amour se réserve la faculté de suspendre ou d'annuler les ordres en cours, le tout de plein droit et sans mise en demeure préalable et par le seul envoi d'une lettre d’information. D'autre part, Bouquerod Saint-Amour est en droit, en cas de retard de paiement de I'acheteur, d'appliquer sur les sommes dues en principal par dérogation à I'article 1152 du Code Civil, un intérêt de retard de 1% d’intérêt mensuel. 
+</p>
+<p>I.4 Bouquerod Saint-Amour pourra obtenir la restitution du matériel vendu et non payé à l’échéance convenue, même si le défaut de paiement n'est que partiel; les comptes des parties seront liquidés compte tenu de I'état du matériel restitué et de sa valeur. En cas de résolution de la vente, même partielle, Bouquerod Saint-Amour se réserve le droit de réclamer tous dommages et intérêts.</p>
+
+<h2>J) RETOUR :</h2>
+<p>J.1 Aucun matériel ne peut être renvoyé à Bouquerod Saint-Amour sauf accord formel. Toutefois, dans le cas d'acceptation par Bouquerod Saint-Amour de retour, celui-ci ne pourra être accepté que dans les conditions suivantes </p>
+<p>Matériel complet et en parfait état.</p>
+<p>Le produit ne devra avoir subi aucune détérioration pour quelque cause que ce soit. </p>
+<p>Le retour se fera aux frais, risques et périls de l’acheteur. </p>
+
+<h2>K) JURIDICTION – ATTRIBUTION DE COMPETENCE TERRITORIALE :</h2>
+<p>K.1 L’élection de domicile est faite par Bouquerod Saint-Amour à son siège social.</p>
+<p>K.2 Pour toute contestation relative à la formation et/ou l'exécution d'un contrat de vente ou du paiement du prix, ainsi qu'à I'interprétation ou I'inexécution des clauses et conditions ci-dessus mentionnées, le Tribunal de Commerce de Lons le Saunier sera le seul compétent quels que soient le lieu de livraison, les mode et lieu de paiement. L'attribution de juridiction, dans les termes ci-dessus stipulés, 	constitue une clause essentielle de la présente convention.</p>
+
+</div>
+
+</template>
+
+</data>
+</openerp>
+
+
+
+
