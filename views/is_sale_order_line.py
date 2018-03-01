@@ -18,6 +18,7 @@ class is_sale_order_line(models.Model):
     product_id             = fields.Many2one('product.product', 'Article')
     product_uom_qty        = fields.Float('Quantité'   , digits=(14,2))
     price_unit             = fields.Float('Prix'       , digits=(14,2))
+    discount               = fields.Float('Remise (%)' , digits=(14,2))
     montant_ht             = fields.Float('Montant HT' , digits=(14,2))
     is_date_prevue         = fields.Date("Date prévue")
     is_date_demandee       = fields.Date("Date demandée")
@@ -38,7 +39,8 @@ class is_sale_order_line(models.Model):
                     sol.product_id,
                     sol.product_uom_qty,
                     sol.price_unit,
-                    sol.product_uom_qty*sol.price_unit montant_ht,
+                    sol.discount,
+                    sol.product_uom_qty*sol.price_unit*(100-discount)/100 montant_ht,
                     sol.is_date_prevue,
                     sol.is_date_demandee,
                     so.state
