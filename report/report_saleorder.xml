@@ -56,6 +56,13 @@
                 </div>
             </div>
 
+            <t t-set="remise" t-value="0"/>
+            <t t-foreach="o.order_line" t-as="l">
+                <t t-if="l.discount>0">
+                    <t t-set="remise" t-value="l.discount"/>
+                </t>
+            </t>
+
             <table class="table table-condensed">
                 <thead>
                     <tr>
@@ -64,7 +71,8 @@
                         <th class="text-right">Quantity</th>
                         <th class="text-right">Unit Price</th>
                         <th class="text-right">Date prévue</th>
-                        <th class="text-right">Price</th>
+                        <th t-if="remise"  class="text-right">Remise</th>
+                        <th class="text-right">Montant</th>
                         <th class="text-right"></th>
                     </tr>
                </thead>
@@ -85,6 +93,9 @@
                         </td>
                         <td class="text-right">
                             <span t-field="l.is_date_prevue"/>
+                        </td>
+                        <td t-if="remise" class="text-right">
+                            <span t-esc="int(l.discount)"/>%
                         </td>
 
                         <td class="text-right">
