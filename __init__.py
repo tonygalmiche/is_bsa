@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import res_company
 import account_invoice
 import wizard
 import is_fiche_travail

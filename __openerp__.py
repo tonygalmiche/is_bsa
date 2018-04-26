@@ -42,6 +42,7 @@ InfoSaône - Module Odoo pour BSA
   "demo_xml" : [],
   "data" : [
     "assets.xml",
+    "res_company_view.xml",
     "sale_view.xml",
     "pricelist_view.xml",
     "mrp_view.xml",
@@ -54,7 +55,8 @@ InfoSaône - Module Odoo pour BSA
     "report/report_expense.xml",
     "report/report_expense_list.xml",
     "report/report_fiche_travail.xml",
-    "report/conditions_generales_de_vente_templates.xml",
+    "report/conditions_generales_de_vente_bressane_templates.xml",
+    "report/conditions_generales_de_vente_bsa_templates.xml",
     "report/report_saleorder.xml",
     "report/report_invoice.xml",
     "report/report.xml", 
