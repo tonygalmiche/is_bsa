@@ -5,7 +5,7 @@
         <template id="is_report_invoice_document" name="is_report_invoice_document" inherit_id="account.report_invoice_document">
             <xpath expr="//div[@class='page']" position="replace">
                 <t t-if="res_company.is_site == 'bsa'">
-                    <t t-set="style" t-value="'font-size:11px'"/>
+                    <t t-set="style" t-value="'font-size:12px'"/>
                 </t>
                 <t t-if="res_company.is_site != 'bsa'">
                     <t t-set="style" t-value="'font-size:12px'"/>
