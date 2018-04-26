@@ -7,7 +7,23 @@
             <t t-call="report.internal_layout">
                 <div class="page">
                     <div class="oe_structure"/>
-                    <h2>Numéro de fabrication : <span t-field="o.name"/></h2>
+                    <table style="width:100%">
+                        <tr>
+                            <td>
+                                <h2>Fabrication : <span t-field="o.name"/></h2>
+                            </td>
+                            <t t-if="len(o.etiquette_ids) == 1">
+                                <td style="width:80mm">
+                                    <div style="text-align:center">
+                                        <t t-foreach="o.etiquette_ids" t-as="e">
+                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128'   , e.name, 1200, 300)" style="height:25mm"/><br/>
+                                            <div t-field="e.name" />
+                                        </t>
+                                    </div>
+                                </td>
+                            </t>
+                        </tr>
+                    </table>
 
                     <div t-if="o.is_gestion_lot">
                         <h3>ATTENTION : Fabrication en lot. Il faut scanner une seule fois l'étiquette de livraison pour solder l'ordre de fabrication</h3>
@@ -33,12 +49,12 @@
 
                     <div class="row mt32 mb32">
                         <div class="col-xs-3">
-                            <strong>Date de production:</strong><br/>
-                            <span t-field="o.date_planned"/>
+                            <strong>Date planifiée:</strong><br/>
+                            <span t-field="o.is_date_planifiee"/>
                         </div>
                         <div class="col-xs-3">
                             <strong>Date d'édition:</strong><br/>
-                            <span t-esc="time.strftime('%Y-%m-%d')"/>
+                            <span t-esc="time.strftime('%d/%m/%Y')"/>
                         </div>
                         <div class="col-xs-3" t-if="'sale_ref' in o._columns.keys()">
                             <strong>Référence client:</strong><br/>
@@ -46,7 +62,7 @@
                         </div>
                         <div class="col-xs-3" t-if="'sale_name' in o._columns.keys()">
                             <strong>Numéro de commande:</strong><br/>
-                            <span t-esc="'sale_name' in o._columns.keys() and o.sale_name"/>
+                            <span t-field="o.is_sale_order_id"/>
                         </div>
                     </div>
 
@@ -104,7 +120,9 @@
                                 </tr>
                                 <tr t-foreach="o.move_lines" t-as="line">
                                     <td>
-                                        <span t-field="line.product_id.code"/>
+                                        <t t-if="line.product_id.default_code">
+                                            [<span t-field="line.product_id.default_code"/>] 
+                                        </t>
                                         <span t-field="line.product_id.name"/>
                                     </td>
                                     <td class="text-right">
