@@ -59,7 +59,7 @@
                                 <t t-if="res_company.is_site == 'bsa'">
                                     <th>Commande</th>
                                     <th>Cde BSA</th>
-                                    <th>Référence</th>
+                                    <!--<th>Référence</th>-->
                                     <th>Désignation</th>
                                     <th>BL</th>
                                 </t>
@@ -78,8 +78,11 @@
                                 <t t-if="res_company.is_site == 'bsa'">
                                     <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref"/></td>
                                     <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.name"/></td>
+                                    <td><span t-field="l.name"/></td>
+                                    <!--
                                     <td><span t-field="l.product_id.default_code"/></td>
                                     <td><span t-field="l.product_id.name"/></td>
+                                    -->
                                     <td>
                                         <t t-if="l.is_stock_move_id.picking_id.note">
                                             <span t-field="l.is_stock_move_id.picking_id.note"/>
