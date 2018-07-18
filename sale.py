@@ -10,21 +10,27 @@ import datetime
 class sale_order(models.Model):
     _inherit = "sale.order"
 
-    is_condition_livraison = fields.Char('Conditions de livraison')
+    @api.depends('amount_untaxed','is_montant_commission', 'is_pourcentage_commission')
+    def _compute_montant_hors_commission(self):
+        for obj in self:
+            obj.is_montant_hors_commission=obj.amount_untaxed-(obj.amount_untaxed*obj.is_pourcentage_commission/100 + obj.is_montant_commission)
+
+    is_condition_livraison     = fields.Char('Conditions de livraison')
+    is_apporteur_affaire_id    = fields.Many2one('res.partner', "Apporteur d'affaire")
+    is_montant_commission      = fields.Float('Montant de la commission'    , digits=(14,2))
+    is_pourcentage_commission  = fields.Float('Pourcentage de la commission', digits=(14,2))
+    is_montant_hors_commission = fields.Float('Montant hors commission'     , digits=(14,2), compute='_compute_montant_hors_commission', readonly=True, store=True)
 
 
 class sale_order_line(models.Model):
     _name = "sale.order.line"
     _inherit = "sale.order.line"
 
-
-
-    is_date_demandee      = fields.Date('Date demandée')
-    is_date_prevue        = fields.Date('Date prévue')
-    is_fabrication_prevue = fields.Float('Fabrication prévue'           , compute='_compute_fab', readonly=True, store=False, digits=(14,0))
-    is_reste              = fields.Float('Reste à lancer en fabrication', compute='_compute_fab', readonly=True, store=False, digits=(14,0))
-    is_client_order_ref   = fields.Char('Référence Client', store=True, compute='_compute')
-
+    is_date_demandee           = fields.Date('Date demandée')
+    is_date_prevue             = fields.Date('Date prévue')
+    is_fabrication_prevue      = fields.Float('Fabrication prévue'           , compute='_compute_fab', readonly=True, store=False, digits=(14,0))
+    is_reste                   = fields.Float('Reste à lancer en fabrication', compute='_compute_fab', readonly=True, store=False, digits=(14,0))
+    is_client_order_ref        = fields.Char('Référence Client', store=True, compute='_compute')
 
     @api.depends('order_id','order_id.client_order_ref')
     def _compute(self):

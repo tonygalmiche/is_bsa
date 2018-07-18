@@ -21,3 +21,16 @@ class product_template(models.Model):
             obj.is_stock_disponible_valorise = is_stock_disponible_valorise
             obj.is_stock_prevu_valorise      = is_stock_prevu_valorise
 
+
+    @api.multi
+    def copy(self,vals):
+        for obj in self:
+            res=super(product_template, self).copy(vals)
+            for line in obj.seller_ids:
+                v = {
+                    'product_tmpl_id': res.id,
+                    'name'      : line.name.id,
+                }
+                id = self.env['product.supplierinfo'].create(v)
+            return res
+

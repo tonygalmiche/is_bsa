@@ -31,25 +31,30 @@
             <h2 t-if="o.state != 'draft'">Commande N°<span t-field="o.name"/></h2>
             <h2 t-if="o.state == 'draft'">Request for Quotation N°<span t-field="o.name"/></h2>
 
-            <div class="row mt32 mb32">
-                <div t-if="o.name" class="col-xs-3">
-                    <strong>Our Order Reference:</strong>
-                    <p t-field="o.name"/>
-                </div>
-                <div t-if="o.partner_ref" class="col-xs-3">
-                    <strong>Your Order Reference</strong>
-                    <p t-field="o.partner_ref"/>
-                </div>
-                <div t-if="o.date_order" class="col-xs-3">
-                    <strong>Order Date:</strong>
-                    <p t-field="o.date_order"/>
-                </div>
-                <div t-if="o.validator" class="col-xs-3">
-                    <strong>Validated By:</strong>
-                    <p t-field="o.validator"/>
-                </div>
-            </div>
-
+            <table class="table table-condensed">
+                <tr>
+                    <td t-if="o.name"> 
+                        <strong>Notre référence :</strong>
+                        <p t-field="o.name"/>
+                    </td>
+                    <td t-if="o.partner_ref"> 
+                        <strong>Votre référence :</strong>
+                        <p t-field="o.partner_ref"/>
+                    </td>
+                    <td t-if="o.date_order"> 
+                        <strong>Date de la commande :</strong>
+                        <p t-field="o.date_order"/>
+                    </td>
+                    <td t-if="o.payment_term_id"> 
+                        <strong>Conditions de règlement :</strong>
+                        <p t-field="o.payment_term_id"/>
+                    </td>
+                    <td t-if="o.validator"> 
+                        <strong>Validé par :</strong>
+                        <p t-field="o.validator"/>
+                    </td>
+                </tr>
+            </table><br />
             <table class="table table-condensed">
                 <thead>
                     <tr>
