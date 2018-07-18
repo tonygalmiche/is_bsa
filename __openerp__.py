@@ -72,6 +72,7 @@ InfoSaône - Module Odoo pour BSA
     "account_invoice_view.xml",
     "views/is_liste_manquants.xml",
     "views/is_sale_order_line.xml",
+    "views/is_mrp_bom_line.xml",
     "menu.xml",
     "security/ir.model.access.csv",
   ],

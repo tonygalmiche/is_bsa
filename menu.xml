@@ -36,6 +36,16 @@
         <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu" parent="account.menu_finance_receivables" sequence="900"/>
         <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu" parent="account.menu_finance_payables" sequence="900"/>
 
+
+        <menuitem   
+            name="Lignes des nomenclatures"
+            action="is_mrp_bom_line_action"  
+            id="is_mrp_bom_line_menu" 
+            parent="mrp.menu_mrp_bom" 
+            sequence="10"
+        />
+
+
         <!-- Importation nomenclature -->
         <menuitem   
             name="Importation nomenclature"
