@@ -11,6 +11,9 @@ class stock_picking(models.Model):
     is_commentaire = fields.Text(string='Commentaire pour le client')
 
 
+    def f(self,x):
+        return x.replace('\n','<br />')
+
 
 class stock_move(models.Model):
     _inherit = "stock.move"

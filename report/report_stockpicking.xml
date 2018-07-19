@@ -80,7 +80,10 @@
 
                             <br/>
 
-                            <table class="table table-condensed" t-if="not o.pack_operation_ids">
+                            <!--<table class="table table-condensed" t-if="not o.pack_operation_ids">-->
+
+
+                            <table class="table table-condensed">
                               <thead>
                                 <tr>
                                     <th><strong>Produit</strong></th>
@@ -97,7 +100,9 @@
                               <tbody>
                                 <tr t-foreach="o.move_lines" t-as="move">
                                     <td>
-                                        <span t-field="move.product_id"/> 
+                                        <!--<span t-field="move.product_id"/>-->
+                                        <div t-raw="o.f(move.name)" /> 
+
                                         <div t-if="o.picking_type_id.code=='incoming' and o.partner_id">
                                             <span t-field="move.product_id.description_purchase"/>
                                         </div>
@@ -123,6 +128,10 @@
                                 </tr>
                               </tbody>
                             </table>
+
+
+
+                            <!--
                             <table class="table table-condensed" t-if="o.pack_operation_ids">
                               <thead>
                                 <tr>
@@ -141,12 +150,10 @@
                                             <img t-att-src="'/is_bsa/static/description/logoCE1166.png'" style="height:40px"/>
                                         </t>
                                     </td>
-
-
-
                                 </tr>
                               </tbody>
                             </table>
+                            -->
 
 
                             <table class="table table-condensed" t-if="o.etiquette_livraison_ids">
