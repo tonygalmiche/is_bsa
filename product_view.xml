@@ -21,6 +21,9 @@
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view" />
             <field name="arch" type="xml">
+                <field name="list_price" position="replace">
+                    <field name="list_price" attrs="{'invisible': [('sale_ok', '!=', True)]}" />
+                </field>
                 <field name="active" position="before">
                     <field name="is_ce_en1090" />
                 </field>

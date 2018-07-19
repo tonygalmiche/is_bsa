@@ -4,11 +4,12 @@ from openerp import models,fields,api
 from openerp.tools.translate import _
 
 
-
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-    is_acompte = fields.Float("Acompte")
+    is_acompte               = fields.Float("Acompte")
+    is_imputation_partenaire = fields.Char("Imputation partenaire")
+    is_contact_id            = fields.Many2one('res.partner', string='Contact')
 
 
 class account_invoice_line(models.Model):
