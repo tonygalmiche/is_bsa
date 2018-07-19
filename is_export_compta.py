@@ -3,6 +3,16 @@ from openerp import models,fields,api
 from openerp.tools.translate import _
 import datetime
 from openerp.exceptions import Warning
+import unicodedata
+
+
+def s(txt,lg):
+    #print txt,lg,type(txt)
+    if type(txt)!=unicode:
+        txt = unicode(txt,'utf-8')
+    txt = unicodedata.normalize('NFD', txt).encode('ascii', 'ignore')
+    txt = (txt+u'                                                             ')[:lg]
+    return txt
 
 
 class is_export_compta(models.Model):
@@ -42,7 +52,7 @@ class is_export_compta(models.Model):
             obj.ligne_ids.unlink()
             if obj.type_interface=='ventes':
                 type_facture=['out_invoice', 'out_refund']
-                journal='VTE'
+                journal='VE'
             else:
                 type_facture=['in_invoice', 'in_refund']
                 journal='AC'
@@ -82,9 +92,6 @@ class is_export_compta(models.Model):
                 """
                 cr.execute(sql)
                 for row in cr.fetchall():
-                    print row
-
-
                     compte=str(row[1])
                     if obj.type_interface=='ventes' and compte=='411100':
                         compte=str(row[5])
@@ -102,7 +109,6 @@ class is_export_compta(models.Model):
                     }
                     self.env['is.export.compta.ligne'].create(vals)
             self.generer_fichier()
-
 
 
     def generer_fichier(self):
@@ -132,13 +138,16 @@ class is_export_compta(models.Model):
                 date_facture=row.date_facture
                 date_facture=datetime.datetime.strptime(date_facture, '%Y-%m-%d')
                 date_facture=date_facture.strftime('%d%m%y')
-                libelle=(row.libelle+u'                    ')[0:20]
-                piece=(row.piece[-8:]+u'        ')[0:8]
 
+                #libelle=(row.libelle+u'                    ')[0:20]
+                libelle=s(row.libelle,20)
+
+                piece=(row.piece[-8:]+u'        ')[0:8]
 
                 f.write('M')
                 f.write((compte+u'00000000')[0:8])
-                f.write('VE')
+                #f.write('VE')
+                f.write(row.journal)
                 f.write('000')
                 f.write(date_facture)
                 f.write('F')
