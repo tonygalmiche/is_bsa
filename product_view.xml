@@ -2,6 +2,20 @@
 <openerp>
     <data>
 
+        <!-- Recalcul du prix de revient -->
+        <record id="is_recalcul_prix_revient_action_server" model="ir.actions.server">
+             <field name="name">Recalcul du prix de revient</field>
+            <field name="model_id" ref="model_product_template"/>
+            <field name="code">action = self.recalcul_prix_revient_action(cr, uid, context.get('active_ids', []), context=context)</field>
+        </record>
+        <record id="is_recalcul_prix_revient_ir_value" model="ir.values">
+            <field eval="'client_action_multi'" name="key2"/>
+            <field eval="'product.template'" name="model"/>
+            <field name="name">Recalcul du prix de revient</field>
+            <field eval="'ir.actions.server,%d'%is_recalcul_prix_revient_action_server" name="value"/>
+        </record>
+
+
         <record id="is_product_inherit_view" model="ir.ui.view">
             <field name="name">is_product_inherit_view</field>
             <field name="model">product.template</field>
@@ -9,6 +23,9 @@
             <field name="arch" type="xml">
                 <field name="active" position="before">
                     <field name="is_ce_en1090" />
+                </field>
+                <field name="standard_price" position="before">
+                    <field name="is_recalcul_prix_revient" />
                 </field>
             </field>
         </record>
@@ -25,7 +42,6 @@
 
             </field>
         </record>
-
 
 
         <record id="is_product_template_tree_view" model="ir.ui.view">
@@ -66,9 +82,6 @@
             parent="is_valorisation_stock_menu" 
             action="is_product_template_action" 
         />
-
-
-
 
     </data>
 </openerp>

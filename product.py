@@ -8,6 +8,7 @@ class product_template(models.Model):
     is_ce_en1090                 = fields.Boolean(u'CE EN1090', help="Si cette case est cochée, le logo CE 1166 apparaîtra sur le BL")
     is_stock_prevu_valorise      = fields.Float('Stock prévu valorisé'     , store=False, compute='_compute')
     is_stock_disponible_valorise = fields.Float('Stock disponible valorisé', store=False, compute='_compute')
+    is_recalcul_prix_revient     = fields.Boolean(u'Recalcul automatique du prix de revient', help="Si cette case est cochée, le prix de revient sera recalculé pendant la nuit")
 
 
     def _compute(self):
@@ -33,4 +34,14 @@ class product_template(models.Model):
                 }
                 id = self.env['product.supplierinfo'].create(v)
             return res
+
+
+    @api.multi
+    def recalcul_prix_revient_action(self):
+        cr , uid, context = self.env.args
+        prod_obj = self.pool.get('product.template')
+        for obj in self:
+            if obj.cost_method=='standard' and obj.is_recalcul_prix_revient:
+                res=prod_obj.compute_price(cr, uid, [], template_ids=[obj.id], real_time_accounting=False, recursive=True, test=False, context=context)
+
 
