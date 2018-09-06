@@ -2,6 +2,48 @@
 <openerp>
     <data>
 
+        <!-- is.mode.reglement --> 
+        <record model="ir.ui.view" id="is_mode_reglement_form_view">
+            <field name="name">is_mode_reglement_form_view</field>
+            <field name="model">is.mode.reglement</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>  
+                    <sheet>
+                        <group>
+                            <field name="name"  /> 
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_mode_reglement_tree_view">
+            <field name="name">is_mode_reglement_tree_view</field>
+            <field name="model">is.mode.reglement</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/> 
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_mode_reglement_search_view" >
+            <field name="name">is_mode_reglement_search_view</field>
+            <field name="model">is.mode.reglement</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/> 
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="is_mode_reglement_action">
+            <field name="name">Mode de règlement</field>
+            <field name="res_model">is.mode.reglement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
         <!-- Facture client -->
         <record id="is_invoice_form" model="ir.ui.view">
             <field name="name">is_invoice_form</field>
@@ -16,6 +58,7 @@
                     <field name="is_imputation_partenaire"/>
                 </field>
                 <field name="payment_term" position="after">
+                    <field name="is_mode_reglement_id"/>
                     <field name="is_acompte"/>
                 </field>
             </field>

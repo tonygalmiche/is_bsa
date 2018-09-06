@@ -109,7 +109,7 @@
                     <field name="virtual_available"            sum="Total" string="Quantité prévue"/>
                     <field name="is_stock_disponible_valorise" sum="Total"/>
                     <field name="is_stock_prevu_valorise"      sum="Total"/>
-                    <field name="is_position_dans_produit_ids"/>
+                    <field name="is_position_dans_produit_ids" widget="many2many_tags"/>
                 </tree>
             </field>
         </record>
@@ -143,6 +143,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="attribute_value_ids" widget="many2many_tags"/>
                     <field name="default_code"/>
                     <field name="uom_id"/>
                     <field name="list_price"/>
@@ -151,7 +152,7 @@
                     <field name="virtual_available"            sum="Total" string="Quantité prévue"/>
                     <field name="is_stock_disponible_valorise" sum="Total"/>
                     <field name="is_stock_prevu_valorise"      sum="Total"/>
-                    <field name="is_position_dans_produit_ids"/>
+                    <field name="is_position_dans_produit_ids" widget="many2many_tags"/>
                 </tree>
             </field>
         </record>

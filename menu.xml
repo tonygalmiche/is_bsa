@@ -38,6 +38,15 @@
 
 
         <menuitem   
+            id="is_mode_reglement_menu" 
+            name="Mode de règlement"
+            action="is_mode_reglement_action"  
+            parent="account.menu_finance_configuration" 
+            sequence="90"
+        />
+
+
+        <menuitem   
             name="Lignes des nomenclatures"
             action="is_mrp_bom_line_action"  
             id="is_mrp_bom_line_menu" 

@@ -41,6 +41,10 @@
                                 <strong>Conditions de règlement:</strong>
                                 <p t-field="o.partner_id.property_payment_term.name"/>
                             </td>
+                            <td t-if="o.is_mode_reglement_id"> 
+                                <strong>Mode de règlement:</strong>
+                                <p t-field="o.is_mode_reglement_id"/>
+                            </td>
                             <td t-if="o.date_due"> 
                                 <strong>Date d'échéance:</strong>
                                 <p t-field="o.date_due"/>
@@ -67,13 +71,12 @@
                     <table class="table table-condensed">
                         <thead>
                             <tr>
+                                <th>Commande</th>
                                 <t t-if="res_company.is_site == 'bsa'">
-                                    <th>Commande</th>
                                     <th>Cde BSA</th>
-                                    <!--<th>Référence</th>-->
                                     <th>Désignation</th>
-                                    <th>BL</th>
                                 </t>
+                                <th>BL</th>
                                 <t t-if="res_company.is_site != 'bsa'">
                                     <th>Désignation</th>
                                 </t>
@@ -85,27 +88,27 @@
                         </thead>
                         <tbody class="invoice_tbody">
                             <tr t-foreach="o.invoice_line" t-as="l">
-
+                                <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref"/></td>
                                 <t t-if="res_company.is_site == 'bsa'">
-                                    <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref"/></td>
                                     <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.name"/></td>
                                     <td><span t-field="l.name"/></td>
-                                    <!--
-                                    <td><span t-field="l.product_id.default_code"/></td>
-                                    <td><span t-field="l.product_id.name"/></td>
-                                    -->
-                                    <td>
-                                        <t t-if="l.is_stock_move_id.picking_id.note">
-                                            <span t-field="l.is_stock_move_id.picking_id.note"/>
-                                        </t>
-                                        <t t-if="not l.is_stock_move_id.picking_id.note">
-                                            <span t-field="l.origin"/>
-                                        </t>
-                                    </td>
                                 </t>
+
+                                <td>
+                                    <t t-if="l.is_stock_move_id.picking_id.note">
+                                        <span t-field="l.is_stock_move_id.picking_id.note"/>
+                                    </t>
+                                    <t t-if="not l.is_stock_move_id.picking_id.note">
+                                        <span t-field="l.origin"/>
+                                    </t>
+                                </td>
+
+
                                 <t t-if="res_company.is_site != 'bsa'">
                                     <td><span t-field="l.name"/></td>
                                 </t>
+
+
 
                                 <td>
                                     <span t-esc="int(l.quantity)"/>
