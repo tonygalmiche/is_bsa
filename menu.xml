@@ -42,7 +42,7 @@
             action="is_mrp_bom_line_action"  
             id="is_mrp_bom_line_menu" 
             parent="mrp.menu_mrp_bom" 
-            sequence="10"
+            sequence="11"
         />
 
 
@@ -54,6 +54,22 @@
             parent="mrp.menu_mrp_bom" 
             sequence="900"
         />
+
+
+        <menuitem 
+            action="action_is_stock_category_config" 
+            id="menu_stock_category"
+            parent="stock.menu_stock_configuration" 
+            sequence="12" 
+        />
+
+        <menuitem 
+            action="is_position_dans_produit_action" 
+            id="is_position_dans_produit_menu"
+            parent="mrp.menu_mrp_configuration"
+            sequence="90" 
+        />
+
     </data>
 </openerp>
 

@@ -2,6 +2,50 @@
 <openerp>
     <data>
 
+
+        <!-- is.position.dans.produit --> 
+        <record model="ir.ui.view" id="is_position_dans_produit_form_view">
+            <field name="name">is_position_dans_produit_form_view</field>
+            <field name="model">is.position.dans.produit</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>  
+                    <sheet>
+                        <group>
+                            <field name="name"  /> 
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_position_dans_produit_tree_view">
+            <field name="name">is_position_dans_produit_tree_view</field>
+            <field name="model">is.position.dans.produit</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/> 
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_position_dans_produit_search_view" >
+            <field name="name">is_position_dans_produit_search_view</field>
+            <field name="model">is.position.dans.produit</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/> 
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="is_position_dans_produit_action">
+            <field name="name">Position dans produit</field>
+            <field name="res_model">is.position.dans.produit</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
         <!-- Recalcul du prix de revient -->
         <record id="is_recalcul_prix_revient_action_server" model="ir.actions.server">
              <field name="name">Recalcul du prix de revient</field>
@@ -25,6 +69,9 @@
                     <field name="list_price" attrs="{'invisible': [('sale_ok', '!=', True)]}" />
                 </field>
                 <field name="active" position="before">
+                    <field name="id" />
+                    <field style="background:orange" name="is_doublon" readonly="1" attrs="{'invisible':[('is_doublon','=',False)]}"/>
+                    <field name="is_position_dans_produit_ids" widget="many2many_tags"/>
                     <field name="is_ce_en1090" />
                 </field>
                 <field name="standard_price" position="before">
@@ -41,6 +88,7 @@
 
                 <field name="name" position="after">
                     <field name="seller_ids" string="Référence fournisseur" filter_domain="[('seller_ids.product_code','ilike',self)]"/>
+                    <field name="is_position_dans_produit_ids"/>
                 </field>
 
             </field>
@@ -61,6 +109,7 @@
                     <field name="virtual_available"            sum="Total" string="Quantité prévue"/>
                     <field name="is_stock_disponible_valorise" sum="Total"/>
                     <field name="is_stock_prevu_valorise"      sum="Total"/>
+                    <field name="is_position_dans_produit_ids"/>
                 </tree>
             </field>
         </record>
@@ -85,6 +134,51 @@
             parent="is_valorisation_stock_menu" 
             action="is_product_template_action" 
         />
+
+
+
+        <record id="is_product_product_tree_view" model="ir.ui.view">
+            <field name="name">is_product_product_tree_view</field>
+            <field name="model">product.product</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="default_code"/>
+                    <field name="uom_id"/>
+                    <field name="list_price"/>
+                    <field name="standard_price"/>
+                    <field name="qty_available"                sum="Total" string="Quantité disponible"/>
+                    <field name="virtual_available"            sum="Total" string="Quantité prévue"/>
+                    <field name="is_stock_disponible_valorise" sum="Total"/>
+                    <field name="is_stock_prevu_valorise"      sum="Total"/>
+                    <field name="is_position_dans_produit_ids"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_product_product_action" model="ir.actions.act_window">
+            <field name="name">Variantes d'articles</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,</field>
+            <field name="view_id" ref="is_product_product_tree_view"/>
+            <field name="domain">[]</field>
+        </record>
+        <menuitem 
+            id="is_product_product_menu" 
+            sequence="10" 
+            name=" Variantes d'articles"
+            parent="mrp.menu_mrp_bom" 
+            action="is_product_product_action" 
+        />
+
+
+
+
+
+
+
+
+
 
     </data>
 </openerp>

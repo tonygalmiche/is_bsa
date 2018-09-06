@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+
+        <!-- Sequence is.accident.travail --> 
+        <record id="is_accident_travail_type_seq" model="ir.sequence.type">
+            <field name="name">Suivi accident du travail</field>
+            <field name="code">is.accident.travail</field>
+        </record>
+        <record id="is_accident_travail_seq" model="ir.sequence">
+            <field name="name">Suivi accident du travail</field>
+            <field name="code">is.accident.travail</field>
+            <field name="prefix"></field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+        <!-- is.accident.travail --> 
+        <record model="ir.ui.view" id="is_accident_travail_form_view">
+            <field name="name">is_accident_travail_form_view</field>
+            <field name="model">is.accident.travail</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>  
+                    <header>
+                        <field name="state" widget="statusbar"  clickable="True" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"  /> 
+                                <field name="createur_id"  /> 
+                                <field name="date_creation"  />
+                            </group>
+                            <group>
+                                <field name="type_accident"/> 
+                                <field name="employe_id" attrs="{'required':  [('type_accident', '!=' , 'amelioration')]}"/>
+                             </group>
+                        </group>
+                        <group>
+                            <field name="description"/> 
+                            <field name="individu"/>
+                            <field name="tache"/>
+                            <field name="materiel"/>
+                            <field name="milieu"/>
+                            <field name="resolution"/>
+                            <field name="evaluation"  /> 
+                            <field name="date_evaluation"  /> 
+                            <field name="evaluateur_id"  /> 
+                            <field name="attachment_ids" widget="many2many_binary" />
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_accident_travail_tree_view">
+            <field name="name">is_accident_travail_tree_view</field>
+            <field name="model">is.accident.travail</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/> 
+                    <field name="createur_id"/> 
+                    <field name="date_creation"/> 
+                    <field name="type_accident"/>
+                    <field name="employe_id"/> 
+                    <field name="description"/> 
+                    <field name="state"/> 
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_accident_travail_search_view" >
+            <field name="name">is_accident_travail_search_view</field>
+            <field name="model">is.accident.travail</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/> 
+                    <field name="type_accident"/> 
+                    <field name="employe_id"/> 
+                    <field name="description"/> 
+                    <field name="state"/> 
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="is_accident_travail_action">
+            <field name="name">Suivi accident du travail</field>
+            <field name="res_model">is.accident.travail</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- menu -->
+        <menuitem id="is_accident_travail_menu"    sequence="20" name="Suivi accident du travail" parent="hr.menu_hr_root" />
+        <menuitem id="is_accident_travail_menu_10" sequence="10" name="Suivi accident du travail" parent="is_accident_travail_menu" action="is_accident_travail_action" />
+
+    </data>
+
+</openerp>

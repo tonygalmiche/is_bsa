@@ -37,8 +37,6 @@
             <field name="view_mode">tree,form</field>
         </record>
 
-        <menuitem action="action_is_stock_category_config" id="menu_stock_category"
-            parent="stock.menu_stock_configuration" sequence="12" />
 
         <record id="product_template_form_inherit_view" model="ir.ui.view">
             <field name="name">product.template.form.inherit</field>

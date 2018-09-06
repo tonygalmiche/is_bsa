@@ -31,3 +31,8 @@ class mrp_production_workcenter_line(models.Model):
     is_commentaire = fields.Text('Commentaire')
 
 
+class mrp_bom(models.Model):
+    _inherit  = 'mrp.bom'
+    _order    = 'product_tmpl_id'
+    _rec_name = 'product_tmpl_id'
+

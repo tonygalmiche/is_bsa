@@ -11,4 +11,6 @@ access_bsa_stock_a_date,access_bsa_stock_a_date,model_bsa_stock_a_date,base.grou
 access_is_categorie_client,access_is_categorie_client,model_is_categorie_client,base.group_user,1,1,1,1
 access_is_sale_order_line,access_is_sale_order_line,model_is_sale_order_line,base.group_user,1,0,0,0
 access_is_mrp_bom_line,access_is_mrp_bom_line,model_is_mrp_bom_line,base.group_user,1,0,0,0
+access_is_position_dans_produit,access_is_position_dans_produit,model_is_position_dans_produit,base.group_user,1,1,1,1
+access_is_accident_travail,access_is_accident_travail,model_is_accident_travail,base.group_user,1,1,1,1
 
