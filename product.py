@@ -31,7 +31,6 @@ class product_template(models.Model):
                 for product in products:
                     ids.append(str(product.id))
                 doublon=u'Doublon Nom : '+', '.join(ids)
-
             products=self.env['product.template'].search([
                 ('default_code', '=' , obj.default_code),
                 ('default_code', '!=' , False),
@@ -42,16 +41,22 @@ class product_template(models.Model):
                 for product in products:
                     ids.append(str(product.id))
                 doublon=u'Doublon Référence : '+', '.join(ids)
-            ids=[]
+            p={}
             for line in obj.seller_ids:
                 products=self.env['product.supplierinfo'].search([
                     ('product_code'   , '=' , line.product_code),
+                    ('product_code'   , '!=', False),
                     ('id'             , '!=', line.id),
                 ])
                 if len(products)>0:
                     for product in products:
-                        ids.append(str(product.id))
-                    doublon=u'Doublon Référence fournisseur : '+', '.join(ids)
+                        id=product.product_tmpl_id.id
+                        p[id]=id
+            ids=[]
+            if len(p)>0:
+                for id in p:
+                    ids.append(str(id))
+                doublon=u'Doublon Référence fournisseur : '+', '.join(ids)
             obj.is_doublon=doublon
 
 
