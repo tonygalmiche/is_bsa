@@ -50,8 +50,9 @@ class product_template(models.Model):
                 ])
                 if len(products)>0:
                     for product in products:
-                        id=product.product_tmpl_id.id
-                        p[id]=id
+                        if product.product_tmpl_id.active:
+                            id=product.product_tmpl_id.id
+                            p[id]=id
             ids=[]
             if len(p)>0:
                 for id in p:
