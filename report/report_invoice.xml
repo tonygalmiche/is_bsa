@@ -157,10 +157,13 @@
                                              <span t-field="o.is_acompte" t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
                                         </td>
                                     </tr>
+                                    <tr class="border-black">
+                                        <td><strong>Restant dû</strong></td>
+                                        <td class="text-right">
+                                             <span t-esc="o.amount_total-o.is_acompte" t-esc-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                        </td>
+                                    </tr>
                                 </t>
-
-
-
                             </table>
                         </div>
                     </div>

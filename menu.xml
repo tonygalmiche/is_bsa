@@ -79,6 +79,29 @@
             sequence="90" 
         />
 
+
+
+        <record model="ir.actions.act_window" id="is_mail_message_action">
+            <field name="name">Messages</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('type', 'not in', ['notification'])]</field>
+        </record>
+        <menuitem 
+            action="is_mail_message_action" 
+            id="is_mail_message_menu"
+            parent="purchase.menu_procurement_management"
+            sequence="900" 
+        />
+
+
+
+
+
+
+
+
     </data>
 </openerp>
 
