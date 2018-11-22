@@ -12,6 +12,13 @@
                 <xpath expr="//sheet" position="attributes">
                     <attribute name="class">oe_form_sheet_width_wider</attribute>
                 </xpath>
+                <field name="state" position="before" >
+                    <button 
+                        name="mouvement_stock_action" 
+                        string="Lignes de réception" type="object" 
+                        attrs="{'invisible': [('state','in',('draft','sent'))]}"
+                    />
+                </field>
                 <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree/field[@name='date_planned']" position="after">
                     <field name="is_date_ar" />
                 </xpath>
