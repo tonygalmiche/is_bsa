@@ -22,6 +22,28 @@ class sale_order(models.Model):
     is_montant_hors_commission = fields.Float('Montant hors commission'     , digits=(14,2), compute='_compute_montant_hors_commission', readonly=True, store=True)
 
 
+    @api.multi
+    def mouvement_stock_action(self):
+        for obj in self:
+            ids=[]
+            for picking in obj.picking_ids:
+                for line in picking.move_lines:
+                    ids.append(line.id)
+            if not ids:
+                raise Warning('Aucune ligne de livraison')
+            else:
+                return {
+                    'name': u'Lignes de livraison '+obj.name,
+                    'view_mode': 'tree,form',
+                    'view_type': 'form',
+                    'res_model': 'stock.move',
+                    'domain': [
+                        ('id','in',ids),
+                    ],
+                    'type': 'ir.actions.act_window',
+                }
+
+
 class sale_order_line(models.Model):
     _name = "sale.order.line"
     _inherit = "sale.order.line"

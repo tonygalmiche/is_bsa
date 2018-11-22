@@ -80,6 +80,16 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+
+                <field name="state" position="before" >
+                    <button 
+                        name="mouvement_stock_action" 
+                        string="Lignes de livraison" type="object" 
+                        attrs="{'invisible': [('state','in',('draft','sent'))]}"
+                    />
+                </field>
+
+
                 <field name="partner_shipping_id" position="after">
                     <field name="is_condition_livraison"/>
                 </field>
