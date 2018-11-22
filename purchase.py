@@ -6,9 +6,10 @@ from openerp.tools.translate import _
 
 class purchase_order_line(models.Model):
     _inherit = "purchase.order.line"
+    _order = "is_sequence,id"
 
-    is_date_ar = fields.Date("Date AR")
-
+    is_sequence = fields.Integer('Séquence')
+    is_date_ar  = fields.Date("Date AR")
 
 
 class purchase_order(models.Model):

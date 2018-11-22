@@ -9,7 +9,7 @@ class stock_picking(models.Model):
     _inherit = "stock.picking"
 
     is_commentaire = fields.Text(string='Commentaire pour le client')
-
+    #is_date_bl     = fields.Date('Date BL', default=fields.Date.context_today)
 
     def f(self,x):
         return x.replace('\n','<br />')
