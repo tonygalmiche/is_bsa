@@ -9,7 +9,16 @@ class stock_picking(models.Model):
     _inherit = "stock.picking"
 
     is_commentaire = fields.Text(string='Commentaire pour le client')
-    #is_date_bl     = fields.Date('Date BL', default=fields.Date.context_today)
+    is_date_bl     = fields.Date('Date BL')
+
+
+    @api.multi
+    def write(self, vals):
+        res=super(stock_picking, self).write(vals)
+        if self.date_done and not self.is_date_bl:
+            self.is_date_bl=self.date_done
+        return res
+
 
     def f(self,x):
         return x.replace('\n','<br />')

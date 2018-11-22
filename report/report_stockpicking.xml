@@ -69,7 +69,12 @@
                                         <span t-field="o.document_id.client_order_ref"/>
                                     </td>
                                     <td>
-                                        <span t-field="o.date_done"/>
+                                        <t t-if="o.is_date_bl">
+                                            <span t-field="o.is_date_bl"/>
+                                        </t>
+                                        <t t-if="not o.is_date_bl">
+                                            <span t-field="o.date_done"/>
+                                        </t>
                                     </td>
                                 </tr>
                             </tbody>

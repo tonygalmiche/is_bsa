@@ -161,6 +161,14 @@
                 <xpath expr="//sheet" position="attributes">
                     <attribute name="class">oe_form_sheet_width_wider</attribute>
                 </xpath>
+
+                <field name="date" position="replace"/>
+                <field name="min_date" position="replace">
+                    <field name="is_date_bl" />
+                </field>
+
+
+
                 <field name="note" position="replace">
                     <field name="is_commentaire" placeholder="Commentaire à ajouter sur le bon de livraison"/>
                 </field>
