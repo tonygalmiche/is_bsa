@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        
-
-
         <record model="ir.ui.view" id="is_email_compose_message_wizard_form">
             <field name="name">mail.compose.message.form</field>
             <field name="model">mail.compose.message</field>
@@ -13,15 +10,20 @@
                     <field name="attachment_selection_ids">
                         <tree string="Attach a file" editable="bottom">
                              <field name="directory_id" options="{'no_create': True}"/>
-                             <field name="attachment_ids" widget="many2many_tags" 
-                                   domain="[('parent_id','=',directory_id)]" options="{'no_create': True}"/>
+                             <field 
+                                name="attachment_ids" widget="many2many_tags" 
+                                domain="[
+                                    ('parent_id','=',directory_id),
+                                    ('name','not like','.xls'),
+                                    ('name','not like','.xlsx'),
+                                    ('name','not like','.ods'),
+                                ]" 
+                                options="{'no_create': True}"
+                            />
                         </tree>
                     </field>
                 </xpath>
             </field>
         </record>
-
-    
-        
     </data>
 </openerp>
