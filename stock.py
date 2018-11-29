@@ -3,6 +3,43 @@
 from openerp import models,fields,api
 
 
+class is_affecter_etiquette_livraison(models.Model):
+    _name = "is.affecter.etiquette.livraison"
+
+    operateur_livraison_id = fields.Many2one('hr.employee', 'Opérateur de la livraison', required=True)
+    move_id                = fields.Many2one('stock.move', 'Ligne de la livraison'   , required=True)
+    product_id             = fields.Many2one('product.template', 'Article', related='move_id.product_id.product_tmpl_id', readonly=True)
+    etiquette_ids          = fields.Many2many('is.tracabilite.livraison', 'is_affecter_etiquette_livraison_rel', 'affecter_id', 'etiquette_id')
+
+
+    @api.multi
+    def ok_action(self):
+        context=self._context
+        ids=[]
+        for obj in self:
+            if 'picking_id' in context:
+                picking_id=context['picking_id']
+                picking = self.env['stock.picking'].browse(picking_id)
+                if picking:
+                    for etiquette in obj.etiquette_ids:
+                        vals={
+                            'sale_id': picking.document_id.id,
+                            'move_id': obj.move_id.id,
+                            'picking_id': picking.id,
+                            'quantity': 1,
+                            'livraison': picking.date_done,
+                            'operateur_livraison_ids': [(6,0,[obj.operateur_livraison_id.id])]
+                        }
+                        etiquette.write(vals)
+                        ids.append(etiquette.id)
+            return {
+                'name': 'Etiquettes de livraison',
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'tree,form',
+                'res_model': 'is.tracabilite.livraison',
+                'domain': [('id','in',ids)],
+            }
 
 
 class stock_picking(models.Model):
@@ -37,6 +74,22 @@ class stock_move(models.Model):
         res = super(stock_move, self)._create_invoice_line_from_vals(cr, uid, move, invoice_line_vals, context)
         return res
 
+
+    @api.multi
+    def etiquette_livraison_action(self):
+        for obj in self:
+            context={
+                'default_move_id': obj.id,
+                'picking_id':obj.picking_id.id,
+            }
+            return {
+                'type': 'ir.actions.act_window',
+                'view_type': 'form',
+                'view_mode': 'form',
+                'res_model': 'is.affecter.etiquette.livraison',
+                'target': 'new',
+                'context': context,
+            }
 
 
 class is_stock_category(models.Model):

@@ -14,4 +14,5 @@ access_is_mrp_bom_line,access_is_mrp_bom_line,model_is_mrp_bom_line,base.group_u
 access_is_position_dans_produit,access_is_position_dans_produit,model_is_position_dans_produit,base.group_user,1,1,1,1
 access_is_accident_travail,access_is_accident_travail,model_is_accident_travail,base.group_user,1,1,1,1
 access_is_mode_reglement,access_is_mode_reglement,model_is_mode_reglement,base.group_user,1,1,1,1
+access_is_affecter_etiquette_livraison,access_is_affecter_etiquette_livraison,model_is_affecter_etiquette_livraison,base.group_user,1,1,1,1
 
