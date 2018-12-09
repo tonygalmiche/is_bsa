@@ -53,6 +53,9 @@ class sale_order_line(models.Model):
     is_fabrication_prevue      = fields.Float('Fabrication prévue'           , compute='_compute_fab', readonly=True, store=False, digits=(14,0))
     is_reste                   = fields.Float('Reste à lancer en fabrication', compute='_compute_fab', readonly=True, store=False, digits=(14,0))
     is_client_order_ref        = fields.Char('Référence Client', store=True, compute='_compute')
+    is_remise1                 = fields.Integer('Remise 1 (%)')
+    is_remise2                 = fields.Integer('Remise 2 (%)')
+
 
     @api.depends('order_id','order_id.client_order_ref')
     def _compute(self):
@@ -75,6 +78,19 @@ class sale_order_line(models.Model):
                 fabrication_prevue=row[0] or 0
             obj.is_fabrication_prevue=fabrication_prevue
             obj.is_reste=obj.product_uom_qty-fabrication_prevue
+
+
+    @api.multi
+    def onchange_remise(self, remise1,remise2):
+        remise=100-remise1
+        remise=remise-remise*remise2/100.0
+        remise=100-remise
+        v = {
+            'discount': remise,
+        }
+        return {
+            'value': v,
+        }
 
 
     @api.multi

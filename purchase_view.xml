@@ -19,6 +19,9 @@
                         attrs="{'invisible': [('state','in',('draft','sent'))]}"
                     />
                 </field>
+                <field name="picking_type_id" position="after">
+                    <field name="is_arc"/>
+                </field>
                 <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree/field[@name='product_id']" position="before">
                     <field name="is_sequence" widget="handle"/>
                 </xpath>
@@ -28,6 +31,34 @@
             </field>
         </record>
 
+
+
+        <!-- Gestion des ARC -->
+        <record id="is_purchase_order_arc_tree" model="ir.ui.view">
+            <field name="name">is_purchase_order_arc_tree</field>
+            <field name="model">purchase.order</field>
+            <field name="priority" eval="90"/>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="name"                 readonly="1"/>
+                    <field name="partner_id"           readonly="1"/>
+                    <field name="minimum_planned_date" readonly="1"/>
+                    <field name="amount_untaxed"       readonly="1"/>
+                    <field name="amount_total"         readonly="1"/>
+                    <field name="is_arc"/>
+                    <field name="state"                readonly="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_purchase_order_arc_acion" model="ir.actions.act_window">
+            <field name="name">Gestion des ARC</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_id" ref="is_purchase_order_arc_tree"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="is_purchase_order_arc_menu" parent="purchase.menu_procurement_management" action="is_purchase_order_arc_acion" sequence="7" />
+
+ 
 
         <record id="is_purchase_order_line_form" model="ir.ui.view">
             <field name="name">is.purchase.order.line.form</field>

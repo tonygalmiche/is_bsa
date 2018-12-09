@@ -15,6 +15,7 @@ class purchase_order_line(models.Model):
 class purchase_order(models.Model):
     _inherit = "purchase.order"
 
+    is_arc  = fields.Boolean(u"ARC reçu",default=False)
 
     @api.multi
     def mouvement_stock_action(self):

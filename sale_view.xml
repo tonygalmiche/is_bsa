@@ -88,8 +88,6 @@
                         attrs="{'invisible': [('state','in',('draft','sent'))]}"
                     />
                 </field>
-
-
                 <field name="partner_shipping_id" position="after">
                     <field name="is_condition_livraison"/>
                 </field>
@@ -99,6 +97,10 @@
                 <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                     <field name="is_date_demandee"/>
                     <field name="is_date_prevue"/>
+                </xpath>
+                <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree/field[@name='discount']" position="before">
+                    <field name="is_remise1" on_change="onchange_remise(is_remise1,is_remise2)"/>
+                    <field name="is_remise2" on_change="onchange_remise(is_remise1,is_remise2)"/>
                 </xpath>
                 <field name="pricelist_id" position="after">
                     <field name="is_apporteur_affaire_id"/>
