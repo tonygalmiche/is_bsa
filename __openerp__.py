@@ -63,6 +63,7 @@ InfoSaône - Module Odoo pour BSA
     "report/report.xml", 
     "is_fiche_travail.xml",
     "wizard/is_etiquette_reception_view.xml",
+    "wizard/stock_transfer_details.xml",
     "stock_view.xml",
     "purchase_view.xml",
     "email_template_view.xml",
