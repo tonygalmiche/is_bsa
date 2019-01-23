@@ -18,9 +18,21 @@ class mail_compose_message(models.TransientModel):
 
     @api.multi
     def send_mail(self):
+        context=self._context
         attachment_ids = self.env['ir.attachment'].browse()
         for message in self:
             for selection in message.attachment_selection_ids:
                 attachment_ids += selection.attachment_ids
             message.attachment_ids = message.attachment_ids | attachment_ids
-        return super(mail_compose_message, self).send_mail()
+        res=super(mail_compose_message, self).send_mail()
+
+        #** Permet de supprimer les abonnés du document après l'envoi du mail **
+        model=context.get('active_model')
+        active_id=context.get('active_id')
+        if model and active_id:
+            obj = self.env[model].browse(active_id)
+            if obj:
+                obj.message_follower_ids=[(6,0,[])]
+        #***********************************************************************
+
+        return res
