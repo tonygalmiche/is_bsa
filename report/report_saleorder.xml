@@ -95,7 +95,7 @@
                             <span t-field="l.is_date_prevue"/>
                         </td>
                         <td t-if="remise" class="text-right">
-                            <span t-esc="int(l.discount)"/>%
+                            <span t-esc='"{:,.2f}".format(l.discount).replace(","," ").replace(".",",")'/>%
                         </td>
 
                         <td class="text-right">
