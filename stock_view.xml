@@ -172,6 +172,9 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_internal_search"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="so_invoice_id" />
+                </field>
                 <filter name="late" position="after">
                     <filter string="Livré cette année" name="cette_annee" domain="['|', ('date_done', '=', False), '&amp;',('date_done','&lt;=', time.strftime('%%Y-12-31')),('date_done','&gt;=',time.strftime('%%Y-01-01'))]" />
                     <filter string="Livré ce mois"     name="ce_mois"     domain="[('date_done','&lt;=', time.strftime('%Y-%m-%d')),('date','&gt;=',time.strftime('%Y-%m-01'))]" />
