@@ -158,6 +158,9 @@
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.vpicktree"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="so_invoice_id" />
+                </field>
                 <field name="min_date" position="after">
                     <field name="date_done" />
                 </field>
