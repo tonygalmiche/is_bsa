@@ -120,19 +120,16 @@ class is_export_compta(models.Model):
             dest     = '/tmp/'+name
             f = open(dest,'wb')
             for row in obj.ligne_ids:
-
-
-
                 compte=str(row.compte)
                 if compte=='None':
                     compte=''
                 debit=row.debit
-                credit=row.debit
-                if row.credit>0.0:
-                    montant=row.credit  
+                credit=row.credit
+                montant=credit-debit
+                if montant>0.0:
                     sens='C'
                 else:
-                    montant=row.debit  
+                    montant=-montant
                     sens='D'
                 montant=(u'000000000000'+str(int(round(100*montant))))[-12:]
                 date_facture=row.date_facture
