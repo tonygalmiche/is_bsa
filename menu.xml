@@ -32,6 +32,17 @@
         <menuitem id="menu_is_autre"           sequence="90"  name="Autre"/>
         <menuitem id="mail.mail_feeds_main"    sequence="90"  name="Messagerie"          parent="menu_is_autre"/>
 
+
+
+        <menuitem 
+            name="Lignes de factures"
+            id="is_account_invoice_line_menu"
+            parent="account.menu_finance_receivables"
+            action="is_account_invoice_line_action"
+            sequence="800"
+        />
+
+
         <!-- Export Compta -->
         <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu" parent="account.menu_finance_receivables" sequence="900"/>
         <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu" parent="account.menu_finance_payables" sequence="900"/>
