@@ -20,6 +20,15 @@ class sale_order(models.Model):
     is_montant_commission      = fields.Float('Montant de la commission'    , digits=(14,2))
     is_pourcentage_commission  = fields.Float('Pourcentage de la commission', digits=(14,2))
     is_montant_hors_commission = fields.Float('Montant hors commission'     , digits=(14,2), compute='_compute_montant_hors_commission', readonly=True, store=True)
+    is_date_ar                 = fields.Date('Date AR')
+
+#    def _date_creation():
+#        now = datetime.date.today()     # Date du jour
+#        return now.strftime('%Y-%m-%d') # Formatage
+
+#    _defaults = {
+#        'is_date_ar':  _date_creation(),
+#    }
 
 
     @api.multi
