@@ -88,12 +88,19 @@
                         </thead>
                         <tbody class="invoice_tbody">
                             <tr t-foreach="o.invoice_line" t-as="l">
-                                <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref"/></td>
+                                <td>
+                                    <span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.client_order_ref"/>
+                                    <span t-if="o.is_sale_order_id" t-field="o.is_sale_order_id.client_order_ref"/>
+                                </td>
                                 <t t-if="res_company.is_site == 'bsa'">
-                                    <td><span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.name"/></td>
-                                    <td><span t-field="l.name"/></td>
+                                    <td>
+                                        <span t-field="l.is_stock_move_id.procurement_id.sale_line_id.order_id.name"/>
+                                        <span t-if="o.is_sale_order_id" t-field="o.is_sale_order_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="l.name"/>
+                                    </td>
                                 </t>
-
                                 <td>
                                     <t t-if="l.is_stock_move_id.picking_id.note">
                                         <span t-field="l.is_stock_move_id.picking_id.note"/>
