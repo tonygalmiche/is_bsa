@@ -53,6 +53,16 @@
                 <xpath expr="//sheet" position="attributes">
                     <attribute name="class">oe_form_sheet_width_wider</attribute>
                 </xpath>
+                <field name="account_id" position="after">
+                    <field style="background:orange" name="is_alerte_acompte" readonly="1" attrs="{'invisible':[('is_alerte_acompte','=',False)]}"/>
+                    <field name="is_sale_order_id"/>
+                    <field 
+                        name="is_account_invoice_id"
+                        attrs="{
+                            'invisible': [('is_sale_order_id', '=', False)],
+                        }" 
+                    />
+                </field>
                 <field name="fiscal_position" position="before">
                     <field name="is_contact_id" domain="[('parent_id','=',partner_id)]" />
                     <field name="is_imputation_partenaire"/>
