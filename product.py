@@ -21,6 +21,7 @@ class product_template(models.Model):
     is_recalcul_prix_revient     = fields.Boolean(u'Recalcul automatique du prix de revient', help="Si cette case est cochée, le prix de revient sera recalculé pendant la nuit")
     is_position_dans_produit_ids = fields.Many2many('is.position.dans.produit','is_position_dans_produit_product_rel','product_id','position_id', string="Position dans produit")
     is_doublon                   = fields.Char('Doublon', store=False, compute='_compute_doublon')
+    is_import_par_mail           = fields.Boolean(u'Article importé par mail')
 
 
     def message_new(self, cr, uid, msg_dict, custom_values=None, context=None):
@@ -49,6 +50,10 @@ class product_template(models.Model):
                 if n1.tag in fields:
                     #print n1.tag,' : ',n1.text.strip()
                     data[n1.tag] = n1.text.strip()
+
+            data['is_import_par_mail'] = True
+
+
         res_id = model_pool.create(cr, uid, data, context=context)
         return res_id
 

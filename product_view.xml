@@ -73,6 +73,7 @@
                     <field style="background:orange" name="is_doublon" readonly="1" attrs="{'invisible':[('is_doublon','=',False)]}"/>
                     <field name="is_position_dans_produit_ids" widget="many2many_tags"/>
                     <field name="is_ce_en1090" />
+                    <field name="is_import_par_mail"/>
                 </field>
                 <field name="standard_price" position="before">
                     <field name="is_recalcul_prix_revient" />
