@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models,fields,api
+from lxml import etree
+import xml.etree.ElementTree as ET
+import uuid
+import base64
 
 
 class is_position_dans_produit(models.Model):
@@ -17,6 +21,36 @@ class product_template(models.Model):
     is_recalcul_prix_revient     = fields.Boolean(u'Recalcul automatique du prix de revient', help="Si cette case est cochée, le prix de revient sera recalculé pendant la nuit")
     is_position_dans_produit_ids = fields.Many2many('is.position.dans.produit','is_position_dans_produit_product_rel','product_id','position_id', string="Position dans produit")
     is_doublon                   = fields.Char('Doublon', store=False, compute='_compute_doublon')
+
+
+    def message_new(self, cr, uid, msg_dict, custom_values=None, context=None):
+        """Méthode provenant par surcharge de mail.tread permettant de personnaliser la création de l'article lors de la réception d'un mail avec le serveur de courrier entrant créé"""
+        if context is None:
+            context = {}
+        data = {}
+        if isinstance(custom_values, dict):
+            data = custom_values.copy()
+        model = context.get('thread_model') or self._name
+        model_pool = self.pool[model]
+        fields = model_pool.fields_get(cr, uid, context=context)
+        if 'name' in fields and not data.get('name'):
+            data['name'] = msg_dict.get('subject', '')
+
+        if msg_dict.get('body'):
+            filename = '/tmp/product.template-%s.xml' % uuid.uuid4()
+            temp = open(filename, 'w+b')
+            description = msg_dict.get('body')
+            description = description.encode('utf-8')
+            temp.write(description)
+            temp.close()
+            tree = ET.parse(filename)
+            root = tree.getroot()
+            for n1 in root:
+                if n1.tag in fields:
+                    #print n1.tag,' : ',n1.text.strip()
+                    data[n1.tag] = n1.text.strip()
+        res_id = model_pool.create(cr, uid, data, context=context)
+        return res_id
 
 
     def _compute_doublon(self):
