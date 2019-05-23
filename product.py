@@ -40,9 +40,23 @@ class product_template(models.Model):
             data['name'] = msg_dict.get('subject', '')
 
         if msg_dict.get('body'):
+
+            #print msg_dict
+
+
+
             filename = '/tmp/product.template-%s.xml' % uuid.uuid4()
             temp = open(filename, 'w+b')
             description = msg_dict.get('body')
+
+
+            #print description
+
+            #print description.decode('utf-8')
+            #print description.decode('iso-8859-1')
+
+            #.decode('iso-8859-1').encode('utf8')
+
 
             #description = unicodedata.normalize('NFKD', description).encode('ascii', 'ignore')
             #description = description.decode('cp1252').encode('utf-8')
@@ -60,7 +74,7 @@ class product_template(models.Model):
             root = tree.getroot()
             for n1 in root:
                 if n1.tag in fields:
-                    print n1.tag,' : ',n1.text.strip()
+                    #print n1.tag,' : ',n1.text.strip()
                     data[n1.tag] = n1.text.strip()
 
             data['is_import_par_mail'] = True

@@ -16,6 +16,7 @@ import is_export_compta
 import is_import_nomenclature
 import bsa_stock_a_date
 import is_accident_travail
+import mail_thread
 import views
 
 
