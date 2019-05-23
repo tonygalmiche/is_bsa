@@ -5,6 +5,8 @@ from lxml import etree
 import xml.etree.ElementTree as ET
 import uuid
 import base64
+import codecs
+import unicodedata
 
 
 class is_position_dans_produit(models.Model):
@@ -41,14 +43,24 @@ class product_template(models.Model):
             filename = '/tmp/product.template-%s.xml' % uuid.uuid4()
             temp = open(filename, 'w+b')
             description = msg_dict.get('body')
-            #description = description.encode('utf-8')
+
+            #description = unicodedata.normalize('NFKD', description).encode('ascii', 'ignore')
+            #description = description.decode('cp1252').encode('utf-8')
+            #description = description.decode('cp1252')
+            #description = description.decode('ascii')
+            #description = description.decode('iso8859_15')
+            #description = description.decode('utf-8')
+            #print type(description)
+            #description = description.decode('iso-8859-1').encode('utf8')
+
+            description = description.encode('utf-8')
             temp.write(description)
             temp.close()
             tree = ET.parse(filename)
             root = tree.getroot()
             for n1 in root:
                 if n1.tag in fields:
-                    #print n1.tag,' : ',n1.text.strip()
+                    print n1.tag,' : ',n1.text.strip()
                     data[n1.tag] = n1.text.strip()
 
             data['is_import_par_mail'] = True
