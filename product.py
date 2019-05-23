@@ -41,7 +41,7 @@ class product_template(models.Model):
             filename = '/tmp/product.template-%s.xml' % uuid.uuid4()
             temp = open(filename, 'w+b')
             description = msg_dict.get('body')
-            description = description.encode('utf-8')
+            #description = description.encode('utf-8')
             temp.write(description)
             temp.close()
             tree = ET.parse(filename)
