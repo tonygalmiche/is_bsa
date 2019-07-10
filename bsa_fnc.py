@@ -4,6 +4,7 @@ from openerp import models,fields,api
 from openerp.tools.translate import _
 from openerp.exceptions import Warning
 import datetime
+import html2text
 
 
 class bsa_fnc(models.Model):
@@ -112,4 +113,66 @@ class bsa_fnc(models.Model):
                 'context': ctx,
             }
 
+
+
+
+
+    def message_new(self, cr, uid, msg_dict, custom_values=None, context=None):
+        """Méthode provenant par surcharge de mail.tread permettant de personnaliser la création de la fnc lors de la réception d'un mail avec le serveur de courrier entrant créé"""
+        if context is None:
+            context = {}
+        data = {}
+        if isinstance(custom_values, dict):
+            data = custom_values.copy()
+        model = context.get('thread_model') or self._name
+        model_pool = self.pool[model]
+        fields = model_pool.fields_get(cr, uid, context=context)
+        if 'name' in fields and not data.get('name'):
+            data['name'] = msg_dict.get('subject', '')
+
+        ref_partenaire = msg_dict.get('email_from', '')
+
+        description = ''
+        if msg_dict.get('body'):
+            html = msg_dict.get('body')
+            description = html2text.html2text(html)
+
+
+#            #print description
+
+#            #print description.decode('utf-8')
+#            #print description.decode('iso-8859-1')
+
+#            #.decode('iso-8859-1').encode('utf8')
+
+
+#            #description = unicodedata.normalize('NFKD', description).encode('ascii', 'ignore')
+#            #description = description.decode('cp1252').encode('utf-8')
+#            #description = description.decode('cp1252')
+#            #description = description.decode('ascii')
+#            #description = description.decode('iso8859_15')
+#            #description = description.decode('utf-8')
+#            #print type(description)
+#            #description = description.decode('iso-8859-1').encode('utf8')
+
+#            description = description.encode('utf-8')
+#            temp.write(description)
+#            temp.close()
+#            tree = ET.parse(filename)
+#            root = tree.getroot()
+#            for n1 in root:
+#                if n1.tag in fields:
+#                    #print n1.tag,' : ',n1.text.strip()
+#                    data[n1.tag] = n1.text.strip()
+
+#            data['is_import_par_mail'] = True
+
+
+        data['type_fnc']       = 'interne'
+        data['partner_id']     = 1
+        data['ref_partenaire'] = ref_partenaire
+        data['description']    = description
+
+        res_id = model_pool.create(cr, uid, data, context=context)
+        return res_id
 

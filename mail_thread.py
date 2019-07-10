@@ -3,6 +3,7 @@
 from openerp import api, fields, models, tools
 from openerp.addons.mail.mail_message import decode
 import re
+import email
 #import html2text
 
 
