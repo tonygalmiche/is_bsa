@@ -46,6 +46,7 @@
                         <group>
                             <field name="name"  /> 
                             <field name="default_code"  /> 
+                            <field name="stock_category_id"/>
                             <field name="uom_id"/>
                             <field name="list_price"/>
                             <field name="standard_price"/>
@@ -65,6 +66,7 @@
                 <tree>
                     <field name="name"  /> 
                     <field name="default_code"  /> 
+                    <field name="stock_category_id"/>
                     <field name="uom_id"/>
                     <field name="list_price"/>
                     <field name="standard_price"/>
@@ -79,15 +81,33 @@
             <field name="model">bsa.stock.a.date</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="name"/> 
+                    <field name="name"/>
+                    <field name="stock_category_id"/>
                 </search>
             </field>
         </record>
+
+        <!-- graph view -->
+        <record id="bsa_stock_a_date_graph_view" model="ir.ui.view">
+            <field name="name">bsa_stock_a_date_graph_view</field>
+            <field name="model">bsa.stock.a.date</field>
+            <field name="arch" type="xml">
+                <graph string="view" type="pivot">
+                    <field name="stock_category_id" type="row"/>
+                    <field name="stock"             type="measure"/>
+                    <field name="stock_valorise"    type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+
+
+
         <record model="ir.actions.act_window" id="bsa_stock_a_date_action">
             <field name="name">Stock à date</field>
             <field name="res_model">bsa.stock.a.date</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,graph</field>
         </record>
         <menuitem id="bsa_stock_a_date_menu_10" sequence="30" name="Stock à date" parent="is_valorisation_stock_menu" action="bsa_stock_a_date_action" />
 
