@@ -49,6 +49,7 @@ InfoSaône - Module Odoo pour BSA
     "product_view.xml",
     "bsa_stock_a_date_view.xml",
     "is_accident_travail_view.xml",
+    "project_view.xml",
     "report/report_qweb_mrp.xml",
     "report/report_mrporder.xml",
     "report/report_purchaseorder.xml",

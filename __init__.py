@@ -17,6 +17,7 @@ import is_import_nomenclature
 import bsa_stock_a_date
 import is_accident_travail
 import mail_thread
+import project
 import views
 
 

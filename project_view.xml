@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="is_view_task_tree2" model="ir.ui.view">
+            <field name="name">is_view_task_tree2</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2" />
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="is_description"/>
+                    <field name="is_appro_specifique"/>
+                    <field name="is_appro_standard"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="is_view_task_form2" model="ir.ui.view">
+            <field name="name">is_view_task_form2</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="is_description"/>
+                    <field name="is_appro_specifique"/>
+                    <field name="is_appro_standard"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="is_view_task_kanban" model="ir.ui.view">
+            <field name="name">is_view_task_kanban</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban" />
+            <field name="arch" type="xml">
+                <field name="categ_ids" position="after">
+                    <field name="is_description_html"/>
+                    <field name="is_appro_specifique"/>
+                    <field name="is_appro_standard"/>
+                </field>
+                <field name="project_id" position="before">
+                    <div><b><t t-raw="record.is_description_html.raw_value"/></b></div>
+                </field>
+                <field name="project_id" position="after">
+                    <div t-if="record.is_appro_specifique.raw_value" style="color:DarkGreen">Appro spécifique</div>
+                    <div t-if="record.is_appro_standard.raw_value"   style="color:DarkGreen">Appro standard</div>
+                </field>
+            </field>
+        </record>
+    </data>
+</openerp>
