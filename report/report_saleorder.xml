@@ -144,13 +144,16 @@
                     </table>
                 </div>
             </div>
-
+            <p t-if="request.env.cr.dbname!='odoo'">
+Vous allez être recontacté rapidement par l'un de nos technicien pour la réalisation des plans et le suivi de votre dossier.<br />
+Une fois les éventuelles modification apportées et le plan validé par vos soin, nous lancerons la fabrication.<br />
+Merci de votre confiance.<br />
+L'équipe <span t-field="res_company.name"/><br />
+            </p>
             <p t-if="o.is_condition_livraison">
                 <strong>Conditions de livraison : </strong>
                 <span t-field="o.is_condition_livraison"/>
             </p>
-
-
             <p t-field="o.note" />
             <p t-if="o.payment_term.note">
                 <strong>Payment Term:</strong>
@@ -164,6 +167,10 @@
             <t t-if="res_company.is_site != 'bsa'">
                 <t t-call="is_bsa.conditions_generales_de_vente_bressane" />
             </t>
+
+
+
+
 
 
 
