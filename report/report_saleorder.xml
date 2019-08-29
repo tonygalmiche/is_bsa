@@ -146,7 +146,7 @@
             </div>
             <p t-if="request.env.cr.dbname!='odoo'">
 Vous allez être recontacté rapidement par l'un de nos technicien pour la réalisation des plans et le suivi de votre dossier.<br />
-Une fois les éventuelles modification apportées et le plan validé par vos soin, nous lancerons la fabrication.<br />
+Une fois les éventuelles modifications apportées et le plan validé par vos soins, nous lancerons la fabrication.<br />
 Merci de votre confiance.<br />
 L'équipe <span t-field="res_company.name"/><br />
             </p>
