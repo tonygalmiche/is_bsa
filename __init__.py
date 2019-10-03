@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+
+import ir_mail_server
 import res_company
 import account_invoice
 import wizard
