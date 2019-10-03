@@ -10,6 +10,23 @@ import datetime
 class sale_order(models.Model):
     _inherit = "sale.order"
 
+
+    @api.multi
+    def action_button_confirm(self):
+        for order in self:
+            order.signal_workflow('order_confirm')
+            name = order.name + u' ' + order.partner_id.name
+            vals={
+                'name': name,
+            }
+            try:
+                self.env['project.task'].sudo().create(vals)
+            except KeyError:
+                print '## project.task KeyError ##'
+                continue
+        return True
+
+
     @api.depends('amount_untaxed','is_montant_commission', 'is_pourcentage_commission')
     def _compute_montant_hors_commission(self):
         for obj in self:
@@ -22,14 +39,6 @@ class sale_order(models.Model):
     is_montant_hors_commission = fields.Float('Montant hors commission'     , digits=(14,2), compute='_compute_montant_hors_commission', readonly=True, store=True)
     is_arc_a_faire             = fields.Boolean(u'ARC à faire')
     is_date_ar                 = fields.Date('Date AR')
-
-#    def _date_creation():
-#        now = datetime.date.today()     # Date du jour
-#        return now.strftime('%Y-%m-%d') # Formatage
-
-#    _defaults = {
-#        'is_date_ar':  _date_creation(),
-#    }
 
 
     @api.multi
