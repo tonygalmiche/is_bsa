@@ -20,6 +20,7 @@
                     />
                 </field>
                 <field name="picking_type_id" position="after">
+                    <field name="is_a_commander"/>
                     <field name="is_arc"/>
                 </field>
                 <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree/field[@name='product_id']" position="before">
@@ -28,6 +29,19 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree/field[@name='date_planned']" position="after">
                     <field name="is_date_ar" />
                 </xpath>
+            </field>
+        </record>
+
+
+        <record id="is_purchase_order_tree" model="ir.ui.view">
+            <field name="name">is_purchase_order_arc_tree</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="priority" eval="90"/>
+            <field name="arch" type="xml">
+                <field name="state" position="before">
+                    <field name="is_a_commander"/>
+                </field>
             </field>
         </record>
 
@@ -45,6 +59,7 @@
                     <field name="minimum_planned_date" readonly="1"/>
                     <field name="amount_untaxed"       readonly="1"/>
                     <field name="amount_total"         readonly="1"/>
+                    <field name="is_a_commander"       readonly="1"/>
                     <field name="is_arc"/>
                     <field name="state"                readonly="1"/>
                 </tree>

@@ -43,16 +43,14 @@
                              </group>
                         </group>
                         <group>
-                            <field name="description"  /> 
-                            <field name="action"  /> 
-                            <field name="resolution"  /> 
-                            <field name="evaluation"  /> 
-                            <field name="date_evaluation"  /> 
-                            <field name="evaluateur_id"  /> 
-
-                            <field name="attachment_ids" widget="many2many_binary" />
-
-
+                            <field name="description"/>
+                            <field name="action"/>
+                            <field name="resolution"/>
+                            <field name="evaluation"/>
+                            <field name="date_evaluation"/>
+                            <field name="evaluateur_id"/>
+                            <field name="cout"/>
+                            <field name="attachment_ids" widget="many2many_binary"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -75,7 +73,8 @@
                     <field name="type_fnc"/> 
                     <field name="partner_id"/> 
                     <field name="ref_partenaire"/> 
-                    <field name="description"/> 
+                    <field name="description"/>
+                    <field name="cout" sum="Total"/>
                     <field name="state"/> 
                 </tree>
             </field>

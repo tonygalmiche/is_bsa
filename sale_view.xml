@@ -88,6 +88,7 @@
                     />
                 </field>
                 <field name="date_order" position="after">
+                    <field name="is_arc_a_faire"/>
                     <field name="is_date_ar"/>
                 </field>
                 <field name="partner_shipping_id" position="after">
@@ -113,6 +114,19 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="is_view_quotation_tree">
+            <field name="name">is_view_quotation_tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="client_order_ref" />
+                    <field name="is_arc_a_faire"/>
+                    <field name="is_date_ar" />
+                </field>
+            </field>
+        </record>
+
         <record model="ir.ui.view" id="is_view_order_tree">
             <field name="name">is.sale.order.tree</field>
             <field name="model">sale.order</field>
@@ -120,6 +134,7 @@
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="client_order_ref" />
+                    <field name="is_arc_a_faire"/>
                     <field name="is_date_ar" />
                 </field>
                 <field name="amount_total" position="after">

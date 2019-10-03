@@ -29,6 +29,7 @@ class bsa_fnc(models.Model):
     evaluation          = fields.Text("Évaluation")
     date_evaluation     = fields.Date("Date évaluation")
     evaluateur_id       = fields.Many2one('res.users', 'Evaluateur')
+    cout                = fields.Integer(u"Coût")
     attachment_ids      = fields.Many2many('ir.attachment', 'bsa_fnc_attachment_rel', 'bsa_fnc_id', 'attachment_id', u'Pièces jointes')
     state               = fields.Selection([
                         ('ouverte', 'Ouverte'),
