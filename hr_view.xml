@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="is_view_employee_form" model="ir.ui.view">
+            <field name="name">is_view_employee_form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <group string="Horaires" position="after">
+                    <group string="Planning">
+                        <field name="is_workcenter_ids" widget="many2many_tags" />
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</openerp>

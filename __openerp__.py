@@ -36,6 +36,7 @@ InfoSaône - Module Odoo pour BSA
     "sale_order_dates",       # Ajout de champs dates dans les commandes clients (date demandée)
     "project",
     "warning",                # Module permettant d'ajouter des blocages sur les articles et commandes
+    "is_pointeuse",
   ], # Liste des dépendances (autres modules nececessaire au fonctionnement de celui-ci)
      # -> Il peut être interessant de créer un module dont la seule fonction est d'installer une liste d'autres modules
      # Remarque : La desinstallation du module n'entrainera pas la desinstallation de ses dépendances (ex : mail)
@@ -51,6 +52,7 @@ InfoSaône - Module Odoo pour BSA
     "product_view.xml",
     "bsa_stock_a_date_view.xml",
     "is_accident_travail_view.xml",
+    "hr_view.xml",
     "project_view.xml",
     "report/report_qweb_mrp.xml",
     "report/report_mrporder.xml",
@@ -79,6 +81,7 @@ InfoSaône - Module Odoo pour BSA
     "views/is_sale_order_line.xml",
     "views/is_mrp_bom_line.xml",
     "views/is_account_invoice_line.xml",
+    
     "menu.xml",
     "security/ir.model.access.csv",
   ],
