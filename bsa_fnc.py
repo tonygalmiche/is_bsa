@@ -7,6 +7,13 @@ import datetime
 import html2text
 
 
+class bsa_fnc_categorie(models.Model):
+    _name='bsa.fnc.categorie'
+    _order='name'
+
+    name = fields.Char(u"Catégorie", required=True)
+
+
 class bsa_fnc(models.Model):
     _name='bsa.fnc'
     _inherit = ['mail.thread']
@@ -23,6 +30,10 @@ class bsa_fnc(models.Model):
                     ], "Type", required=True)
     partner_id          = fields.Many2one('res.partner', 'Partenaire', help='Client ou Fournisseur', required=True)
     ref_partenaire      = fields.Char("Référence partenaire")
+    categorie_id        = fields.Many2one('bsa.fnc.categorie', u'Catégorie')
+    product_id          = fields.Many2one('product.product', 'Article')
+    rsp_projet_id       = fields.Many2one('res.users', 'Responsable de projet')
+    date_projet         = fields.Date("Date du projet")
     description         = fields.Text("Description du problème")
     action              = fields.Text("Action réalisée")
     resolution          = fields.Text("Résolution")
