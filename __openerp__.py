@@ -35,6 +35,7 @@ InfoSaône - Module Odoo pour BSA
     #"report_webkit",          # Rapports Webkit
     "sale_order_dates",       # Ajout de champs dates dans les commandes clients (date demandée)
     "project",
+    "warning",                # Module permettant d'ajouter des blocages sur les articles et commandes
   ], # Liste des dépendances (autres modules nececessaire au fonctionnement de celui-ci)
      # -> Il peut être interessant de créer un module dont la seule fonction est d'installer une liste d'autres modules
      # Remarque : La desinstallation du module n'entrainera pas la desinstallation de ses dépendances (ex : mail)

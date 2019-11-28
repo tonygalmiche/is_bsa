@@ -155,6 +155,8 @@ class product_template(models.Model):
     @api.multi
     def copy(self,vals):
         for obj in self:
+            vals['purchase_line_warn'] = u'warning'
+            vals['purchase_line_warn_msg'] = u'Article non validé'
             res=super(product_template, self).copy(vals)
             for line in obj.seller_ids:
                 v = {
