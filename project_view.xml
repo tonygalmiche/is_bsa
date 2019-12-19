@@ -10,6 +10,8 @@
                     <field name="is_description"/>
                     <field name="is_appro_specifique"/>
                     <field name="is_appro_standard"/>
+                    <field name="is_acompte_verse"/>
+                    <field name="is_cause_retour_plan_id"/>
                 </field>
             </field>
         </record>
@@ -24,6 +26,13 @@
                     <field name="is_description"/>
                     <field name="is_appro_specifique"/>
                     <field name="is_appro_standard"/>
+                    <field name="is_acompte_verse"/>
+                </field>
+                <field name="planned_hours" position="after">
+                    <field name="is_cause_retour_plan_id"/>
+                </field>
+                <field name="date_deadline" position="before">
+                    <field name="is_mise_en_place"/>
                 </field>
             </field>
         </record>
@@ -37,15 +46,94 @@
                     <field name="is_description_html"/>
                     <field name="is_appro_specifique"/>
                     <field name="is_appro_standard"/>
+                    <field name="is_acompte_verse"/>
+                    <field name="is_mise_en_place"/>
                 </field>
                 <field name="project_id" position="before">
                     <div><b><t t-raw="record.is_description_html.raw_value"/></b></div>
                 </field>
                 <field name="project_id" position="after">
+
+                    <div>Mise en place:<field name="is_mise_en_place"/></div>
+
+
                     <div t-if="record.is_appro_specifique.raw_value" style="color:DarkGreen">Appro spécifique</div>
                     <div t-if="record.is_appro_standard.raw_value"   style="color:DarkGreen">Appro standard</div>
+                    <div t-if="record.is_acompte_verse.raw_value"    style="color:DarkGreen">Acompte versé</div>
+                </field>
+
+
+                                <!--
+                                <div><b><field name="name"/></b></div>
+                                <div>
+                                    <field name="project_id"/><br/>
+                                    <t t-if="record.date_deadline.raw_value and record.date_deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <span t-attf-class="#{red || ''}"><i><field name="date_deadline"/></i></span>
+                                </div>
+                                -->
+
+
+
+            </field>
+        </record>
+        <record id="is_view_task_search_form" model="ir.ui.view">
+            <field name="name">is_view_task_search_form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form" />
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="is_cause_retour_plan_id"/>
                 </field>
             </field>
         </record>
+
+
+
+
+
+        <!-- is.cause.retour.plan -->
+        <record id="is_cause_retour_plan_form_view" model="ir.ui.view">
+            <field name="name">is_cause_retour_plan_form_view</field>
+            <field name="model">is.cause.retour.plan</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_cause_retour_plan_tree_view" model="ir.ui.view">
+            <field name="name">is_cause_retour_plan_tree_view</field>
+            <field name="model">is.cause.retour.plan</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+        <record id="is_cause_retour_plan_action" model="ir.actions.act_window">
+            <field name="name">Cause retour plan</field>
+            <field name="res_model">is.cause.retour.plan</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </data>
 </openerp>

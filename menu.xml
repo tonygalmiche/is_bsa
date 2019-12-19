@@ -118,7 +118,14 @@
 
 
 
-
+        <!-- Projets -->
+        <menuitem   
+            name="Cause retour plan"
+            action="is_cause_retour_plan_action"  
+            id="is_cause_retour_plan_menu" 
+            parent="project.menu_project_management" 
+            sequence="900"
+        />
 
 
 
