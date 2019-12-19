@@ -66,7 +66,7 @@ class mrp_production_workcenter_line(models.Model):
     is_commentaire     = fields.Text('Commentaire')
     is_temps_passe_ids = fields.One2many('is.workcenter.line.temps.passe'  , 'workcenter_line_id', u"Temps passé")
     is_temps_passe     = fields.Float('Temps passé', compute='compute_temps_passe', readonly=True, store=True)
-    is_ecart           = fields.Float('Ecart', compute='_compute_temps_passe', readonly=True, store=True)
+    is_ecart           = fields.Float('Ecart', compute='compute_temps_passe', readonly=True, store=True)
 
 
 class mrp_bom(models.Model):
