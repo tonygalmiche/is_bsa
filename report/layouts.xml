@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<!-- Permet de remplacer complètement le header -->
+<template id="is_external_layout_header" name="is_external_layout_header" inherit_id="report.external_layout_header">
+    <xpath expr="//div[@class='header']" position="replace">
+        <div class="header">
+            <div class="row">
+                <div class="col-xs-3">
+                    <t t-set="objet" t-value="str(o)[:11]"/>
+                    <t t-set="test"  t-value="1"/>
+                    <t t-if="objet=='sale.order('">
+                        <t t-if="o.is_societe_commerciale_id.id">
+                            <t t-set="test"  t-value="0"/>
+                            <img t-if="o.is_societe_commerciale_id.logo" t-att-src="'data:image/png;base64,%s' % o.is_societe_commerciale_id.logo" style="max-height: 45px;"/>
+                        </t>
+                    </t>
+                    <t t-if="test">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+                    </t>
+                </div>
+                <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>
+            </div>
+            <div class="row zero_min_height">
+                <div class="col-xs-12">
+                    <div style="border-bottom: 1px solid black;"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-5">
+                    <!--<div t-field="company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}" style="border-bottom: 1px solid black;" class="pull-left"/>-->
+                    <div style="border-bottom: 1px solid black;" class="pull-left">
+                        <div t-field="company.partner_id.street"/>
+                        <div t-field="company.partner_id.street2"/>
+                        <span t-field="company.partner_id.zip"/> <span t-field="company.partner_id.city"/><br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </xpath>
+</template>
+
+
+<!-- Permet de remplacer complètement le footer -->
+<template id="is_external_layout_footer" name="is_external_layout_footer" inherit_id="report.external_layout_footer">
+    <xpath expr="//div[@class='footer']" position="replace">
+        <div class="footer">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul t-if="not company.custom_footer" class="list-inline">
+                    <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>
+
+                    <li t-if="company.fax and company.phone">&amp;bull;</li>
+                    <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+
+                    <li t-if="company.email">&amp;bull;</li>
+                    <li t-if="company.email">Email: <span t-field="company.email"/></li>
+
+                    <li t-if="company.website">&amp;bull;</li>
+                    <li t-if="company.website">Website: <span t-field="company.website"/></li>
+                </ul>
+
+                <t t-if="company.custom_footer">
+                    <span t-raw="company.rml_footer"/>
+                </t>
+
+                <ul class="list-inline">
+                    <li>Bouquerod Saint Amour - </li>
+                    <li>Page:</li>
+                    <li><span class="page"/></li>
+                    <li>/</li>
+                    <li><span class="topage"/></li>
+                </ul>
+            </div>
+        </div>      
+    </xpath>
+</template>
+
+
+
+</data>
+</openerp>

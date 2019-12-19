@@ -7,6 +7,13 @@ from openerp.exceptions import Warning
 import datetime
 
 
+class is_societe_commerciale(models.Model):
+    _name = "is.societe.commerciale"
+
+    name = fields.Char('Nom',required=True)
+    logo = fields.Binary("Logo", help="Logo utilisé dans les documents (ex : AR de commande)")
+
+
 class sale_order(models.Model):
     _inherit = "sale.order"
 
@@ -32,6 +39,8 @@ class sale_order(models.Model):
         for obj in self:
             obj.is_montant_hors_commission=obj.amount_untaxed-(obj.amount_untaxed*obj.is_pourcentage_commission/100 + obj.is_montant_commission)
 
+
+    is_societe_commerciale_id  = fields.Many2one('is.societe.commerciale', "Société commerciale")
     is_condition_livraison     = fields.Char('Conditions de livraison')
     is_apporteur_affaire_id    = fields.Many2one('res.partner', "Apporteur d'affaire")
     is_montant_commission      = fields.Float('Montant de la commission'    , digits=(14,2))

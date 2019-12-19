@@ -65,6 +65,7 @@ InfoSaône - Module Odoo pour BSA
     "report/conditions_generales_de_vente_bsa_templates.xml",
     "report/report_saleorder.xml",
     "report/report_invoice.xml",
+    "report/layouts.xml",
     "report/report.xml", 
     "is_fiche_travail.xml",
     "wizard/is_etiquette_reception_view.xml",

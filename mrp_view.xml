@@ -229,8 +229,8 @@
                         </field>
                     </group>
                     <group>
-                        <field name="is_temps_passe"/>
-                        <field name="is_ecart"/>
+                        <field name="is_temps_passe" widget="float_time"/>
+                        <field name="is_ecart"       widget="float_time"/>
                     </group>
                 </notebook>
             </field>
@@ -242,8 +242,8 @@
             <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_tree_view_inherit"/>
             <field name="arch" type="xml">
                 <field name="hour" position="after">
-                    <field name="is_temps_passe"/>
-                    <field name="is_ecart"/>
+                    <field name="is_temps_passe" widget="float_time"/>
+                    <field name="is_ecart"       widget="float_time"/>
                 </field>
             </field>
         </record>

@@ -26,6 +26,16 @@
             action="is_categorie_client_action"
             sequence="90"
         />
+        <menuitem 
+            name="Société commerciale"
+            id="is_societe_commerciale_menu"
+            parent="base.menu_sales"
+            action="is_societe_commerciale_action"
+            sequence="92"
+        />
+
+
+
 
         <menuitem id="is_liste_manquants_menu" sequence="90"  name="Liste des manquants" action="is_liste_manquants_action" parent="stock.menu_stock_inventory_control"/>
 

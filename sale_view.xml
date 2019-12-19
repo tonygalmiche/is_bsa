@@ -92,6 +92,7 @@
                     <field name="is_date_ar"/>
                 </field>
                 <field name="partner_shipping_id" position="after">
+                    <field name="is_societe_commerciale_id"/>
                     <field name="is_condition_livraison"/>
                 </field>
                 <xpath expr="//sheet" position="attributes">
@@ -181,6 +182,48 @@
                 </field>
             </field>
         </record>
+
+
+        <!-- is.societe.commerciale -->
+        <record id="is_societe_commerciale_form_view" model="ir.ui.view">
+            <field name="name">is_societe_commerciale_form_view</field>
+            <field name="model">is.societe.commerciale</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="logo" widget="image"  class="oe_avatar oe_left"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_societe_commerciale_tree_view" model="ir.ui.view">
+            <field name="name">is_societe_commerciale_tree_view</field>
+            <field name="model">is.societe.commerciale</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+        <record id="is_societe_commerciale_action" model="ir.actions.act_window">
+            <field name="name">Société commerciale</field>
+            <field name="res_model">is.societe.commerciale</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+
+
+
+
+
+
+
 
     </data>
 
