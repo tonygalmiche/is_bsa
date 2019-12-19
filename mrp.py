@@ -3,6 +3,7 @@
 
 from openerp import models,fields,api
 from openerp.tools.translate import _
+from datetime import datetime
 
 
 class is_gabarit(models.Model):
@@ -25,10 +26,47 @@ class mrp_production(models.Model):
     is_sale_order_id      = fields.Many2one('sale.order', u'Commande', related='is_sale_order_line_id.order_id', readonly=True)
 
 
+
+class is_workcenter_line_temps_passe(models.Model):
+    _name = "is.workcenter.line.temps.passe"
+
+
+    @api.depends('heure_debut','heure_fin')
+    def _compute_temps_passe(self):
+        for obj in self:
+            temps_passe = 0
+            if obj.heure_debut and obj.heure_fin:
+                heure_debut = datetime.strptime(obj.heure_debut, '%Y-%m-%d %H:%M:%S')
+                heure_fin   = datetime.strptime(obj.heure_fin, '%Y-%m-%d %H:%M:%S')
+                temps_passe = (heure_fin - heure_debut).total_seconds()/3600
+            obj.temps_passe = temps_passe
+
+
+    workcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Ordre de travail', required=True, ondelete='cascade', readonly=True)
+    heure_debut        = fields.Datetime('Heure de début')
+    heure_fin          = fields.Datetime('Heure de fin')
+    temps_passe        = fields.Float('Temps passé', compute='_compute_temps_passe', readonly=True, store=True)
+
+
 class mrp_production_workcenter_line(models.Model):
     _inherit = "mrp.production.workcenter.line"
 
-    is_commentaire = fields.Text('Commentaire')
+
+    @api.depends('is_temps_passe_ids')
+    def _compute_temps_passe(self):
+        for obj in self:
+            temps_passe = 0
+            ecart = 0
+            for line in obj.is_temps_passe_ids:
+                temps_passe+=line.temps_passe
+            obj.is_temps_passe = temps_passe
+            obj.is_ecart       = obj.hour - temps_passe
+
+
+    is_commentaire     = fields.Text('Commentaire')
+    is_temps_passe_ids = fields.One2many('is.workcenter.line.temps.passe'  , 'workcenter_line_id', u"Temps passé")
+    is_temps_passe     = fields.Float('Temps passé', compute='_compute_temps_passe', readonly=True, store=True)
+    is_ecart           = fields.Float('Ecart', compute='_compute_temps_passe', readonly=True, store=True)
 
 
 class mrp_bom(models.Model):

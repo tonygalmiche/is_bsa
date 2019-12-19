@@ -210,8 +210,6 @@
         <menuitem name="Gabarits" id="is_gabarit_menu" parent="mrp.menu_mrp_manufacturing" action="is_gabarit_action" sequence="90" />
 
 
-
-
         <record id="is_mrp_production_workcenter_form_view_inherit" model="ir.ui.view">
             <field name="name">is_mrp_production_workcenter_form_view_inherit</field>
             <field name="model">mrp.production.workcenter.line</field>
@@ -220,13 +218,35 @@
                 <field name="sequence" position="after">
                     <field name="is_commentaire"/>
                 </field>
+                <notebook position="after">
+                    <group>
+                        <field name="is_temps_passe_ids" nolabel="1" >
+                            <tree editable="bottom">
+                                <field name="heure_debut"/>
+                                <field name="heure_fin"/>
+                                <field name="temps_passe" widget="float_time"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="is_temps_passe"/>
+                        <field name="is_ecart"/>
+                    </group>
+                </notebook>
             </field>
         </record>
 
-
-
-
-
+        <record id="is_mrp_production_workcenter_tree_view_inherit" model="ir.ui.view">
+            <field name="name">is_mrp_production_workcenter_tree_view_inherit</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_tree_view_inherit"/>
+            <field name="arch" type="xml">
+                <field name="hour" position="after">
+                    <field name="is_temps_passe"/>
+                    <field name="is_ecart"/>
+                </field>
+            </field>
+        </record>
 
     <!-- mrp.routing (gammes) -->
     <record model="ir.ui.view" id="is_mrp_routing_form_view" >
