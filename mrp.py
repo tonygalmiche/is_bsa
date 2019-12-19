@@ -53,7 +53,7 @@ class mrp_production_workcenter_line(models.Model):
 
 
     @api.depends('is_temps_passe_ids')
-    def _compute_temps_passe(self):
+    def compute_temps_passe(self):
         for obj in self:
             temps_passe = 0
             ecart = 0
@@ -65,7 +65,7 @@ class mrp_production_workcenter_line(models.Model):
 
     is_commentaire     = fields.Text('Commentaire')
     is_temps_passe_ids = fields.One2many('is.workcenter.line.temps.passe'  , 'workcenter_line_id', u"Temps passé")
-    is_temps_passe     = fields.Float('Temps passé', compute='_compute_temps_passe', readonly=True, store=True)
+    is_temps_passe     = fields.Float('Temps passé', compute='compute_temps_passe', readonly=True, store=True)
     is_ecart           = fields.Float('Ecart', compute='_compute_temps_passe', readonly=True, store=True)
 
 
