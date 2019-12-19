@@ -122,6 +122,9 @@
 
             <p t-field="o.notes"/>
             <div class="oe_structure"/>
+
+            <div>Horaires d'ouverture pour les livraisons : Du lundi au jeudi de 8H à 11H30 et de 13H30 à 16H et le vendredi de 08H à 11H</div>
+
         </div>
     </xpath>
 </template>
