@@ -26,6 +26,6 @@ class ProjectTask(models.Model):
     is_appro_standard       = fields.Boolean(u"Appro standard")
     is_acompte_verse        = fields.Boolean(u"Acompte versé")
     is_cause_retour_plan_id = fields.Many2one('is.cause.retour.plan', "Cause retour plan")
-    is_mise_en_place        = fields.Date(u'Date Limite de mise en place')
+    is_mise_en_place        = fields.Date(u'Date Limite de mise en plan')
 
 

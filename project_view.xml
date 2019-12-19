@@ -53,27 +53,11 @@
                     <div><b><t t-raw="record.is_description_html.raw_value"/></b></div>
                 </field>
                 <field name="project_id" position="after">
-
-                    <div>Mise en place:<field name="is_mise_en_place"/></div>
-
-
+                    <div>Mise en plan:<field name="is_mise_en_place"/></div>
                     <div t-if="record.is_appro_specifique.raw_value" style="color:DarkGreen">Appro spécifique</div>
                     <div t-if="record.is_appro_standard.raw_value"   style="color:DarkGreen">Appro standard</div>
                     <div t-if="record.is_acompte_verse.raw_value"    style="color:DarkGreen">Acompte versé</div>
                 </field>
-
-
-                                <!--
-                                <div><b><field name="name"/></b></div>
-                                <div>
-                                    <field name="project_id"/><br/>
-                                    <t t-if="record.date_deadline.raw_value and record.date_deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
-                                    <span t-attf-class="#{red || ''}"><i><field name="date_deadline"/></i></span>
-                                </div>
-                                -->
-
-
-
             </field>
         </record>
         <record id="is_view_task_search_form" model="ir.ui.view">
