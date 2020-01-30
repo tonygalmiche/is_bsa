@@ -12,6 +12,7 @@ class is_cause_retour_plan(models.Model):
 
 class ProjectTask(models.Model):
     _inherit = "project.task"
+    _order = 'date_deadline'
 
 
     @api.depends('is_description')
