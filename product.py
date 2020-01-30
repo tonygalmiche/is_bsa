@@ -24,6 +24,8 @@ class product_template(models.Model):
     is_position_dans_produit_ids = fields.Many2many('is.position.dans.produit','is_position_dans_produit_product_rel','product_id','position_id', string="Position dans produit")
     is_doublon                   = fields.Char('Doublon', store=False, compute='_compute_doublon')
     is_import_par_mail           = fields.Boolean(u'Article importé par mail')
+    is_masse_tole                = fields.Float(u'Masse tôle')
+
 
 
     def message_new(self, cr, uid, msg_dict, custom_values=None, context=None):

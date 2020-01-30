@@ -123,6 +123,7 @@
 
 
 
+
         <!-- graph view -->
         <record id="is_purchase_order_line_graph_view" model="ir.ui.view">
             <field name="name">is_purchase_order_line_graph_view</field>
@@ -143,6 +144,34 @@
             <field name="view_mode">tree,form,graph</field>
         </record>
         <menuitem id="is_purchase_order_line_menu" parent="purchase.menu_procurement_management" action="is_purchase_order_line_acion" sequence="7" />
+
+
+
+        <!-- Menu 'Lignes commandes tôles' -->
+
+        <record id="is_purchase_order_line_tole_tree" model="ir.ui.view">
+            <field name="name">is_purchase_order_line_tole_tree</field>
+            <field name="model">purchase.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Lignes commandes tôles" create="false"  editable="top">
+                    <field name="order_id"      readonly="1"/>
+                    <field name="partner_id"    readonly="1"/>
+                    <field name="product_id"    readonly="1"/>
+                    <field name="product_qty"   readonly="1"/>
+                    <field name="is_masse_tole" readonly="1"/>
+                    <field name="date_planned"  readonly="1"/>
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="is_purchase_order_line_tole_acion">
+            <field name="name">Lignes commandes tôles</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="view_id" ref="is_purchase_order_line_tole_tree"/>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+        <menuitem id="is_purchase_order_line_tole_menu" parent="purchase.menu_procurement_management" action="is_purchase_order_line_tole_acion" sequence="7" />
 
 
 

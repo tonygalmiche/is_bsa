@@ -8,8 +8,9 @@ class purchase_order_line(models.Model):
     _inherit = "purchase.order.line"
     _order = "is_sequence,id"
 
-    is_sequence = fields.Integer('Séquence')
-    is_date_ar  = fields.Date("Date AR")
+    is_sequence   = fields.Integer('Séquence')
+    is_date_ar    = fields.Date("Date AR")
+    is_masse_tole = fields.Float(u'Masse tôle', related='product_id.is_masse_tole', readonly=True)
 
 
 class purchase_order(models.Model):

@@ -78,6 +78,12 @@
                 <field name="standard_price" position="before">
                     <field name="is_recalcul_prix_revient" />
                 </field>
+
+                <field name="uom_po_id" position="before">
+                    <field name="is_masse_tole" />
+                </field>
+
+
             </field>
         </record>
 
