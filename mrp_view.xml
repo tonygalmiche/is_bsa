@@ -250,6 +250,21 @@
             </field>
         </record>
 
+        <record id="is_view_mrp_production_workcenter_form_view_filter" model="ir.ui.view">
+            <field name="name">is_view_mrp_production_workcenter_form_view_filter</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.view_mrp_production_workcenter_form_view_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="product"/>
+                </field>
+            </field>
+        </record>
+
+
+
+
+
     <!-- mrp.routing (gammes) -->
     <record model="ir.ui.view" id="is_mrp_routing_form_view" >
         <field name="name">is_mrp_routing_form_view</field>
