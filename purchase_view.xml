@@ -147,5 +147,18 @@
 
 
 
+        <!-- Modèles de mail de demande de prix -->
+        <record id="is_demande_de_prix_email_template" model="email.template">
+            <field name="name">Demande de prix</field>
+            <!--
+            <field name="email_from">${user.email}</field>
+            <field name="subject">[${object.name}] ${object.etablissement_id.name} - Déclaration à valider</field>
+            <field name="email_to">${object.valideur_id.email}</field>
+            -->
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+
     </data>
 </openerp>

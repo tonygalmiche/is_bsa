@@ -51,7 +51,7 @@ class purchase_order(models.Model):
         ir_model_data = self.pool.get('ir.model.data')
         try:
             if context.get('send_rfq', False):
-                template_id = ir_model_data.get_object_reference(cr, uid, 'purchase', 'email_template_edi_purchase_done')[1]
+                template_id = ir_model_data.get_object_reference(cr, uid, 'is_bsa', 'is_demande_de_prix_email_template')[1]
             else:
                 template_id = ir_model_data.get_object_reference(cr, uid, 'purchase', 'email_template_edi_purchase_done')[1]
         except ValueError:
