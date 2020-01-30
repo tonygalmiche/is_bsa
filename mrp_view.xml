@@ -222,6 +222,8 @@
                     <group>
                         <field name="is_temps_passe_ids" nolabel="1" >
                             <tree editable="bottom">
+                                <field name="employe_id"/>
+                                <field name="nb"/>
                                 <field name="heure_debut"/>
                                 <field name="heure_fin"/>
                                 <field name="temps_passe" widget="float_time"/>

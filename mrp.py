@@ -36,16 +36,19 @@ class is_workcenter_line_temps_passe(models.Model):
         for obj in self:
             temps_passe = 0
             if obj.heure_debut and obj.heure_fin:
+                nb = obj.nb or 1
                 heure_debut = datetime.strptime(obj.heure_debut, '%Y-%m-%d %H:%M:%S')
                 heure_fin   = datetime.strptime(obj.heure_fin, '%Y-%m-%d %H:%M:%S')
-                temps_passe = (heure_fin - heure_debut).total_seconds()/3600
+                temps_passe = nb*(heure_fin - heure_debut).total_seconds()/3600
             obj.temps_passe = temps_passe
 
 
     workcenter_line_id = fields.Many2one('mrp.production.workcenter.line', 'Ordre de travail', required=True, ondelete='cascade', readonly=True)
-    heure_debut        = fields.Datetime('Heure de début')
-    heure_fin          = fields.Datetime('Heure de fin')
-    temps_passe        = fields.Float('Temps passé', compute='_compute_temps_passe', readonly=True, store=True)
+    employe_id  = fields.Many2one('hr.employee', u'Opérateur')
+    nb          = fields.Integer(u'Nombre de personnes au poste',default=1)
+    heure_debut = fields.Datetime(u'Heure de début')
+    heure_fin   = fields.Datetime(u'Heure de fin')
+    temps_passe = fields.Float(u'Temps passé', compute='_compute_temps_passe', readonly=True, store=True)
 
 
 class mrp_production_workcenter_line(models.Model):
