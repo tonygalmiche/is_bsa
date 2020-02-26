@@ -143,7 +143,7 @@ class bsa_stock_a_date_wizard(models.TransientModel):
                         'date_stock'       : obj.date
                     }
                     res=self.env['bsa.stock.a.date'].create(vals)
-                    print ct,'/',nb,product.id,product.name,product.qty_available
+                    #print ct,'/',nb,product.id,product.name,product.qty_available
 
 
             return {
