@@ -14,6 +14,8 @@ class bsa_stock_a_date(models.Model):
     list_price        = fields.Float("Prix de vente")
     standard_price    = fields.Float("Prix de revient")
     stock             = fields.Float("Stock à date")
+    stock_actuel      = fields.Float("Stock actuel")
+    ecart             = fields.Float("Ecart")
     stock_valorise    = fields.Float("Stock valorisé au prix de revient")
     date_stock        = fields.Datetime('Date stock')
 
@@ -30,6 +32,60 @@ class bsa_stock_a_date_wizard(models.TransientModel):
         for obj in self:
             sql="delete from bsa_stock_a_date"
             cr.execute(sql)
+#            sql="""
+#                select 
+#                        sm2.product_id, 
+#                        sum(sm.qty)
+#                from (
+
+#                    select 
+#                        sm.id,
+#                        sum(sq.qty)         as qty,
+#                        sl1.name            as src,
+#                        sl2.name            as dest
+#                    from stock_move sm inner join stock_location        sl1 on sm.location_id=sl1.id
+#                                       inner join stock_location        sl2 on sm.location_dest_id=sl2.id
+#                                       left outer join stock_quant_move_rel sqmr on sm.id=sqmr.move_id
+#                                       left outer join stock_quant            sq on sqmr.quant_id=sq.id
+#                    where sm.state='done' and sl2.usage='internal' 
+#                    group by 
+#                        sm.id,
+#                        sm.product_uom,
+#                        sl1.name,
+#                        sl2.name
+
+#                    union
+
+#                    select 
+#                        sm.id,
+#                        -sum(sq.qty)        as qty,
+#                        sl1.name            as dest,
+#                        sl2.name            as src
+#                    from stock_move sm inner join stock_location        sl1 on sm.location_dest_id=sl1.id
+#                                       inner join stock_location        sl2 on sm.location_id=sl2.id
+#                                       left outer join stock_quant_move_rel sqmr on sm.id=sqmr.move_id
+#                                       left outer join stock_quant            sq on sqmr.quant_id=sq.id
+#                    where sm.state='done' and sl2.usage='internal' 
+#                    group by 
+#                        sm.id,
+#                        sm.product_uom,
+#                        sl1.name,
+#                        sl2.name
+
+
+#                ) sm    inner join stock_move                sm2 on sm.id=sm2.id           
+#                        inner join product_product            pp on sm2.product_id=pp.id
+#                        inner join product_template           pt on pp.product_tmpl_id=pt.id
+#                        left outer join stock_picking_type   spt on sm2.picking_type_id=spt.id
+#                        left outer join stock_picking         sp on sm2.picking_id=sp.id
+
+#                where sm2.date<='"""+str(obj.date)+"""' 
+#                group by sm2.product_id
+#                having sum(sm.qty)<>0
+#                order by sm2.product_id
+#            """
+
+
             sql="""
                 select 
                         sm2.product_id, 
@@ -38,53 +94,36 @@ class bsa_stock_a_date_wizard(models.TransientModel):
 
                     select 
                         sm.id,
-                        sum(sq.qty)         as qty,
-                        sl1.name            as src,
-                        sl2.name            as dest
-                    from stock_move sm inner join stock_location        sl1 on sm.location_id=sl1.id
-                                       inner join stock_location        sl2 on sm.location_dest_id=sl2.id
-                                       left outer join stock_quant_move_rel sqmr on sm.id=sqmr.move_id
-                                       left outer join stock_quant            sq on sqmr.quant_id=sq.id
-                    where sm.state='done' and sl2.usage='internal' 
-                    group by 
-                        sm.id,
-                        sm.product_uom,
-                        sl1.name,
-                        sl2.name
+                        sm.product_qty as qty
+                    from stock_move sm inner join stock_location sl on sm.location_dest_id=sl.id
+                    where sm.state='done' and sl.usage='internal' 
 
                     union
 
                     select 
                         sm.id,
-                        -sum(sq.qty)        as qty,
-                        sl1.name            as dest,
-                        sl2.name            as src
-                    from stock_move sm inner join stock_location        sl1 on sm.location_dest_id=sl1.id
-                                       inner join stock_location        sl2 on sm.location_id=sl2.id
-                                       left outer join stock_quant_move_rel sqmr on sm.id=sqmr.move_id
-                                       left outer join stock_quant            sq on sqmr.quant_id=sq.id
-                    where sm.state='done' and sl2.usage='internal' 
-                    group by 
-                        sm.id,
-                        sm.product_uom,
-                        sl1.name,
-                        sl2.name
-
+                        -sm.product_qty as qty
+                    from stock_move sm inner join stock_location sl on sm.location_id=sl.id
+                    where sm.state='done' and sl.usage='internal' 
 
                 ) sm    inner join stock_move                sm2 on sm.id=sm2.id           
                         inner join product_product            pp on sm2.product_id=pp.id
                         inner join product_template           pt on pp.product_tmpl_id=pt.id
-                        left outer join stock_picking_type   spt on sm2.picking_type_id=spt.id
-                        left outer join stock_picking         sp on sm2.picking_id=sp.id
 
-                where sm2.date<='"""+str(obj.date)+"""'
+                where sm2.date<='"""+str(obj.date)+"""' 
                 group by sm2.product_id
                 having sum(sm.qty)<>0
                 order by sm2.product_id
             """
+            #and pp.id in (36,2521,341)
+
 
             cr.execute(sql)
-            for row in cr.fetchall():
+            rows = cr.fetchall()
+            nb=len(rows)
+            ct=0
+            for row in rows:
+                ct+=1
                 product_id=row[0]
                 product=self.env['product.product'].browse(product_id)
                 if product:
@@ -95,6 +134,8 @@ class bsa_stock_a_date_wizard(models.TransientModel):
                         'default_code'     : product.default_code,
                         'stock_category_id': product.is_stock_category_id.id,
                         'stock'            : stock,
+                        'stock_actuel'     : product.qty_available,
+                        'ecart'            : stock-product.qty_available,
                         'uom_id'           : product.uom_id.id,
                         'list_price'       : product.list_price,
                         'standard_price'   : product.standard_price,
@@ -102,7 +143,7 @@ class bsa_stock_a_date_wizard(models.TransientModel):
                         'date_stock'       : obj.date
                     }
                     res=self.env['bsa.stock.a.date'].create(vals)
-                    print row,res,product
+                    print ct,'/',nb,product.id,product.name,product.qty_available
 
 
             return {

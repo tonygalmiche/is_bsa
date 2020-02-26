@@ -72,6 +72,8 @@
                     <field name="standard_price"/>
                     <field name="stock"           sum="Total"/>
                     <field name="stock_valorise"  sum="Total"/>
+                    <field name="stock_actuel"    sum="Total"/>
+                    <field name="ecart"           sum="Total"/>
                     <field name="date_stock"/>
                 </tree>
             </field>
