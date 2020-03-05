@@ -2,6 +2,7 @@
 
 from openerp import models,fields,api
 from openerp.tools.translate import _
+import datetime
 
 
 class purchase_order_line(models.Model):
@@ -16,8 +17,35 @@ class purchase_order_line(models.Model):
 class purchase_order(models.Model):
     _inherit = "purchase.order"
 
-    is_a_commander = fields.Boolean(u"A commander", default=False)
-    is_arc         = fields.Boolean(u"ARC reçu"   , default=False)
+    is_a_commander      = fields.Boolean(u"A commander", default=False)
+    is_arc              = fields.Boolean(u"ARC reçu"   , default=False)
+    is_article_vendu_id = fields.Many2one('product.template', 'Article vendu', help=u"Utilsé pour l'importation de la nomenclature")
+    is_quantite_vendue  = fields.Integer(u"Qt article vendu")
+
+
+    @api.multi
+    def import_nomenclature_action(self):
+        for obj in self:
+            if obj.is_article_vendu_id and obj.is_quantite_vendue:
+                obj.order_line.unlink()
+                boms = self.env['mrp.bom'].search([('product_tmpl_id','=',obj.is_article_vendu_id.id)], limit=1)
+                for bom in boms:
+                    for line in bom.bom_line_ids:
+                        for seller in line.product_id.seller_ids:
+                            if seller.name.id == obj.partner_id.id:
+                                qty    = line.product_qty*obj.is_quantite_vendue
+                                uom_id = line.product_id.uom_po_id.id
+                                res = self.env['purchase.order.line'].onchange_product_id(obj.pricelist_id.id,line.product_id.id,qty,uom_id,obj.partner_id.id)
+                                vals=res['value']
+                                taxes_id = vals['taxes_id']
+                                vals.update({
+                                    'order_id'   : obj.id,
+                                    'is_sequence': line.sequence,
+                                    'product_id' : line.product_id.id,
+                                    'taxes_id'   : [(6,0,taxes_id)],
+                                })
+                                res = self.env['purchase.order.line'].create(vals)
+
 
     @api.multi
     def mouvement_stock_action(self):

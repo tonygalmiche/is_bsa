@@ -192,9 +192,10 @@ Contenu du message à mettre ici
 
 
         <!-- menu -->
-        <menuitem id="bsa_fnc_menu"           sequence="2"  name="FNC"           parent="base.menu_base_partner" />
-        <menuitem id="bsa_fnc_menu_10"        sequence="10" name="FNC"           parent="bsa_fnc_menu" action="bsa_fnc_action" />
-        <menuitem id="bsa_fnc_categorie_menu" sequence="20" name="Catégorie FNC" parent="bsa_fnc_menu" action="bsa_fnc_categorie_action" />
+        <menuitem id="bsa_fnc_main_menu"      sequence="85" name="FNC"/>
+        <menuitem id="bsa_fnc_menu"           sequence="2"  name="FNC"           parent="bsa_fnc_main_menu"/>
+        <menuitem id="bsa_fnc_menu_10"        sequence="10" name="FNC"           parent="bsa_fnc_menu" action="bsa_fnc_action"/>
+        <menuitem id="bsa_fnc_categorie_menu" sequence="20" name="Catégorie FNC" parent="bsa_fnc_menu" action="bsa_fnc_categorie_action"/>
 
     </data>
 </openerp>

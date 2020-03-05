@@ -12,6 +12,12 @@
                 <xpath expr="//sheet" position="attributes">
                     <attribute name="class">oe_form_sheet_width_wider</attribute>
                 </xpath>
+
+
+                <button name="action_cancel" position="after" >
+                    <button name="import_nomenclature_action" states="draft" string="Importer la nomenclature" type="object"/>
+                </button>
+
                 <field name="state" position="before" >
                     <button 
                         name="mouvement_stock_action" 
@@ -19,6 +25,12 @@
                         attrs="{'invisible': [('state','in',('draft','sent'))]}"
                     />
                 </field>
+
+                <field name="pricelist_id" position="after">
+                    <field name="is_article_vendu_id"/>
+                    <field name="is_quantite_vendue"/>
+                </field>
+
                 <field name="picking_type_id" position="after">
                     <field name="is_a_commander"/>
                     <field name="is_arc"/>
