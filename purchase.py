@@ -35,7 +35,7 @@ class purchase_order(models.Model):
                             if seller.name.id == obj.partner_id.id:
                                 qty    = line.product_qty*obj.is_quantite_vendue
                                 uom_id = line.product_id.uom_po_id.id
-                                res = self.env['purchase.order.line'].onchange_product_id(obj.pricelist_id.id,line.product_id.id,qty,uom_id,obj.partner_id.id)
+                                res = self.env['purchase.order.line'].onchange_product_id(obj.pricelist_id.id,line.product_id.id,qty,uom_id,obj.partner_id.id,fiscal_position_id=obj.fiscal_position.id)
                                 vals=res['value']
                                 taxes_id = vals['taxes_id']
                                 vals.update({
