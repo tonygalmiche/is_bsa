@@ -77,7 +77,8 @@ class sale_order_line(models.Model):
     _inherit = "sale.order.line"
 
     is_date_demandee           = fields.Date('Date demandée')
-    is_date_prevue             = fields.Date('Date prévue')
+    is_date_prevue             = fields.Date('Date prévue initialement')
+    is_derniere_date_prevue    = fields.Date('Dernière date prévue')
     is_fabrication_prevue      = fields.Float('Fabrication prévue'           , compute='_compute_fab', readonly=True, store=False, digits=(14,0))
     is_reste                   = fields.Float('Reste à lancer en fabrication', compute='_compute_fab', readonly=True, store=False, digits=(14,0))
     is_client_order_ref        = fields.Char('Référence Client', store=True, compute='_compute')

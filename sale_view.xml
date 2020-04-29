@@ -8,8 +8,9 @@
             <field name="inherit_id" ref="sale.view_order_line_form2"/>
             <field name="arch" type="xml">
                 <field name="product_uom_qty" position="after">
-                    <field name="is_date_demandee" />
-                    <field name="is_date_prevue" />
+                    <field name="is_date_demandee"/>
+                    <field name="is_date_prevue"/>
+                    <field name="is_derniere_date_prevue"/>
                 </field>
             </field>
         </record>
@@ -25,6 +26,7 @@
                     <field name="name"                         readonly="True"/>
                     <field name="is_date_demandee" />
                     <field name="is_date_prevue" />
+                    <field name="is_derniere_date_prevue" />
                     <field name="product_uom_qty" string="Qt commandée" readonly="True"/>
                     <field name="is_fabrication_prevue" />
                     <field name="is_reste" />
@@ -101,6 +103,7 @@
                 <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
                     <field name="is_date_demandee"/>
                     <field name="is_date_prevue"/>
+                    <field name="is_derniere_date_prevue" />
                 </xpath>
                 <xpath expr="//sheet/notebook/page/field[@name='order_line']/tree/field[@name='discount']" position="before">
                     <field name="is_remise1" on_change="onchange_remise(is_remise1,is_remise2)"/>
@@ -214,16 +217,6 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
-
-
-
-
-
-
-
-
-
-
 
     </data>
 
