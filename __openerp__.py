@@ -45,6 +45,7 @@ InfoSaône - Module Odoo pour BSA
   "demo_xml" : [],
   "data" : [
     "assets.xml",
+    "wizard/is_mrp_workcenter_temps_ouverture_wiz.xml",
     "res_company_view.xml",
     "sale_view.xml",
     "pricelist_view.xml",
@@ -70,7 +71,6 @@ InfoSaône - Module Odoo pour BSA
     "is_fiche_travail.xml",
     "wizard/is_etiquette_reception_view.xml",
     "wizard/stock_transfer_details.xml",
-    "wizard/is_mrp_workcenter_temps_ouverture_wiz.xml",
     "stock_view.xml",
     "purchase_view.xml",
     "email_template_view.xml",
