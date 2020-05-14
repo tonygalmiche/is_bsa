@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="is_mrp_workcenter_temps_ouverture_wiz_form_view" model="ir.ui.view">
+            <field name="name">view.add.is.mold.preventif.data.form</field>
+            <field name="model">is.mrp.workcenter.temps.ouverture.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Initialisation des dates d'ouverture">
+                    <group>
+                         <field name="date_debut"/>
+                         <field name="date_fin"/>
+                         <field name="nb_heures" widget="float_time"/>
+                         <field name="nb_operateurs"/>
+                    </group>
+                    <footer>
+                        <button name="validation" string="Ok" type="object" class="oe_highlight"/>
+                        ou 
+                        <button string="Annuler" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <act_window id="is_mrp_workcenter_temps_ouverture_wiz_action" name="Initialisation des dates d'ouverture"
+            multi="True" key2="client_action_multi" 
+            res_model="is.mrp.workcenter.temps.ouverture.wiz" src_model="mrp.workcenter"
+            view_mode="form" target="new" view_type="form"/>
+    </data>
+</openerp>

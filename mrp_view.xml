@@ -2,8 +2,18 @@
 <openerp>
     <data>
         
-
-        <!-- form view -->
+        <!-- mrp.production -->
+        <record id="is_planifier_operation_mrp_production_action_server" model="ir.actions.server">
+             <field name="name">Planifier les opérations</field>
+            <field name="model_id" ref="model_mrp_production"/>
+            <field name="code">action = self.planifier_operation_action(cr, uid, context.get('active_ids', []), context=context)</field>
+        </record>
+        <record id="is_planifier_operation_mrp_production_ir_value" model="ir.values">
+            <field eval="'client_action_multi'" name="key2"/>
+            <field eval="'mrp.production'" name="model"/>
+            <field name="name">Planifier les opérations</field>
+            <field eval="'ir.actions.server,%d'%is_planifier_operation_mrp_production_action_server" name="value"/>
+        </record>
         <record id="is_mrp_production_form_view" model="ir.ui.view">
             <field name="name">is_mrp_production_form_view</field>
             <field name="model">mrp.production</field>
@@ -19,49 +29,24 @@
                     <attribute name="invisible">1</attribute>
                 </field>
                 <field name="date_planned" position="after">
-                    <field name="is_date_planifiee" />
-                    <field name="is_gabarit_id" />
+                    <field name="is_date_planifiee"/>
+                    <field name="is_gabarit_id"/>
                 </field>
                 <field name="origin" position="after">
-                    <field name="is_sale_order_line_id" />
-                    <field name="is_sale_order_id" />
+                    <field name="is_sale_order_line_id"/>
+                    <field name="is_date_prevue" string="Date prévue commande client"/>
+                    <field name="is_date_planifiee_fin" />
+                    <field name="is_ecart_date"/>
+                    <field name="is_sale_order_id"/>
                 </field>
-
                 <xpath expr="//field[@name='workcenter_lines']/form/group/field[@name='sequence']" position="after">
                     <field name="is_offset" />
                 </xpath>
                 <xpath expr="//field[@name='workcenter_lines']/tree/field[@name='sequence']" position="after">
                     <field name="is_offset" />
                 </xpath>
-
             </field>
         </record>
-
-
-        <!-- tree view -->
-        <record id="bsa_mrp_production_tree_view" model="ir.ui.view">
-            <field name="name">bsa_mrp.production.tree</field>
-            <field name="model">mrp.production</field>
-            <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
-        <field name="arch" type="xml">
-                <field name="date_planned" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </field>
-                <field name="date_planned" position="after">
-                    <field name="is_date_planifiee" />
-                    <field name="is_gabarit_id" />
-                </field>
-                <field name="cycle_total" position="replace">
-                    <field name="sale_ref" />
-                </field>
-                <field name="origin" position="after">
-                    <field name="is_sale_order_line_id" />
-                </field>
-            </field>
-        </record>
-    
-
-        <!-- tree view (new) -->
         <record id="bsa_mrp_production_tree_view2" model="ir.ui.view">
             <field name="name">bsa_mrp_production_tree_view2</field>
             <field name="model">mrp.production</field>
@@ -70,15 +55,17 @@
                 <tree 
                     editable="top" 
                     fonts="bold:message_unread==True" 
-                    colors="red:is_date_prevue&lt;is_date_planifiee;"
+                    colors="red:is_date_prevue&lt;is_date_planifiee_fin;"
                     string="Manufacturing Orders"
                 >
                     <field name="message_unread" invisible="1"/>
                     <field name="name" />
                     <field name="product_id"/>
                     <field name="product_qty"/>
-                    <field name="is_date_prevue" />
-                    <field name="is_date_planifiee" />
+                    <field name="is_date_prevue" string="Date prévue commande client"/>
+                    <field name="is_date_planifiee"/>
+                    <field name="is_date_planifiee_fin"/>
+                    <field name="is_ecart_date"/>
                     <field name="is_gabarit_id" />
                     <field name="hour_total" sum="Total Hours"/>
                     <field name="is_sale_order_line_id" readonly="1"/>
@@ -86,10 +73,33 @@
                 </tree>
             </field>
         </record>
-
-
-
-        <!-- mrp.production Kanban View -->
+        <record id="bsa_mrp_production_tree_view3" model="ir.ui.view">
+            <field name="name">bsa_mrp_production_tree_view3</field>
+            <field name="model">mrp.production</field>
+            <field name="priority" eval="99"/>
+            <field name="arch" type="xml">
+                <tree 
+                    fonts="bold:message_unread==True" 
+                    colors="
+                        red:is_date_prevue&lt;is_date_planifiee_fin and state not in ('done','cancel');
+                        gray:state in ('done','cancel')" 
+                    string="Manufacturing Orders"
+                >
+                    <field name="message_unread" invisible="1"/>
+                    <field name="name" />
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="is_date_prevue" string="Date prévue commande client"/>
+                    <field name="is_date_planifiee"/>
+                    <field name="is_date_planifiee_fin"/>
+                    <field name="is_ecart_date"/>
+                    <field name="is_gabarit_id" />
+                    <field name="hour_total" sum="Total Hours"/>
+                    <field name="is_sale_order_line_id" readonly="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
         <record id="bsa_mrp_production_kanban_view" model="ir.ui.view" >
             <field name="name">bsa_mrp_production_kanban_view</field>
             <field name="model">mrp.production</field>
@@ -116,8 +126,6 @@
                 </kanban>
             </field>
         </record>
-
-
         <record id="bsa_view_mrp_production_filter" model="ir.ui.view">
             <field name="name">bsa_view_mrp_production_filter</field>
             <field name="model">mrp.production</field>
@@ -134,7 +142,6 @@
             </field>
         </record>
 
-
        <!-- action Affectation gabarit -->
         <record  id="bsa_affectation_gabarit_action" model="ir.actions.act_window">
             <field name="name">Affectation gabarit</field>
@@ -145,8 +152,6 @@
             <field name="view_mode">kanban,form</field>
         </record>
         <menuitem id="bsa_affectation_gabarit_menu" parent="mrp.menu_mrp_manufacturing" action="bsa_affectation_gabarit_action" sequence="10" />
-
-
 
         <record id="bsa_mrp_production_planification_calendar_view" model="ir.ui.view">
             <field name="name">bsa_mrp_production_planification_calendar</field>
@@ -161,8 +166,6 @@
                 </calendar>
             </field>
         </record>
-
-
 
        <!-- action Planification fabrication -->
         <record id="bsa_mrp_production_planification_action" model="ir.actions.act_window">
@@ -184,19 +187,21 @@
         </record>
         <menuitem id="bsa_mrp_production_planification_menu" parent="mrp.menu_mrp_manufacturing" action="bsa_mrp_production_planification_action" sequence="11" />
 
-
-
-
-        <!--
-        <record model="ir.actions.act_window" id="bsa_mrp_production_planification_action">
-            <field name="name">Planification fabrication</field>
+        <!-- Remplacement du menu standard -->
+        <record id="bsa_mrp_production_action" model="ir.actions.act_window">
+            <field name="name">Ordres de fabrication</field>
             <field name="res_model">mrp.production</field>
-            <field name="view_id" ref="bsa_mrp_production_planification_calendar"/>
-            <field name="domain">[('state', 'not in', ['done', 'cancel'])]</field>
-            <field name="view_mode">calendar,tree,form,graph</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,calendar,graph</field>
         </record>
+        <record id="bsa_mrp_production_action_tree" model="ir.actions.act_window.view">
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="bsa_mrp_production_tree_view3" />
+            <field name="act_window_id" ref="bsa_mrp_production_action" />
+        </record>
+        <menuitem id="mrp.menu_mrp_production_action" action="bsa_mrp_production_action" parent="mrp.menu_mrp_manufacturing" sequence="1"/>
 
-        -->
 
         <!-- Gabarit -->
         <record id="is_gabarit_tree_view" model="ir.ui.view" >
@@ -218,13 +223,36 @@
         <menuitem name="Gabarits" id="is_gabarit_menu" parent="mrp.menu_mrp_manufacturing" action="is_gabarit_action" sequence="90" />
 
 
+        <!--mrp.production.workcenter.line-->
+        <record id="is_planifier_operation_action_server" model="ir.actions.server">
+             <field name="name">Planifier les opérations suivantes</field>
+            <field name="model_id" ref="model_mrp_production_workcenter_line"/>
+            <field name="code">action = self.planifier_operation_action(cr, uid, context.get('active_ids', []), context=context)</field>
+        </record>
+        <record id="is_planifier_operation_ir_value" model="ir.values">
+            <field eval="'client_action_multi'" name="key2"/>
+            <field eval="'mrp.production.workcenter.line'" name="model"/>
+            <field name="name">Planifier les opérations suivantes</field>
+            <field eval="'ir.actions.server,%d'%is_planifier_operation_action_server" name="value"/>
+        </record>
         <record id="is_mrp_production_workcenter_form_view_inherit" model="ir.ui.view">
             <field name="name">is_mrp_production_workcenter_form_view_inherit</field>
             <field name="model">mrp.production.workcenter.line</field>
             <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_form_view_inherit" />
             <field name="arch" type="xml">
+                <group string="Planned Date" position="replace"/>
+                <group string="Actual Production Date" position="replace">
+                    <group string="Dates prévues">
+                        <field name="is_offset"/>
+                        <field name="is_date_debut"/>
+                        <!--
+                        <field name="is_date_fin"   readonly="1"/>
+                        <field name="date_start"    readonly="1"/>
+                        <field name="date_finished" readonly="1"/>
+                        -->
+                    </group>
+                </group>
                 <field name="sequence" position="after">
-                    <field name="is_offset"/>
                     <field name="is_commentaire"/>
                 </field>
                 <notebook position="after">
@@ -252,9 +280,21 @@
             <field name="model">mrp.production.workcenter.line</field>
             <field name="inherit_id" ref="mrp_operations.mrp_production_workcenter_tree_view_inherit"/>
             <field name="arch" type="xml">
+                <field name="date_planned" position="replace">
+                    <field name="date_planned" invisible="1"/>
+                </field>
+                <field name="uom" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
                 <field name="name" position="after">
                     <field name="sequence"/>
                     <field name="is_offset"/>
+                    <field name="is_date_debut"/>
+                    <!--
+                    <field name="is_date_fin"/>
+                    <field name="date_start"    invisible="0"/>
+                    <field name="date_finished" invisible="0"/>
+                    -->
                 </field>
                 <field name="hour" position="after">
                     <field name="is_temps_passe" widget="float_time"/>
@@ -275,35 +315,157 @@
         </record>
 
 
-
-
-
-    <!-- mrp.routing (gammes) -->
-    <record model="ir.ui.view" id="is_mrp_routing_form_view" >
-        <field name="name">is_mrp_routing_form_view</field>
-        <field name="model">mrp.routing</field>
-        <field name="type">form</field>
-        <field name="inherit_id" ref="mrp.mrp_routing_form_view" />
-        <field name="arch" type="xml">
-            <field name="workcenter_lines" position="replace" > 
-                <field name="workcenter_lines">
-                    <tree editable="bottom">
-                        <field name="sequence"/>
-                        <field name="is_offset"/>
-                        <field name="name"/>
-                        <field name="workcenter_id" widget="many2one_clickable"/>
-                        <field name="cycle_nbr" invisible="1"/>
-                        <field name="hour_nbr" widget="float_time" sum="Total"/>
-                        <field name="company_id" widget="selection" groups="base.group_multi_company"/>
-                        <field name="note" invisible="1"/>
-                    </tree>
+        <!-- mrp.routing (gammes) -->
+        <record model="ir.ui.view" id="is_mrp_routing_form_view" >
+            <field name="name">is_mrp_routing_form_view</field>
+            <field name="model">mrp.routing</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_form_view" />
+            <field name="arch" type="xml">
+                <field name="workcenter_lines" position="replace" > 
+                    <field name="workcenter_lines">
+                        <tree editable="bottom">
+                            <field name="sequence"/>
+                            <field name="is_offset"/>
+                            <field name="name"/>
+                            <field name="workcenter_id" widget="many2one_clickable"/>
+                            <field name="cycle_nbr" invisible="1"/>
+                            <field name="hour_nbr" widget="float_time" sum="Total"/>
+                            <field name="company_id" widget="selection" groups="base.group_multi_company"/>
+                            <field name="note" invisible="1"/>
+                        </tree>
+                    </field>
                 </field>
             </field>
-        </field>
-    </record>
+        </record>
 
 
-       
+
+        <!-- mrp.workcenter (Poste de charge) -->
+        <record id="is_mrp_workcenter_calculer_charge_action_server" model="ir.actions.server">
+             <field name="name">Calculer la charge</field>
+            <field name="model_id" ref="model_mrp_workcenter"/>
+            <field name="code">action = self.calculer_charge_action(cr, uid, context.get('active_ids', []), context=context)</field>
+        </record>
+        <record id="is_mrp_workcenter_calculer_charge_ir_value" model="ir.values">
+            <field eval="'client_action_multi'" name="key2"/>
+            <field eval="'mrp.workcenter'" name="model"/>
+            <field name="name">Calculer la charge</field>
+            <field eval="'ir.actions.server,%d'%is_mrp_workcenter_calculer_charge_action_server" name="value"/>
+        </record>
+        <record id="is_mrp_workcenter_view" model="ir.ui.view">
+            <field name="name">is_mrp_workcenter_view</field>
+            <field name="model">mrp.workcenter</field>
+            <field name="inherit_id" ref="mrp.mrp_workcenter_view" />
+            <field name="arch" type="xml">
+                <notebook position="after">
+                    <button name="%(is_mrp_workcenter_temps_ouverture_wiz_action)d" string="Initialisation des dates d'ouverture" type="action"/>
+                    <button name="calculer_charge_action" string="Calculer la charge" type="object"/>
+                    <group>
+                        <field name="is_temps_ouverture_ids" nolabel="1" >
+                            <tree editable="bottom" colors="red:ecart&lt;0;">
+                                <field name="date_ouverture"/>
+                                <field name="temps_ouverture" sum="Total" widget="float_time"/>
+                                <field name="temps_planifie"  sum="Total" widget="float_time"/>
+                                <field name="ecart"           sum="Total" widget="float_time"/>
+                                <field name="charge" widget="progressbar"/>
+                                <field name="operateur_ids"   widget="many2many_tags"/>
+                            </tree>
+                        </field>
+                    </group>
+                </notebook>
+            </field>
+        </record>
+        <record id="is_mrp_workcenter_action" model="ir.actions.act_window" >
+            <field name="name">Poste de charge</field>
+            <field name="res_model">mrp.workcenter</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="Postes de charge" id="is_mrp_workcenter_menu" parent="mrp.menu_mrp_manufacturing" action="is_mrp_workcenter_action" sequence="95" />
+
+
+        <!-- is.mrp.workcenter.temps.ouverture --> 
+        <record model="ir.ui.view" id="is_mrp_workcenter_temps_ouverture_form_view">
+            <field name="name">is_mrp_workcenter_temps_ouverture_form_view</field>
+            <field name="model">is.mrp.workcenter.temps.ouverture</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>  
+                    <sheet>
+                        <group>
+                            <field name="workcenter_id"/>
+                            <field name="date_ouverture"/>
+                            <field name="semaine_ouverture"/>
+                             <field name="mois_ouverture"/>
+                            <field name="temps_ouverture" widget="float_time"/>
+                            <field name="temps_planifie"  widget="float_time"/>
+                            <field name="ecart"           widget="float_time"/>
+                            <field name="charge"/>
+                            <field name="operateur_ids" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="is_mrp_workcenter_temps_ouverture_tree_view">
+            <field name="name">is_mrp_workcenter_temps_ouverture_tree_view</field>
+            <field name="model">is.mrp.workcenter.temps.ouverture</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree colors="red:ecart&lt;0;">
+                    <field name="workcenter_id"/>
+                    <field name="date_ouverture"/>
+                    <field name="semaine_ouverture"/>
+                    <field name="mois_ouverture"/>
+                    <field name="temps_ouverture" sum="Total" widget="float_time"/>
+                    <field name="temps_planifie"  sum="Total" widget="float_time"/>
+                    <field name="ecart"           sum="Total" widget="float_time"/>
+                    <field name="charge" widget="progressbar"/>
+
+                    <field name="operateur_ids" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_mrp_workcenter_temps_ouverture_graph_view" model="ir.ui.view">
+             <field name="name">is_mrp_workcenter_temps_ouverture_graph_view</field>
+            <field name="model">is.mrp.workcenter.temps.ouverture</field>
+             <field name="arch" type="xml">
+                 <graph type="pivot">
+                     <field name="workcenter_id"  type="row"/>
+                     <field name="mois_ouverture" type="col"/>
+                     <field name="ecart"          type="measure"/>
+                 </graph>
+             </field>
+        </record>
+        <record model="ir.ui.view" id="is_mrp_workcenter_temps_ouverture_search_view" >
+            <field name="name">is_mrp_workcenter_temps_ouverture_search_view</field>
+            <field name="model">is.mrp.workcenter.temps.ouverture</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="workcenter_id"/>
+                    <field name="date_ouverture"/>
+                    <field name="semaine_ouverture"/>
+                    <field name="mois_ouverture"/>
+                    <field name="operateur_ids"/>
+                    <group expand="0" string="Regroupé par...">
+                        <filter name="group_workcenter_id"     string="Poste de charge" context="{'group_by':'workcenter_id'}"/>
+                        <filter name="group_date_ouverture"    string="Date"            context="{'group_by':'date_ouverture'}"/>
+                        <filter name="group_semaine_ouverture" string="Semaine"         context="{'group_by':'semaine_ouverture'}"/>
+                        <filter name="group_mois_ouverture"    string="Mois"            context="{'group_by':'mois_ouverture'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="is_mrp_workcenter_temps_ouverture_action">
+            <field name="name">Dates postes de charge</field>
+            <field name="res_model">is.mrp.workcenter.temps.ouverture</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+        <menuitem name="Dates postes de charge" id="is_mrp_workcenter_temps_ouverture_menu" parent="mrp.menu_mrp_manufacturing" action="is_mrp_workcenter_temps_ouverture_action" sequence="96" />
+
     </data>
 </openerp>
 
