@@ -84,14 +84,14 @@ class mrp_production_workcenter_line(models.Model):
     is_date_fin        = fields.Date(u'Date de fin')
 
 
-    @api.multi
-    def write(self, vals):
-        if 'date_start' in vals and 'is_date_debut' not in vals:
-            vals['is_date_debut'] = vals['date_start']
-        if 'date_finished' in vals and 'is_date_fin' not in vals:
-            vals['is_date_fin'] = vals['date_finished']
-        res=super(mrp_production_workcenter_line, self).write(vals)
-        return res
+#    @api.multi
+#    def write(self, vals):
+#        if 'date_start' in vals and 'is_date_debut' not in vals:
+#            vals['is_date_debut'] = vals['date_start']
+#        if 'date_finished' in vals and 'is_date_fin' not in vals:
+#            vals['is_date_fin'] = vals['date_finished']
+#        res=super(mrp_production_workcenter_line, self).write(vals)
+#        return res
 
 
 #    @api.multi
