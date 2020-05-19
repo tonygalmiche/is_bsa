@@ -63,7 +63,7 @@ class is_workcenter_line_temps_passe(models.Model):
 
 class mrp_production_workcenter_line(models.Model):
     _inherit = "mrp.production.workcenter.line"
-    _order = "id desc"
+    #_order = "production_id desc, sequence"
 
     @api.depends('is_temps_passe_ids')
     def compute_temps_passe(self):
