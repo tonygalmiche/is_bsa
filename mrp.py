@@ -38,7 +38,6 @@ class mrp_production(models.Model):
                     ops[0].planifier_operation_action()
 
 
-
 class is_workcenter_line_temps_passe(models.Model):
     _name = "is.workcenter.line.temps.passe"
 
@@ -119,22 +118,39 @@ class mrp_production_workcenter_line(models.Model):
 
 
     @api.multi
+    def write(self, vals):
+
+        if len(vals)==2 and 'date_finished' in vals and 'date_start' in vals:
+            d = datetime.strptime(vals['date_start'], '%Y-%m-%d %H:%M:%S')
+            vals['is_date_debut'] =  str(d)[:10]
+            #offset = op.is_offset
+            #d = d + timedelta(days=offset)
+            if self.is_offset:
+                offset = self.is_offset
+                d = d + timedelta(days=offset)
+            vals['is_date_fin'] =  str(d)[:10]
+            print(vals), len(vals),self,self.is_offset
+
+        res=super(mrp_production_workcenter_line, self).write(vals)
+        return res
+
+
+#{'date_finished': '2020-09-05 16:00:00', 'date_start': '2020-09-05 07:00:00'}
+
+
+
+    @api.multi
     def planifier_operation_action(self):
         for obj in self:
             date_debut = False
+            date_fin=False
             if obj.is_date_debut:
                 ops = self.env["mrp.production.workcenter.line"].search([('production_id','=',obj.production_id.id),('sequence','>=',obj.sequence)],order='sequence')
                 d = datetime.strptime(obj.is_date_debut, '%Y-%m-%d')
-
                 if str(d)[:10]<str(date.today()):
                     d = datetime.now()
-
-
-                #mem_date_debut = obj.is_date_debut
                 for op in ops:
                     date_debut = str(d)[:10]
-
-
                     offset = op.is_offset
                     d = d + timedelta(days=offset)
                     dates=[]
@@ -150,28 +166,20 @@ class mrp_production_workcenter_line(models.Model):
                             d2 = d2 + timedelta(days=1)
                     if not date_fin:
                         raise Warning(u"Aucune date d'ouverture disponible pour le poste de charge '"+op.workcenter_id.name+u"' et pour le "+d.strftime('%d/%m/%Y'))
-
                     d=d2
-
-
-                    #date_debut = datetime.strptime(d, '%Y-%m-%d')
-                    #date_debut = str(d)[:10]
                     vals={
                         'is_date_debut': date_debut,
                         'is_date_fin'  : date_fin,
-                        'date_planned' : str(date_debut) + ' 07:00:00',
+                        #'date_planned' : str(date_debut) + ' 07:00:00', #TODO : La mise à jour de ce champ est trép long
                         'date_start'   : str(date_debut) + ' 07:00:00',
                         'date_finished': str(date_debut) + ' 16:00:00',
                     }
-
-                    #print op.sequence,op.is_offset,date_debut,date_fin
-
                     op.write(vals)
+
+
             if date_fin:
-                #print obj,date_fin
                 obj.production_id.is_date_planifiee_fin = date_fin
                 if date_fin and obj.production_id.is_date_prevue:
-                    #print date_fin,obj.production_id.is_date_prevue
                     d1 = datetime.strptime(date_fin, '%Y-%m-%d')
                     d2 = datetime.strptime(obj.production_id.is_date_prevue, '%Y-%m-%d')
                     ecart = (d2-d1).days

@@ -337,6 +337,22 @@
                 </tree>
             </field>
         </record>
+
+
+        <record id="is_workcenter_line_calendar" model="ir.ui.view">
+            <field name="name">is_workcenter_line_calendar</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="inherit_id" ref="mrp_operations.workcenter_line_calendar"/>
+            <field name="arch" type="xml">
+                <field name="production_id" position="after">
+                    <field name="hour"/>
+                </field>
+            </field>
+        </record>
+
+
+
+        <!--
         <record id="is_mrp_production_workcenter_line_date_action" model="ir.actions.act_window" >
             <field name="name">Ordre de Travail (Date)</field>
             <field name="res_model">mrp.production.workcenter.line</field>
@@ -351,7 +367,7 @@
             action="is_mrp_production_workcenter_line_date_action"
             sequence="3"
         />
-
+        -->
 
 
 
