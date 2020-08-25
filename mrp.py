@@ -83,15 +83,17 @@ class mrp_production_workcenter_line(models.Model):
     is_date_fin        = fields.Date(u'Date de fin opération')
 
 
-#    @api.multi
-#    def write(self, vals):
-#        if 'date_start' in vals and 'is_date_debut' not in vals:
-#            vals['is_date_debut'] = vals['date_start']
-#        if 'date_finished' in vals and 'is_date_fin' not in vals:
-#            vals['is_date_fin'] = vals['date_finished']
-#        res=super(mrp_production_workcenter_line, self).write(vals)
-#        return res
+    @api.multi
+    def write(self, vals):
+        if 'date_start' in vals and 'is_date_debut' not in vals:
+            vals['is_date_debut'] = vals['date_start']
+        if 'date_finished' in vals and 'is_date_fin' not in vals:
+            vals['is_date_fin'] = vals['date_finished']
+        res=super(mrp_production_workcenter_line, self).write(vals)
+        return res
 
+
+    #def write(self, cr, uid, ids, vals, context=None, update=True):
 
 #    @api.multi
 #    def write(self, vals):
@@ -118,8 +120,7 @@ class mrp_production_workcenter_line(models.Model):
 
 
     @api.multi
-    def write(self, vals):
-
+    def write(self, vals, update=True):
         if len(vals)==2 and 'date_finished' in vals and 'date_start' in vals:
             d = datetime.strptime(vals['date_start'], '%Y-%m-%d %H:%M:%S')
             vals['is_date_debut'] =  str(d)[:10]
@@ -129,10 +130,33 @@ class mrp_production_workcenter_line(models.Model):
                 offset = self.is_offset
                 d = d + timedelta(days=offset)
             vals['is_date_fin'] =  str(d)[:10]
-            print(vals), len(vals),self,self.is_offset
-
-        res=super(mrp_production_workcenter_line, self).write(vals)
+        res=super(mrp_production_workcenter_line, self).write(vals, update=update)
         return res
+
+
+
+#    def write(self, cr, uid, ids, vals, context=None, update=True):
+#        direction = {}
+#        if vals.get('date_start', False):
+#            for po in self.browse(cr, uid, ids, context=context):
+#                direction[po.id] = cmp(po.date_start, vals.get('date_start', False))
+
+#        #print vals
+
+#        result = super(mrp_production, self).write(cr, uid, ids, vals, context=context)
+#        if (vals.get('workcenter_lines', False) or vals.get('date_start', False) or vals.get('date_planned', False)) and update:
+#            self._compute_planned_workcenter(cr, uid, ids, context=context, mini=mini)
+#        for d in direction:
+#            if direction[d] == 1:
+#                # the production order has been moved to the passed
+#                self._move_pass(cr, uid, [d], context=context)
+#                pass
+#            elif direction[d] == -1:
+#                self._move_futur(cr, uid, [d], context=context)
+#                # the production order has been moved to the future
+#                pass
+#        return result
+
 
 
 #{'date_finished': '2020-09-05 16:00:00', 'date_start': '2020-09-05 07:00:00'}
