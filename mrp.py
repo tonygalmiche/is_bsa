@@ -80,8 +80,8 @@ class mrp_production_workcenter_line(models.Model):
     is_temps_passe     = fields.Float('Temps passé', compute='compute_temps_passe', readonly=True, store=True)
     is_ecart           = fields.Float('Ecart', compute='compute_temps_passe', readonly=True, store=True)
     is_offset          = fields.Integer('Offset (jour)', help="Offset en jours par rapport à l'opération précédente pour le calcul du planning")
-    is_date_debut      = fields.Date(u'Date de début', index=True)
-    is_date_fin        = fields.Date(u'Date de fin')
+    is_date_debut      = fields.Date(u'Date de début opération', index=True)
+    is_date_fin        = fields.Date(u'Date de fin opération')
 
 
 #    @api.multi
@@ -129,40 +129,50 @@ class mrp_production_workcenter_line(models.Model):
                 if str(d)[:10]<str(date.today()):
                     d = datetime.now()
 
+
+                #mem_date_debut = obj.is_date_debut
                 for op in ops:
+                    date_debut = str(d)[:10]
+
+
                     offset = op.is_offset
                     d = d + timedelta(days=offset)
                     dates=[]
                     for line in op.workcenter_id.is_temps_ouverture_ids:
                         dates.append(str(line.date_ouverture))
-                    date_debut=False
+                    date_fin=False
                     d2=d
                     for x in range(50):
                         if str(d2)[:10] in dates:
-                            date_debut = str(d2)[:10]
+                            date_fin = str(d2)[:10]
                             break
                         else:
                             d2 = d2 + timedelta(days=1)
-                    if not date_debut:
+                    if not date_fin:
                         raise Warning(u"Aucune date d'ouverture disponible pour le poste de charge '"+op.workcenter_id.name+u"' et pour le "+d.strftime('%d/%m/%Y'))
+
+                    d=d2
 
 
                     #date_debut = datetime.strptime(d, '%Y-%m-%d')
                     #date_debut = str(d)[:10]
                     vals={
                         'is_date_debut': date_debut,
-                        'is_date_fin'  : date_debut,
+                        'is_date_fin'  : date_fin,
                         'date_planned' : str(date_debut) + ' 07:00:00',
                         'date_start'   : str(date_debut) + ' 07:00:00',
                         'date_finished': str(date_debut) + ' 16:00:00',
                     }
+
+                    #print op.sequence,op.is_offset,date_debut,date_fin
+
                     op.write(vals)
-            if date_debut:
-                print obj,date_debut
-                obj.production_id.is_date_planifiee_fin = date_debut
-                if date_debut and obj.production_id.is_date_prevue:
-                    print date_debut,obj.production_id.is_date_prevue
-                    d1 = datetime.strptime(date_debut, '%Y-%m-%d')
+            if date_fin:
+                #print obj,date_fin
+                obj.production_id.is_date_planifiee_fin = date_fin
+                if date_fin and obj.production_id.is_date_prevue:
+                    #print date_fin,obj.production_id.is_date_prevue
+                    d1 = datetime.strptime(date_fin, '%Y-%m-%d')
                     d2 = datetime.strptime(obj.production_id.is_date_prevue, '%Y-%m-%d')
                     ecart = (d2-d1).days
                     obj.production_id.is_ecart_date = ecart

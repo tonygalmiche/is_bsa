@@ -315,6 +315,48 @@
         </record>
 
 
+        <record id="is_mrp_production_workcenter_line_date_tree_view" model="ir.ui.view">
+            <field name="name">is_mrp_production_workcenter_line_date_tree_view</field>
+            <field name="model">mrp.production.workcenter.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree editable="top">
+                    <field name="production_id"                      readonly="1"/>
+                    <field name="product"                            readonly="1"/>
+                    <field name="qty"                                readonly="1"/>
+                    <field name="sequence"                           readonly="1"/>
+                    <field name="is_offset"/>
+                    <field name="is_date_debut"/>
+                    <field name="is_date_fin"                        readonly="1"/>
+                    <field name="workcenter_id"                      readonly="1"/>
+                    <field name="cycle"                              readonly="1"/>
+                    <field name="hour" widget="float_time"           readonly="1"/>
+                    <field name="is_temps_passe" widget="float_time" readonly="1"/>
+                    <field name="is_ecart"       widget="float_time" readonly="1"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_mrp_production_workcenter_line_date_action" model="ir.actions.act_window" >
+            <field name="name">Ordre de Travail (Date)</field>
+            <field name="res_model">mrp.production.workcenter.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem 
+            name="Ordre de Travail (Date)"
+            id="is_mrp_production_workcenter_line_date_menu"
+            parent="mrp.menu_mrp_manufacturing"
+            action="is_mrp_production_workcenter_line_date_action"
+            sequence="3"
+        />
+
+
+
+
+
+
         <!-- mrp.routing (gammes) -->
         <record model="ir.ui.view" id="is_mrp_routing_form_view" >
             <field name="name">is_mrp_routing_form_view</field>
