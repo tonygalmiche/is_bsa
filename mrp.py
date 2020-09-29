@@ -285,7 +285,10 @@ class mrp_workcenter(models.Model):
                 SQL="""
                     SELECT sum(hour)
                     FROM mrp_production_workcenter_line
-                    WHERE workcenter_id="""+str(obj.id)+""" and is_date_debut='"""+str(line.date_ouverture)+"""'
+                    WHERE 
+                        workcenter_id="""+str(obj.id)+""" and 
+                        is_date_debut='"""+str(line.date_ouverture)+"""' and
+                        state not in ('cancel','done')
                 """
                 cr.execute(SQL)
                 temps_planifie = 0.0
