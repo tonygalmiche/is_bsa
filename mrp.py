@@ -79,14 +79,10 @@ class mrp_production_workcenter_line(models.Model):
     def compute_charge(self):
         for obj in self:
             lines = self.env["is.mrp.workcenter.temps.ouverture"].search([('workcenter_id','=',obj.workcenter_id.id),('date_ouverture','=',obj.is_date_debut)])
-            print lines
             charge = 0
             for line in lines:
-                print line, line.charge
                 charge = line.charge
-
             obj.is_charge = charge
-
 
     is_commentaire     = fields.Text('Commentaire')
     is_temps_passe_ids = fields.One2many('is.workcenter.line.temps.passe'  , 'workcenter_line_id', u"Temps passé")
@@ -102,39 +98,18 @@ class mrp_production_workcenter_line(models.Model):
     is_charge             = fields.Float(u"Charge (%)"         , compute='compute_charge', readonly=True, store=False, help="Charge pour la date de début de l'opération")
 
 
-    @api.multi
-    def write(self, vals):
-        if 'date_start' in vals and 'is_date_debut' not in vals:
-            vals['is_date_debut'] = vals['date_start']
-        if 'date_finished' in vals and 'is_date_fin' not in vals:
-            vals['is_date_fin'] = vals['date_finished']
-        res=super(mrp_production_workcenter_line, self).write(vals)
-        return res
-
-
-    #def write(self, cr, uid, ids, vals, context=None, update=True):
-
 #    @api.multi
 #    def write(self, vals):
+#        if 'date_start' in vals and 'is_date_debut' not in vals:
+#            vals['is_date_debut'] = vals['date_start']
+#        if 'date_finished' in vals and 'is_date_fin' not in vals:
+#            vals['is_date_fin'] = vals['date_finished']
+
+#        print vals
 #        if 'is_date_debut' in vals:
-#            vals['date_start']     = str(vals['is_date_debut'])+' 07:00:00'
-#            vals['date_finished']  = str(vals['is_date_debut'])+' 16:00:00'
-#            vals['is_date_fin']    = vals['is_date_debut']
-#        else:
-#            if 'date_start' in vals:
-#                vals['is_date_debut'] = vals['date_start']
-#            if 'date_finished' in vals:
-#                vals['is_date_fin'] = vals['date_finished']
+#            print 'TEST'
+
 #        res=super(mrp_production_workcenter_line, self).write(vals)
-#        #** Mise à jour de la date de début des opérations suivantes ***********
-#        if 'is_date_debut' in vals:
-#            ops = self.env["mrp.production.workcenter.line"].search([('production_id','=',self.production_id.id),('sequence','>',self.sequence)],order='sequence')
-#            d = datetime.strptime(self.is_date_debut, '%Y-%m-%d')
-#            for op in ops:
-#                offset = op.is_offset
-#                d = d + timedelta(days=offset)
-#                op.is_date_debut = d
-#        #***********************************************************************
 #        return res
 
 
@@ -149,7 +124,24 @@ class mrp_production_workcenter_line(models.Model):
                 offset = self.is_offset
                 d = d + timedelta(days=offset)
             vals['is_date_fin'] =  str(d)[:10]
+
+
+
+
         res=super(mrp_production_workcenter_line, self).write(vals, update=update)
+
+
+        if 'is_date_debut' in vals:
+            #print 'TEST',res,self
+            #self.planifier_operation_action()
+            self.workcenter_id.calculer_charge_action()
+            #ops = self.env["mrp.production.workcenter.line"].search([('production_id','=',obj.production_id.id),('state','in',['draft','pause','startworking'])],order='production_id,sequence')
+            #    if ops:
+            #        ops[0].is_date_debut = obj.is_date_planifiee
+            #        ops[0].planifier_operation_action()
+
+
+
         return res
 
 
