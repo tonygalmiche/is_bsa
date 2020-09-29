@@ -18,6 +18,7 @@ class product_template(models.Model):
     _inherit = 'product.template'
     
     is_ce_en1090                 = fields.Boolean(u'CE EN1090', help="Si cette case est cochée, le logo CE 1166 apparaîtra sur le BL")
+    is_numero_certificat         = fields.Char(u'Numéro du certificat',help=u"Numéro du certificat associé au logo CE 1166",default="1166-CPR-0258")
     is_stock_prevu_valorise      = fields.Float('Stock prévu valorisé'     , store=False, compute='_compute')
     is_stock_disponible_valorise = fields.Float('Stock disponible valorisé', store=False, compute='_compute')
     is_recalcul_prix_revient     = fields.Boolean(u'Recalcul automatique du prix de revient', help="Si cette case est cochée, le prix de revient sera recalculé pendant la nuit")

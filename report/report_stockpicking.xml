@@ -207,7 +207,7 @@
                                             <div style="font-size:10pt;">
                                                 <span t-field="o.date_done" t-field-options='{"format": "yy"}' />
                                                 <br />
-                                                1166-CPR-0213
+                                                <span t-field="pack_operation.product_id.is_numero_certificat"/>
 
                                                 <p style="border-bottom:1pt solid black;margin-bottom:2mm">
                                                     EN 1090 -1:2009 + A1:2011  <br />
