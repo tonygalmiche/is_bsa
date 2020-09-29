@@ -37,8 +37,12 @@
                         </div>
                         <div class="col-xs-3">
                             <strong>Produit:</strong><br/>
+
+                            <span t-esc="o.product_id.name_get()[0][1]"/>
+                            <!--
                             <span t-field="o.product_id.code"/>
                             <span t-field="o.product_id.name"/>
+                            -->
                         </div>
                         <div class="col-xs-3">
                             <strong>Quantité:</strong><br/>
