@@ -180,7 +180,14 @@ class mrp_production_workcenter_line(models.Model):
             date_debut = False
             date_fin=False
             if obj.is_date_debut:
-                ops = self.env["mrp.production.workcenter.line"].search([('production_id','=',obj.production_id.id),('sequence','>=',obj.sequence)],order='sequence')
+
+                filtre=[
+                    ('production_id','=',obj.production_id.id),
+                    ('sequence','>=',obj.sequence),
+                    ('id','!=',obj.id),
+                ]
+
+                ops = self.env["mrp.production.workcenter.line"].search(filtre,order='sequence')
                 d = datetime.strptime(obj.is_date_debut, '%Y-%m-%d')
                 if str(d)[:10]<str(date.today()):
                     d = datetime.now()
