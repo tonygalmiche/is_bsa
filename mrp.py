@@ -84,6 +84,14 @@ class mrp_production_workcenter_line(models.Model):
                 charge = line.charge
             obj.is_charge = charge
 
+
+    @api.depends('production_id')
+    def compute_product_id(self):
+        for obj in self:
+            obj.is_product_id = obj.production_id.product_id.id
+
+
+    is_product_id      = fields.Many2one('product.product', u'Article', compute='compute_product_id', readonly=True, store=True)
     is_commentaire     = fields.Text('Commentaire')
     is_temps_passe_ids = fields.One2many('is.workcenter.line.temps.passe'  , 'workcenter_line_id', u"Temps passé")
     is_temps_passe     = fields.Float('Temps passé', compute='compute_temps_passe', readonly=True, store=True)
