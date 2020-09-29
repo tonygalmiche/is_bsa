@@ -92,9 +92,9 @@ class mrp_production_workcenter_line(models.Model):
     is_date_debut      = fields.Date(u'Date de début opération', index=True)
     is_date_fin        = fields.Date(u'Date de fin opération')
 
-    is_date_planifiee     = fields.Date(u'Date planifiée début', related='production_id.is_date_planifiee'    , readonly=True)
-    is_date_planifiee_fin = fields.Date(u'Date planifiée fin'  , related='production_id.is_date_planifiee_fin', readonly=True)
-    is_ecart_date         = fields.Integer(u'Ecart date'       , related='production_id.is_ecart_date'        , readonly=True)
+    is_date_prevue_cde    = fields.Date(u'Date prévue commande client', related='production_id.is_date_prevue'    , readonly=True)
+    is_date_planifiee_fin = fields.Date(u'Date planifiée fin'         , related='production_id.is_date_planifiee_fin', readonly=True)
+    is_ecart_date         = fields.Integer(u'Ecart date'              , related='production_id.is_ecart_date'        , readonly=True)
     is_charge             = fields.Float(u"Charge (%)"         , compute='compute_charge', readonly=True, store=False, help="Charge pour la date de début de l'opération")
 
 

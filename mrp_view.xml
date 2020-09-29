@@ -329,7 +329,7 @@
                     <field name="is_offset"/>
                     <field name="is_date_debut"/>
                     <field name="is_date_fin"                        readonly="1"/>
-                    <field name="is_date_planifiee"                  readonly="1"/>
+                    <field name="is_date_prevue_cde"                 readonly="1"/>
                     <field name="is_date_planifiee_fin"              readonly="1"/>
                     <field name="is_ecart_date"                      readonly="1"/>
                     <field name="workcenter_id"                      readonly="1"/>
