@@ -45,8 +45,32 @@ class is_affecter_etiquette_livraison(models.Model):
 class stock_picking(models.Model):
     _inherit = "stock.picking"
 
-    is_commentaire = fields.Text(string='Commentaire pour le client')
-    is_date_bl     = fields.Date('Date BL')
+    @api.depends('move_lines')
+    def compute_montant_total(self):
+        for obj in self:
+            montant = 0
+            for line in obj.move_lines:
+                price_unit = line.procurement_id.sale_line_id.price_unit
+                if price_unit:
+                    montant+=price_unit*line.product_uom_qty
+            obj.is_montant_total = montant
+
+
+    @api.depends('move_lines')
+    def compute_trace_reception(self):
+        for obj in self:
+            trace = False
+            if obj.picking_type_code=='incoming':
+                for line in obj.move_lines:
+                    if line.product_id.is_trace_reception:
+                        trace = True
+            obj.is_trace_reception = trace
+
+
+    is_commentaire     = fields.Text(string='Commentaire pour le client')
+    is_date_bl         = fields.Date('Date BL')
+    is_montant_total   = fields.Float('Montant Total HT'           , compute='compute_montant_total'  , readonly=True, store=False)
+    is_trace_reception = fields.Boolean(u'Traçabilité en réception', compute='compute_trace_reception', readonly=True, store=False)
 
 
     @api.multi
