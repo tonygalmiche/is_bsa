@@ -373,7 +373,8 @@ class is_mrp_workcenter_temps_ouverture(models.Model):
                 'res_model': 'mrp.production.workcenter.line',
                 'domain': [
                     ('workcenter_id','=',obj.workcenter_id.id),
-                    ('is_date_debut','=',obj.date_ouverture)
+                    ('is_date_debut','=',obj.date_ouverture),
+                    ('state','not in', ['cancel','done']),
                 ],
                 'type': 'ir.actions.act_window',
             }
