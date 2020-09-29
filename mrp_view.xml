@@ -310,6 +310,7 @@
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="product"/>
+                    <field name="is_date_debut"/>
                 </field>
             </field>
         </record>
@@ -328,11 +329,16 @@
                     <field name="is_offset"/>
                     <field name="is_date_debut"/>
                     <field name="is_date_fin"                        readonly="1"/>
+                    <field name="is_date_planifiee"                  readonly="1"/>
+                    <field name="is_date_planifiee_fin"              readonly="1"/>
+                    <field name="is_ecart_date"                      readonly="1"/>
                     <field name="workcenter_id"                      readonly="1"/>
                     <field name="cycle"                              readonly="1"/>
-                    <field name="hour" widget="float_time"           readonly="1"/>
-                    <field name="is_temps_passe" widget="float_time" readonly="1"/>
-                    <field name="is_ecart"       widget="float_time" readonly="1"/>
+                    <field name="hour" widget="float_time"           readonly="1" sum="Total"/>
+                    <field name="is_temps_passe" widget="float_time" readonly="1" sum="Total"/>
+                    <field name="is_ecart"       widget="float_time" readonly="1" sum="Total"/>
+                    <field name="is_charge"      widget="progressbar"/>
+                    <field name="is_charge" />
                     <field name="state"/>
                 </tree>
             </field>
@@ -422,11 +428,13 @@
                     <group>
                         <field name="is_temps_ouverture_ids" nolabel="1" >
                             <tree editable="bottom" colors="red:ecart&lt;0;">
+                                <button string="Ordres de travaux" name="acceder_ordres_travaux" type="object" icon="gtk-justify-fill"/>
                                 <field name="date_ouverture"/>
                                 <field name="temps_ouverture" sum="Total" widget="float_time"/>
                                 <field name="temps_planifie"  sum="Total" widget="float_time"/>
                                 <field name="ecart"           sum="Total" widget="float_time"/>
                                 <field name="charge" widget="progressbar"/>
+                                <field name="charge" />
                                 <field name="operateur_ids"   widget="many2many_tags"/>
                             </tree>
                         </field>
@@ -481,7 +489,6 @@
                     <field name="temps_planifie"  sum="Total" widget="float_time"/>
                     <field name="ecart"           sum="Total" widget="float_time"/>
                     <field name="charge" widget="progressbar"/>
-
                     <field name="operateur_ids" widget="many2many_tags"/>
                 </tree>
             </field>

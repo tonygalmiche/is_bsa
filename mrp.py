@@ -74,6 +74,20 @@ class mrp_production_workcenter_line(models.Model):
             obj.is_temps_passe = temps_passe
             obj.is_ecart       = obj.hour - temps_passe
 
+
+    @api.depends('is_date_debut')
+    def compute_charge(self):
+        for obj in self:
+            lines = self.env["is.mrp.workcenter.temps.ouverture"].search([('workcenter_id','=',obj.workcenter_id.id),('date_ouverture','=',obj.is_date_debut)])
+            print lines
+            charge = 0
+            for line in lines:
+                print line, line.charge
+                charge = line.charge
+
+            obj.is_charge = charge
+
+
     is_commentaire     = fields.Text('Commentaire')
     is_temps_passe_ids = fields.One2many('is.workcenter.line.temps.passe'  , 'workcenter_line_id', u"Temps passé")
     is_temps_passe     = fields.Float('Temps passé', compute='compute_temps_passe', readonly=True, store=True)
@@ -81,6 +95,11 @@ class mrp_production_workcenter_line(models.Model):
     is_offset          = fields.Integer('Offset (jour)', help="Offset en jours par rapport à l'opération précédente pour le calcul du planning")
     is_date_debut      = fields.Date(u'Date de début opération', index=True)
     is_date_fin        = fields.Date(u'Date de fin opération')
+
+    is_date_planifiee     = fields.Date(u'Date planifiée début', related='production_id.is_date_planifiee'    , readonly=True)
+    is_date_planifiee_fin = fields.Date(u'Date planifiée fin'  , related='production_id.is_date_planifiee_fin', readonly=True)
+    is_ecart_date         = fields.Integer(u'Ecart date'       , related='production_id.is_ecart_date'        , readonly=True)
+    is_charge             = fields.Float(u"Charge (%)"         , compute='compute_charge', readonly=True, store=False, help="Charge pour la date de début de l'opération")
 
 
     @api.multi
@@ -349,6 +368,25 @@ class is_mrp_workcenter_temps_ouverture(models.Model):
     ecart             = fields.Float(u"Ecart (H)"         , readonly=True)
     charge            = fields.Float(u"Charge (%)"        , readonly=True)
     operateur_ids     = fields.Many2many('hr.employee', 'is_mrp_workcenter_temps_ouverture_operateur_rel', 'date_id', 'employe_id', u"Opérateurs")
+
+
+
+    @api.multi
+    def acceder_ordres_travaux(self):
+        for obj in self:
+            return {
+                'name': u'travaux '+obj.workcenter_id.name+u' '+str(obj.date_ouverture),
+                'view_mode': 'tree,form',
+                'view_type': 'form',
+                'res_model': 'mrp.production.workcenter.line',
+                'domain': [
+                    ('workcenter_id','=',obj.workcenter_id.id),
+                    ('is_date_debut','=',obj.date_ouverture)
+                ],
+                'type': 'ir.actions.act_window',
+            }
+
+
 
 
 

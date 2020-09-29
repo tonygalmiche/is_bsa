@@ -96,6 +96,7 @@
                 <field name="name" position="after">
                     <field name="seller_ids" string="Référence fournisseur" filter_domain="[('seller_ids.product_code','ilike',self)]"/>
                     <field name="is_position_dans_produit_ids"/>
+                    <field name="id" />
                 </field>
 
             </field>

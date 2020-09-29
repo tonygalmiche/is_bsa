@@ -41,7 +41,7 @@ class is_import_nomenclature(models.Model):
                 lig=0
                 for row in rows:
                     if lig:
-                        cols=row.split(",")
+                        cols=row.split(";")
                         if len(cols)>2:
                             test=True
                             product_tmpl_id=str2int(cols[1])
