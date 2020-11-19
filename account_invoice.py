@@ -12,7 +12,7 @@ class is_mode_reglement(models.Model):
 
 class account_invoice(models.Model):
     _inherit = "account.invoice"
-
+    _order = "create_date desc"
 
     def _alerte_acompte(self):
         for obj in self:
