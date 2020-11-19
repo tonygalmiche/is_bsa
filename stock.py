@@ -116,6 +116,22 @@ class stock_move(models.Model):
             }
 
 
+    @api.multi
+    def fiche_article_action(self):
+        #dummy, view_id = self.env['ir.model.data'].get_object_reference('is_pg_product', 'is_product_template_only_form_view')
+        for obj in self:
+            return {
+                'name': "Article",
+                'view_mode': 'form',
+                #'view_id': view_id,
+                'view_type': 'form',
+                'res_model': 'product.template',
+                'type': 'ir.actions.act_window',
+                'res_id': obj.product_id.product_tmpl_id.id,
+                'domain': '[]',
+            }
+
+
 class is_stock_category(models.Model):
     _name = "is.stock.category"
     name = fields.Char(string='Code', size=32)
