@@ -96,7 +96,7 @@
                             />
                             <field name="action" string="Action immédiate"/>
                             <field name="analyse"/>
-                            <field name="resolution"/>
+                            <field name="resolution" string="Action corrective"/>
                             <field name="date_reponse"/>
                             <field name="evaluation"/>
                             <field name="date_evaluation"/>
