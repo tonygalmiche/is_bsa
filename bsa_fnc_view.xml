@@ -94,7 +94,7 @@
                                 name="demande_bsa" 
                                 attrs="{'invisible': [('type_fnc', 'not in', ['fournisseur'])]}"
                             />
-                            <field name="action"/>
+                            <field name="action" string="Action immédiate"/>
                             <field name="analyse"/>
                             <field name="resolution"/>
                             <field name="date_reponse"/>
