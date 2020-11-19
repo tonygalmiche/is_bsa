@@ -28,25 +28,28 @@ class bsa_fnc(models.Model):
                         ('fournisseur' , 'Fournisseur'),
                         ('amelioration', 'Amélioration'),
                     ], "Type", required=True)
-    partner_id          = fields.Many2one('res.partner', 'Partenaire', help='Client ou Fournisseur', required=True)
-    ref_partenaire      = fields.Char("Référence partenaire")
+    partner_id          = fields.Many2one('res.partner', u'Partenaire', help='Client ou Fournisseur', required=True)
+    ref_partenaire      = fields.Char(u"Référence partenaire")
     categorie_id        = fields.Many2one('bsa.fnc.categorie', u'Catégorie')
-    product_id          = fields.Many2one('product.product', 'Article')
-    rsp_projet_id       = fields.Many2one('res.users', 'Responsable de projet')
-    date_projet         = fields.Date("Date du projet")
-    description         = fields.Text("Description du problème")
-    action              = fields.Text("Action réalisée")
-    resolution          = fields.Text("Résolution")
-    evaluation          = fields.Text("Évaluation")
-    date_evaluation     = fields.Date("Date évaluation")
-    evaluateur_id       = fields.Many2one('res.users', 'Evaluateur')
-    cout                = fields.Integer(u"Coût")
+    product_id          = fields.Many2one('product.product', u'Article')
+    rsp_projet_id       = fields.Many2one('res.users', u'Responsable de projet')
+    date_projet         = fields.Date(u"Date du projet")
+    description         = fields.Text(u"Description du problème")
+    demande_bsa         = fields.Text(u"Demande de BSA")
+    action              = fields.Text(u"Action immédiate")
+    analyse             = fields.Text(u"Analyse")
+    resolution          = fields.Text(u"Action corrective")
+    date_reponse        = fields.Date(u"Date de réponse")
+    evaluation          = fields.Text(u"Évaluation")
+    date_evaluation     = fields.Date(u"Date évaluation")
+    evaluateur_id       = fields.Many2one('res.users', u'Evaluateur')
+    cout                = fields.Integer(u"Avoir")
     attachment_ids      = fields.Many2many('ir.attachment', 'bsa_fnc_attachment_rel', 'bsa_fnc_id', 'attachment_id', u'Pièces jointes')
     state               = fields.Selection([
                         ('ouverte', 'Ouverte'),
                         ('encours', 'En cours'),
                         ('fermee' , 'Fermée'),
-                    ], "État")
+                    ], u"État")
 
 
 

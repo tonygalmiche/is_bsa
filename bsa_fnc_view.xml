@@ -4,6 +4,7 @@
     <data>
 
 
+
         <!-- bsa.fnc.categorie --> 
         <record model="ir.ui.view" id="bsa_fnc_categorie_form_view">
             <field name="name">bsa_fnc_categorie_form_view</field>
@@ -88,10 +89,15 @@
                             <field name="categorie_id"/>
                             <field name="product_id"/>
                             <field name="rsp_projet_id"/>
-                            <field name="date_projet"/>
                             <field name="description"/>
+                            <field 
+                                name="demande_bsa" 
+                                attrs="{'invisible': [('type_fnc', 'not in', ['fournisseur'])]}"
+                            />
                             <field name="action"/>
+                            <field name="analyse"/>
                             <field name="resolution"/>
+                            <field name="date_reponse"/>
                             <field name="evaluation"/>
                             <field name="date_evaluation"/>
                             <field name="evaluateur_id"/>
@@ -122,8 +128,9 @@
                     <field name="categorie_id"/>
                     <field name="product_id"/>
                     <field name="rsp_projet_id"/>
-                    <field name="date_projet"/>
                     <field name="description"/>
+                    <field name="demande_bsa"/>
+                    <field name="date_reponse"/>
                     <field name="cout" sum="Total"/>
                     <field name="state"/>
                 </tree>
@@ -152,6 +159,9 @@
                     <field name="product_id"/>
                     <field name="rsp_projet_id"/>
                     <field name="description"/>
+                    <field name="demande_bsa"/>
+                    <field name="action"/>
+                    <field name="analyse"/>
                     <field name="state"/>
                     <group expand="0" string="Regrouper par...">
                         <filter string="Type"       context="{'group_by':'type_fnc'}"/>
