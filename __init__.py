@@ -21,6 +21,7 @@ import is_accident_travail
 import mail_thread
 import hr
 import project
+import is_personnel_present
 import views
 
 

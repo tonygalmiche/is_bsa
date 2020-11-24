@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="report_personnel_present">
+      <t t-call="report.html_container">
+          <t t-foreach="docs" t-as="o">
+              <t t-call="report.external_layout">
+                  <div class="page">
+
+                      <t t-set="pointages" t-value="o.get_pointages()"/>
+                      <t t-if="pointages">
+                        <h1>Employés ayant pointé le <span t-field="o.name"/> à <span t-field="o.site"/></h1>
+                        <table style="border:1px solid black; width:60%">
+                          <thead>
+                              <tr>
+                                  <th style="border:1px solid black;text-align:left">Employé</th>
+                                  <th style="border:1px solid black;text-align:left">Heure d'entrée</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <t t-foreach="pointages" t-as="e">
+                                  <tr>
+                                      <td style="border:1px solid black;"><span t-esc="e['name']"/></td>
+                                      <td style="border:1px solid black;"><span t-esc="e['create_date']"/></td>
+                                  </tr>
+                              </t>
+                            </tbody>
+                        </table>
+                      </t>
+                      <h1>Utilisateurs connectés à <span t-esc="o.get_db_name()"/> le <span t-field="o.name"/></h1>
+                      <table style="border:1px solid black; width:40%">
+                        <thead>
+                            <tr>
+                                <th style="border:1px solid black;text-align:left">Utilisateur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.get_connexions()" t-as="c">
+                                <tr>
+                                    <td style="border:1px solid black;"><span t-esc="c"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                  </div>
+              </t>
+          </t>
+      </t>
+    </template>
+  </data>
+</openerp>

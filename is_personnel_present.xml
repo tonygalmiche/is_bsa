@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="is_personnel_present_tree" model="ir.ui.view">
+            <field name="name">is.personnel.present.tree</field>
+            <field name="model">is.personnel.present</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="name" />
+                    <field name="site" />
+                </tree>
+            </field>
+        </record>
+        <record id="is_personnel_present_form" model="ir.ui.view">
+            <field name="name">is.personnel.present.form</field>
+            <field name="model">is.personnel.present</field>
+            <field name="arch" type="xml">
+                <form>
+                     <sheet>
+                        <group>
+                            <group>
+                                <field name="site" />
+                                <field name="name" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_personnel_present_search" model="ir.ui.view">
+            <field name="name">is.personnel.present.search</field>
+            <field name="model">is.personnel.present</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="site" />
+               </search>
+            </field>
+        </record>
+        <record id="is_personnel_present_action" model="ir.actions.act_window">
+            <field name="name">Personnel présent</field>
+            <field name="res_model">is.personnel.present</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</openerp>

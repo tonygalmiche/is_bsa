@@ -79,17 +79,14 @@
             file="is_bsa.report_fiche_travail"
         />
 
-<!--
        <report
-            id="is_report_invoice_document_action"
-            string="Facture BSA"
-            model="account.invoice"
+            id="action_report_personnel_present"
+            string="Personnel présent"
+            model="is.personnel.present"
             report_type="qweb-pdf"
-            name="is_bsa.is_report_invoice_document"
-            file="is_bsa.is_report_invoice_document"
-
+            name="is_bsa.report_personnel_present"
+            file="is_bsa.report_personnel_present"
         />
--->
 
 
 

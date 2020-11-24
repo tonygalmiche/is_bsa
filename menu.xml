@@ -129,6 +129,14 @@
 
 
 
+        <menuitem   
+            name="Personnel présent"
+            action="is_personnel_present_action"  
+            id="is_personnel_present_menu" 
+            parent="hr.menu_hr_main"
+            sequence="900"
+        />
+
 
     </data>
 </openerp>
