@@ -73,6 +73,17 @@ class stock_picking(models.Model):
     is_trace_reception = fields.Boolean(u'Traçabilité en réception', compute='compute_trace_reception', readonly=True, store=False)
 
 
+    # @api.multi
+    # def imprimer_bon_atelier_action(self):
+    #     for obj in self:
+    #         print obj
+    #         return self.env['report'].with_context({'titre': 'Bon atelier'}).get_action(self, 'is_bsa.report_picking')
+
+    #         #report = self.env.ref('is_bsa.report_picking')
+    #         #return report.with_context({'key': 'value', 'key': 'value'}).render_qweb_pdf([obj.id])
+
+
+
     @api.multi
     def write(self, vals):
         res=super(stock_picking, self).write(vals)

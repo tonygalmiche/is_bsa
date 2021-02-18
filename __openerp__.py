@@ -68,6 +68,7 @@ InfoSaône - Module Odoo pour BSA
     "report/report_saleorder.xml",
     "report/report_invoice.xml",
     "report/report_personnel_present.xml",
+    "report/report_bon_atelier.xml",
     "report/layouts.xml",
     "report/report.xml", 
     "is_fiche_travail.xml",

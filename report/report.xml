@@ -89,6 +89,16 @@
         />
 
 
+       <report
+            id="action_report_bon_atelier"
+            string="Bon atelier"
+            model="stock.picking"
+            report_type="qweb-pdf"
+            name="is_bsa.report_bon_atelier"
+            file="is_bsa.report_bon_atelier"
+        />
+
+
 
 </data>
 </openerp>
