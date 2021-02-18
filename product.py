@@ -8,6 +8,7 @@ import base64
 import codecs
 import unicodedata
 import os
+import time
 
 
 
@@ -80,31 +81,27 @@ class product_template(models.Model):
 
             txt=txt+self.datamax(x=15,y=220,sizex=2,sizey=2,txt="ARTICLE:")
             # if eti.product_id:
-            #     txt=txt+datamax(x=15,y=200,sizex=3,sizey=4,txt=eti.product_id.name.encode("utf-8"))
 
-            # if eti.product_id:
-            #     txt=txt+datamax(x=190,y=220,sizex=2,sizey=2,txt="ID:"+str(eti.product_id.id))
+            name=obj.name
+            print(name,len(name))
 
-            # txt=txt+datamax(x=15,y=180,sizex=2,sizey=2,txt="FOURNISSEUR:")
-            # if eti.picking_id:
-            #     txt=txt+datamax(x=15,y=160,sizex=4,sizey=4,txt=eti.picking_id.partner_id.name.encode("utf-8"))
+            txt=txt+self.datamax(x=15,y=200,sizex=3,sizey=4,txt=obj.name.encode("utf-8"))
+            txt=txt+self.datamax(x=190,y=220,sizex=2,sizey=2,txt="ID:"+str(obj.id))
 
-            # txt=txt+datamax(x=15,y=140,sizex=2,sizey=2,txt="RECEPTION:")
-            # if eti.picking_id:
-            #     txt=txt+datamax(x=15,y=120,sizex=4,sizey=4,txt=eti.picking_id.name.encode("utf-8"))
 
-            # txt=txt+datamax(x=190,y=140,sizex=2,sizey=2,txt="BL FOURNISSEUR:")
-            # if eti.bl_fournisseur:
-            #     txt=txt+datamax(x=190,y=120,sizex=4,sizey=4,txt=eti.bl_fournisseur.encode("utf-8"))
+            txt=txt+self.datamax(x=15,y=180,sizex=2,sizey=2,txt="FOURNISSEUR:")
+            for line in obj.seller_ids:
+                fournisseur=line.name.name
+                txt=txt+self.datamax(x=15,y=160,sizex=4,sizey=4,txt=fournisseur.encode("utf-8"))
+                break
 
-            # txt=txt+datamax(x=15,y=100 ,sizex=2,sizey=2,txt="DATE:")
-            # if eti.move_id:
-            #     txt=txt+datamax(x=15,y=80  ,sizex=4,sizey=4,txt=str(eti.move_id.create_date)[0:10])
 
-            # txt=txt+datamax(x=190,y=100 ,sizex=2,sizey=2,txt="LOT:")
-            # txt=txt+datamax(x=190,y=80  ,sizex=4,sizey=4,txt=eti.name.encode("utf-8"))
+            now=time.strftime('%Y-%m-%d',time.gmtime())
+            print now
 
-            #txt=txt+"1E1406100060025B"+str(eti.name)+chr(10) # Code barre
+            txt=txt+self.datamax(x=15,y=100 ,sizex=2,sizey=2,txt="DATE:")
+            txt=txt+self.datamax(x=15,y=80  ,sizex=4,sizey=4,txt=now)
+
 
             txt=txt+"^01"+chr(10)
             txt=txt+"Q0001"+chr(10)
