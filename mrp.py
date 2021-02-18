@@ -29,6 +29,28 @@ class mrp_production(models.Model):
 
 
     @api.multi
+    def action_creer_etiquette_mrp(self):
+        for obj in self:
+            tracab_obj = self.env['is.tracabilite.livraison']
+            res = []
+            etiquettes=""
+            if obj.product_qty:
+                qty = obj.product_qty
+                lot=1
+                if obj.product_id.is_gestion_lot:
+                    lot=qty
+                while ( qty >= 1):
+                    vals = {
+                        'production_id': obj.id,
+                        'quantity': 1.0,
+                        'lot_fabrication': lot,
+                    }
+                    new_id = tracab_obj.create(vals)
+                    qty = qty - lot
+                obj.generer_etiquette=True
+
+
+    @api.multi
     def planifier_operation_action(self):
         for obj in self:
             if obj.state in ['confirmed','ready','in_production']:

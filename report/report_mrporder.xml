@@ -12,17 +12,7 @@
                             <td>
                                 <h2>Fabrication : <span t-field="o.name"/></h2>
                             </td>
-                            <t t-if="len(o.etiquette_ids) == 1">
-                                <td style="width:80mm">
-                                    <div style="text-align:center">
-                                        <t t-foreach="o.etiquette_ids" t-as="e">
-                                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128'   , e.name, 1200, 300)" style="height:25mm"/><br/>
-                                            <div t-field="e.name" />
-                                        </t>
-                                    </div>
-                                </td>
-                            </t>
-                        </tr>
+                         </tr>
                     </table>
 
                     <div t-if="o.is_gestion_lot">
@@ -164,6 +154,18 @@
                             </t>
                         </tbody>
                     </table>
+
+                    <t t-if="len(o.etiquette_ids) >= 1">
+                        <div style="text-align:center">
+                            <t t-foreach="o.etiquette_ids" t-as="e">
+                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128'   , e.name, 1200, 300)" style="height:25mm"/><br/>
+                                <div t-field="e.name" />
+                            </t>
+                        </div>
+                    </t>
+
+
+
                     <div class="oe_structure"/>
                 </div>
             </t>

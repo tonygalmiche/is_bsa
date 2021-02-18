@@ -36,11 +36,24 @@
             <field name="model">mrp.production</field>
             <field name="inherit_id" ref="mrp.mrp_production_form_view" />
             <field name="arch" type="xml">
+
+
                 <xpath expr="//button[@name='action_cancel']" position="replace">
                     <button 
                         name="action_cancel" type="object" states="confirmed" string="Annuler la production" 
                         confirm="Voulez-vous vraiment annuler cette production ?"
                     />
+
+                    <button name="action_creer_etiquette_mrp"
+                        string="Créer les étiquette" 
+                        groups="base.group_user" type="object"
+                        attrs="{'invisible': ['|',('generer_etiquette','=', True),('state','=', 'draft')]}"
+                        confirm="Voulez-vous vraiment créer les étiquette ?"
+                    />
+
+
+
+
                 </xpath>
                 <field name="date_planned" position="attributes">
                     <attribute name="invisible">1</attribute>
