@@ -89,7 +89,7 @@ class product_template(models.Model):
                 break
 
             txt=txt+self.datamax(x=15,y=140,sizex=2,sizey=2,txt="ID:")
-            txt=txt+datamax(x=15,y=120,sizex=4,sizey=4,txt=str(obj.id))
+            txt=txt+self.datamax(x=15,y=120,sizex=4,sizey=4,txt=str(obj.id))
 
             now=time.strftime('%Y-%m-%d',time.gmtime())
             txt=txt+self.datamax(x=15,y=100 ,sizex=2,sizey=2,txt="DATE:")
