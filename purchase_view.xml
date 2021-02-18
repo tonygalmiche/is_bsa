@@ -26,11 +26,12 @@
                     />
                 </field>
 
+                <!-- 
                 <field name="pricelist_id" position="after">
                     <field name="is_article_vendu_id"/>
                     <field name="is_quantite_vendue"/>
                 </field>
-
+                -->
                 <field name="picking_type_id" position="after">
                     <field name="is_a_commander"/>
                     <field name="is_arc"/>
@@ -41,6 +42,20 @@
                 <xpath expr="/form/sheet/notebook/page[@string='Products']/field[@name='order_line']/tree/field[@name='date_planned']" position="after">
                     <field name="is_date_ar" />
                 </xpath>
+
+                <notebook position="inside">
+                    <page string="Importation nomenclature">
+                        <field name="is_nomenclature_ids">
+                            <tree string="Importation nomenclature" editable="bottom">
+                                <field name="product_id"/>
+                                <field name="quantite_vendue"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+
+
+
             </field>
         </record>
 

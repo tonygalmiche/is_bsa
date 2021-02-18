@@ -14,37 +14,81 @@ class purchase_order_line(models.Model):
     is_masse_tole = fields.Float(u'Masse tôle', related='product_id.is_masse_tole', readonly=True)
 
 
+class is_purchase_order_nomenclature(models.Model):
+    _name        = 'is.purchase.order.nomenclature'
+    _description = u"Import nomenclature dans commande fournisseur"
+
+    order_id         = fields.Many2one('purchase.order', u"Commande")
+    product_id       = fields.Many2one('product.template', 'Article vendu', help=u"Utilsé pour l'importation de la nomenclature")
+    quantite_vendue  = fields.Integer(u"Qt article vendu")
+
+
 class purchase_order(models.Model):
     _inherit = "purchase.order"
 
-    is_a_commander      = fields.Boolean(u"A commander", default=False)
-    is_arc              = fields.Boolean(u"ARC reçu"   , default=False)
-    is_article_vendu_id = fields.Many2one('product.template', 'Article vendu', help=u"Utilsé pour l'importation de la nomenclature")
-    is_quantite_vendue  = fields.Integer(u"Qt article vendu")
+    is_a_commander       = fields.Boolean(u"A commander", default=False)
+    is_arc               = fields.Boolean(u"ARC reçu"   , default=False)
+    is_article_vendu_id  = fields.Many2one('product.template', 'Article vendu', help=u"Utilsé pour l'importation de la nomenclature")
+    is_quantite_vendue   = fields.Integer(u"Qt article vendu")
+    is_nomenclature_ids  = fields.One2many('is.purchase.order.nomenclature', 'order_id', u"Importation nomenclature")
+
+
+    # @api.multi
+    # def import_nomenclature_action(self):
+    #     for obj in self:
+    #         if obj.is_article_vendu_id and obj.is_quantite_vendue:
+    #             obj.order_line.unlink()
+    #             boms = self.env['mrp.bom'].search([('product_tmpl_id','=',obj.is_article_vendu_id.id)], limit=1)
+    #             for bom in boms:
+    #                 for line in bom.bom_line_ids:
+    #                     for seller in line.product_id.seller_ids:
+    #                         if seller.name.id == obj.partner_id.id:
+    #                             qty    = line.product_qty*obj.is_quantite_vendue
+    #                             uom_id = line.product_id.uom_po_id.id
+    #                             res = self.env['purchase.order.line'].onchange_product_id(obj.pricelist_id.id,line.product_id.id,qty,uom_id,obj.partner_id.id,fiscal_position_id=obj.fiscal_position.id)
+    #                             vals=res['value']
+    #                             taxes_id = vals['taxes_id']
+    #                             vals.update({
+    #                                 'order_id'   : obj.id,
+    #                                 'is_sequence': line.sequence,
+    #                                 'product_id' : line.product_id.id,
+    #                                 'taxes_id'   : [(6,0,taxes_id)],
+    #                             })
+    #                             res = self.env['purchase.order.line'].create(vals)
 
 
     @api.multi
     def import_nomenclature_action(self):
         for obj in self:
-            if obj.is_article_vendu_id and obj.is_quantite_vendue:
-                obj.order_line.unlink()
-                boms = self.env['mrp.bom'].search([('product_tmpl_id','=',obj.is_article_vendu_id.id)], limit=1)
-                for bom in boms:
-                    for line in bom.bom_line_ids:
-                        for seller in line.product_id.seller_ids:
-                            if seller.name.id == obj.partner_id.id:
-                                qty    = line.product_qty*obj.is_quantite_vendue
-                                uom_id = line.product_id.uom_po_id.id
-                                res = self.env['purchase.order.line'].onchange_product_id(obj.pricelist_id.id,line.product_id.id,qty,uom_id,obj.partner_id.id,fiscal_position_id=obj.fiscal_position.id)
-                                vals=res['value']
-                                taxes_id = vals['taxes_id']
-                                vals.update({
-                                    'order_id'   : obj.id,
-                                    'is_sequence': line.sequence,
-                                    'product_id' : line.product_id.id,
-                                    'taxes_id'   : [(6,0,taxes_id)],
-                                })
-                                res = self.env['purchase.order.line'].create(vals)
+            obj.order_line.unlink()
+            lines={}
+            for l in obj.is_nomenclature_ids:
+                if l.product_id and l.quantite_vendue:
+                    boms = self.env['mrp.bom'].search([('product_tmpl_id','=',l.product_id.id)], limit=1)
+                    for bom in boms:
+                        for line in bom.bom_line_ids:
+                            for seller in line.product_id.seller_ids:
+                                if seller.name.id == obj.partner_id.id:
+                                    qty        = line.product_qty*l.quantite_vendue
+                                    product_id = line.product_id
+                                    if product_id not in lines:
+                                        lines[product_id]=0
+                                    lines[product_id]+=qty
+            sequence=0
+            for product_id in lines:
+                sequence+=10
+                uom_id = product_id.uom_po_id.id
+                qty = lines[product_id]
+                res = self.env['purchase.order.line'].onchange_product_id(obj.pricelist_id.id,product_id.id,qty,uom_id,obj.partner_id.id,fiscal_position_id=obj.fiscal_position.id)
+                vals=res['value']
+                taxes_id = vals['taxes_id']
+                vals.update({
+                    'order_id'   : obj.id,
+                    'is_sequence': sequence,
+                    'product_id' : product_id.id,
+                    'taxes_id'   : [(6,0,taxes_id)],
+                })
+                res = self.env['purchase.order.line'].create(vals)
 
 
     @api.multi
