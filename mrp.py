@@ -238,7 +238,8 @@ class mrp_bom(models.Model):
     """Méthode surchargée pour ajouter le champ is_offset"""
     _inherit  = 'mrp.bom'
     _order    = 'product_tmpl_id'
-    _rec_name = 'product_tmpl_id'
+    #_rec_name = 'product_tmpl_id'
+    _rec_name = 'name'
 
     def _bom_explode(self, cr, uid, bom, product, factor, properties=None, level=0, routing_id=False, previous_products=None, master_bom=None, context=None):
         result, result2 = super(mrp_bom, self)._bom_explode(cr, uid, bom, product, factor, properties=properties, level=level, routing_id=routing_id, previous_products=previous_products, master_bom=master_bom, context=context)
