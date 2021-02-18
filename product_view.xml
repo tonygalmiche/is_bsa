@@ -88,6 +88,22 @@
             </field>
         </record>
 
+
+        <record model="ir.ui.view" id="is_product_template_form_view_procurement_button">
+            <field name="name">is_product_template_form_view_procurement_button</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.product_template_form_view_procurement_button"/>
+            <field name="arch" type="xml">
+                <button name="action_open_quants" position="before">
+                    <button class="oe_inline oe_stat_button" string="Imprimer" name= "imprimer_etiquette_direct" type="object" icon="fa-print"/>
+                </button>
+            </field>
+        </record>
+
+
+
+
+
         <record id="is_product_template_search_view" model="ir.ui.view">
             <field name="name">is_product_template_search_view</field>
             <field name="model">product.template</field>

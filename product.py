@@ -7,6 +7,8 @@ import uuid
 import base64
 import codecs
 import unicodedata
+import os
+
 
 
 class is_position_dans_produit(models.Model):
@@ -29,6 +31,120 @@ class product_template(models.Model):
 
 
 
+
+    # x : Position x à partir de la gauche
+    # y : Position y à partir du bas (entre 0 et 200)
+    # sizex : Taille X des caractères (1 à 9)
+    # sizey : Taille Y des caractères (1 à 9)
+    def datamax(self,sizex, sizey, y, x, txt):
+        sizex="0"+str(sizex)
+        sizex=sizex[-1:]
+
+        sizey="0"+str(sizey)
+        sizey=sizey[-1:]
+
+        x="0000"+str(x)
+        x=x[-4:]
+
+        y="0000"+str(y)
+        y=y[-4:]
+
+        r="10"+sizex+sizey+"000"+y+x+txt+chr(10)
+        return r
+
+
+
+
+
+
+    @api.multi
+    def generer_etiquette(self):
+        for obj in self:
+            txt=""
+            txt=txt+chr(2)+"qC"+chr(10)
+            txt=txt+chr(2)+"qC"+chr(10)
+            txt=txt+chr(2)+"n"+chr(10)
+            txt=txt+chr(2)+"e"+chr(10)
+            txt=txt+chr(2)+"c0000"+chr(10)
+            txt=txt+chr(2)+"Kf0000"+chr(10)
+            txt=txt+chr(2)+"V0"+chr(10)
+            txt=txt+chr(2)+"M0591"+chr(10)
+            txt=txt+chr(2)+"L"+chr(10)
+            txt=txt+"A2"+chr(10)
+            txt=txt+"D11"+chr(10)
+            txt=txt+"z"+chr(10)
+            txt=txt+"PG"+chr(10)
+            txt=txt+"SG"+chr(10)
+            txt=txt+"pC"+chr(10)
+            txt=txt+"H20"+chr(10)
+
+            txt=txt+self.datamax(x=15,y=220,sizex=2,sizey=2,txt="ARTICLE:")
+            # if eti.product_id:
+            #     txt=txt+datamax(x=15,y=200,sizex=3,sizey=4,txt=eti.product_id.name.encode("utf-8"))
+
+            # if eti.product_id:
+            #     txt=txt+datamax(x=190,y=220,sizex=2,sizey=2,txt="ID:"+str(eti.product_id.id))
+
+            # txt=txt+datamax(x=15,y=180,sizex=2,sizey=2,txt="FOURNISSEUR:")
+            # if eti.picking_id:
+            #     txt=txt+datamax(x=15,y=160,sizex=4,sizey=4,txt=eti.picking_id.partner_id.name.encode("utf-8"))
+
+            # txt=txt+datamax(x=15,y=140,sizex=2,sizey=2,txt="RECEPTION:")
+            # if eti.picking_id:
+            #     txt=txt+datamax(x=15,y=120,sizex=4,sizey=4,txt=eti.picking_id.name.encode("utf-8"))
+
+            # txt=txt+datamax(x=190,y=140,sizex=2,sizey=2,txt="BL FOURNISSEUR:")
+            # if eti.bl_fournisseur:
+            #     txt=txt+datamax(x=190,y=120,sizex=4,sizey=4,txt=eti.bl_fournisseur.encode("utf-8"))
+
+            # txt=txt+datamax(x=15,y=100 ,sizex=2,sizey=2,txt="DATE:")
+            # if eti.move_id:
+            #     txt=txt+datamax(x=15,y=80  ,sizex=4,sizey=4,txt=str(eti.move_id.create_date)[0:10])
+
+            # txt=txt+datamax(x=190,y=100 ,sizex=2,sizey=2,txt="LOT:")
+            # txt=txt+datamax(x=190,y=80  ,sizex=4,sizey=4,txt=eti.name.encode("utf-8"))
+
+            #txt=txt+"1E1406100060025B"+str(eti.name)+chr(10) # Code barre
+
+            txt=txt+"^01"+chr(10)
+            txt=txt+"Q0001"+chr(10)
+            txt=txt+"E"+chr(10)
+            return txt
+
+
+
+    @api.multi
+    def imprimer_etiquette_direct(self):
+        for obj in self:
+            print obj
+            etiquettes=self.generer_etiquette()
+            print(etiquettes)
+
+            etiquettes=unicode(etiquettes,'utf-8')
+            #print etiquettes
+            etiquettes=etiquettes.encode("windows-1252")
+            #print etiquettes
+            path="/tmp/etiquette.txt"
+            err=""
+            try:
+                fichier = open(path, "w")
+            except IOError, e:
+                err="Problème d'accès au fichier '"+path+"' => "+ str(e)
+            if err=="":
+                fichier.write(etiquettes)
+                fichier.close()
+
+                user  = self.env['res.users'].browse(self._uid)
+                imprimante = user.company_id.is_nom_imprimante or 'Datamax'
+                print 'imprimante=',imprimante
+
+                cmd="lpr -h -P"+imprimante+" "+path
+                os.system(cmd)
+
+
+
+
+
     def message_new(self, cr, uid, msg_dict, custom_values=None, context=None):
         """Méthode provenant par surcharge de mail.tread permettant de personnaliser la création de l'article lors de la réception d'un mail avec le serveur de courrier entrant créé"""
         if context is None:
@@ -43,33 +159,9 @@ class product_template(models.Model):
             data['name'] = msg_dict.get('subject', '')
 
         if msg_dict.get('body'):
-
-            #print msg_dict
-
-
-
             filename = '/tmp/product.template-%s.xml' % uuid.uuid4()
             temp = open(filename, 'w+b')
             description = msg_dict.get('body')
-
-
-            #print description
-
-            #print description.decode('utf-8')
-            #print description.decode('iso-8859-1')
-
-            #.decode('iso-8859-1').encode('utf8')
-
-
-            #description = unicodedata.normalize('NFKD', description).encode('ascii', 'ignore')
-            #description = description.decode('cp1252').encode('utf-8')
-            #description = description.decode('cp1252')
-            #description = description.decode('ascii')
-            #description = description.decode('iso8859_15')
-            #description = description.decode('utf-8')
-            #print type(description)
-            #description = description.decode('iso-8859-1').encode('utf8')
-
             description = description.encode('utf-8')
             temp.write(description)
             temp.close()
@@ -77,12 +169,8 @@ class product_template(models.Model):
             root = tree.getroot()
             for n1 in root:
                 if n1.tag in fields:
-                    #print n1.tag,' : ',n1.text.strip()
                     data[n1.tag] = n1.text.strip()
-
             data['is_import_par_mail'] = True
-
-
         res_id = model_pool.create(cr, uid, data, context=context)
         return res_id
 
