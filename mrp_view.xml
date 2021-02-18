@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+
+
+
+        <!--mrp.bom-->
+       <record id="is_mrp_bom_tree_view" model="ir.ui.view">
+            <field name="name">is_mrp_bom_tree_view</field>
+            <field name="model">mrp.bom</field>
+            <field name="arch" type="xml">
+                <tree string="Bill of Materials">
+                    <field name="product_tmpl_id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+
         
         <!-- mrp.production -->
         <record id="is_planifier_operation_mrp_production_action_server" model="ir.actions.server">
