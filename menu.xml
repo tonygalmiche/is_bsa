@@ -138,6 +138,16 @@
         />
 
 
+        <!-- Entrpôt -->
+        <menuitem   
+            name="Lignes des livraisons"
+            action="is_picking_line_action"  
+            id="is_picking_line_menu" 
+            parent="stock.menu_traceability"
+            sequence="900"
+        />
+
+
     </data>
 </openerp>
 

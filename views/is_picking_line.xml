@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    
+    <record id="is_picking_line_form_view" model="ir.ui.view">
+        <field name="name">is_picking_line_form_view</field>
+        <field name="model">is.picking.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="picking_id"/>
+                            <field name="is_date_bl"/>
+                            <field name="date_done"/>
+                            <field name="partner_id"/>
+                            <field name="picking_type_id"/>
+                            <field name="product_id"/>
+                            <field name="product_uom_qty"/>
+                            <field name="description"/>
+                         </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="is_picking_line_tree_view" model="ir.ui.view">
+        <field name="name">is_picking_line_tree_view</field>
+        <field name="model">is.picking.line</field>
+        <field name="arch" type="xml">
+            <tree>
+
+                <field name="picking_id"  widget="many2one_clickable"/>
+                <field name="is_date_bl"/>
+                <field name="date_done"/>
+                <field name="partner_id"  widget="many2one_clickable"/>
+                <field name="picking_type_id"/>
+                <field name="product_id"  widget="many2one_clickable"/>
+                <field name="product_uom_qty" sum="Total"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+    <record id="is_picking_line_search_view" model="ir.ui.view">
+        <field name="name">is_picking_line_search_view</field>
+        <field name="model">is.picking.line</field>
+        <field name="arch" type="xml">
+            <search string="Recherche">
+                <field name="picking_id"/>
+                <field name="reference"/>
+                <field name="partner_id"/>
+                <field name="picking_type_id"/>
+                <field name="product_id"/>
+                <field name="description"/>
+                <group expand="1" string="Regrouper par...">
+                    <filter string="Référence "           context="{'group_by':'picking_id'}"/>
+                    <filter string="Date du BL "          context="{'group_by':'is_date_bl'}"/>
+                    <filter string="Date du transfert"    context="{'group_by':'date_done'}"/>
+                    <filter string="Client / Fournisseur" context="{'group_by':'partner_id'}"/>
+                    <filter string="Article "             context="{'group_by':'product_id'}"/>
+                    <filter string="Picking Type "        context="{'group_by':'picking_type_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="is_picking_line_graph_view" model="ir.ui.view">
+        <field name="name">is_picking_line_graph_view</field>
+        <field name="model">is.picking.line</field>
+        <field name="arch" type="xml">
+            <graph type="pivot">
+                <field name="partner_id"/>
+                <field name="picking_type_id" type="col"/>
+                <field name="product_uom_qty" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="is_picking_line_action" model="ir.actions.act_window">
+        <field name="name">Lignes des livraisons</field>
+        <field name="res_model">is.picking.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,graph</field>
+    </record>
+
+</data>
+</openerp>
