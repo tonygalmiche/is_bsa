@@ -138,6 +138,31 @@
         />
 
 
+
+        <!-- Qualité -->
+        <menuitem   
+            name="Qualité"
+            id="is_qualite_menu" 
+            parent="base.menu_mrp_root"
+            sequence="3"
+        />
+        <menuitem   
+            name="Fiches de contrôle"
+            action="is_fiche_controle_action"  
+            id="is_fiche_controle_menu" 
+            parent="is_qualite_menu"
+            sequence="10"
+        />
+        <menuitem   
+            name="Points à contrôler"
+            action="is_fiche_controle_point_action"  
+            id="is_fiche_controle_point_menu" 
+            parent="is_qualite_menu"
+            sequence="20"
+        />
+
+
+
         <!-- Entrpôt -->
         <menuitem   
             name="Lignes des livraisons"

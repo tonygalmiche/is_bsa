@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- is.fiche.controle -->
+        <record id="is_fiche_controle_type_seq" model="ir.sequence.type">
+            <field name="name">Fiche contrôle</field>
+            <field name="code">is.fiche.controle</field>
+        </record>
+        <record id="is_fiche_controle_seq" model="ir.sequence">
+            <field name="name">Fiche contrôle</field>
+            <field name="code">is.fiche.controle</field>
+            <field name="prefix">FC-</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="is_fiche_controle_tree" model="ir.ui.view">
+            <field name="name">is.fiche.controle.tree</field>
+            <field name="model">is.fiche.controle</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="name"/>
+                    <field name="type_fiche"/>
+                    <field name="product_id" />
+                    <field name="date_creation"/>
+                    <field name="createur_id"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_fiche_controle_form" model="ir.ui.view">
+            <field name="name">is.fiche.controle.form</field>
+            <field name="model">is.fiche.controle</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" />
+                                <field name="type_fiche" />
+                                <field name="product_id" />
+                                <field name="date_creation" />
+                                <field name="createur_id"/>
+                            </group>
+                        </group>
+                        <field name="ligne_ids">
+                            <tree editable="bottom" create="0">
+                                <field name="point" readonly="1"/>
+                                <field name="conforme" />
+                                <field name="action_corrective" attrs="{'required': [('conforme','=', 'non')]}"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_fiche_controle_search" model="ir.ui.view">
+            <field name="name">is.fiche.controle.search</field>
+            <field name="model">is.fiche.controle</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="type_fiche"/>
+                    <field name="product_id" />
+                    <field name="createur_id"/>
+               </search>
+            </field>
+        </record>
+        <record id="is_fiche_controle_action" model="ir.actions.act_window">
+            <field name="name">Fiches de contrôle</field>
+            <field name="res_model">is.fiche.controle</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- is.fiche.controle.point -->
+        <record id="is_fiche_controle_point_tree" model="ir.ui.view">
+            <field name="name">is.fiche.controle.point.tree</field>
+            <field name="model">is.fiche.controle.point</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="ordre"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_fiche_controle_point_form" model="ir.ui.view">
+            <field name="name">is.fiche.controle.point.form</field>
+            <field name="model">is.fiche.controle.point</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="ordre"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_fiche_controle_point_search" model="ir.ui.view">
+            <field name="name">is.fiche.controle.point.search</field>
+            <field name="model">is.fiche.controle.point</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+               </search>
+            </field>
+        </record>
+        <record id="is_fiche_controle_point_action" model="ir.actions.act_window">
+            <field name="name">Points à contrôler</field>
+            <field name="res_model">is.fiche.controle.point</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</openerp>

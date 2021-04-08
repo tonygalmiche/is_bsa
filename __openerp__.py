@@ -53,6 +53,7 @@ InfoSaône - Module Odoo pour BSA
     "product_view.xml",
     "bsa_stock_a_date_view.xml",
     "is_accident_travail_view.xml",
+    "is_fiche_controle.xml",
     "hr_view.xml",
     "is_personnel_present.xml",
     "project_view.xml",

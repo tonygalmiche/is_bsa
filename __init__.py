@@ -22,6 +22,7 @@ import mail_thread
 import hr
 import project
 import is_personnel_present
+import is_fiche_controle
 import views
 
 
