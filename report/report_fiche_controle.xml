@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_fiche_controle">
+           <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                             <h2>Fiche de contrôle <span t-field="o.name"/></h2>
+                            <table class="table table-condensed">
+                              <tbody>
+                                  <tr><th><strong>Article            </strong></th><td><span t-field="o.product_id.name"/></td></tr>
+                                  <tr><th><strong>Date de création   </strong></th><td><span t-field="o.date_creation"/></td></tr>
+                                  <tr><th><strong>Créateur           </strong></th><td><span t-field="o.createur_id"/></td></tr>
+                              </tbody>
+                            </table>
+                            <br/>
+                            <div t-if="o.type_fiche=='interne'">Fiche de contrôle interne : </div>
+                            <div t-if="o.type_fiche=='client'" >Fiche de contrôle client après mise en conformité si nécessaire suite fiche contrôle interne : </div>
+                            <br/>
+                            <table class="table table-condensed">
+                              <thead>
+                                <tr>
+                                    <th><strong>Point à contrôler</strong></th>
+                                    <th><strong>Conforme</strong></th>
+                                    <th><strong>Si non, action corrective</strong></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr t-foreach="o.ligne_ids" t-as="l">
+                                    <td class="text-left"><span t-field="l.point"/></td>
+                                    <td class="text-center"><span t-field="l.conforme"/></td>
+                                    <td class="text-left"><span t-field="l.action_corrective"/></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div t-if="o.observation">
+                              <strong>Observations : </strong>
+                              <div t-field="o.observation"/>
+                            </div>
+                        </div>
+                    </t>
+                 </t>
+             </t>
+        </template>
+    </data>
+</openerp>

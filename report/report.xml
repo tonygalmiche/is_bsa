@@ -99,6 +99,16 @@
         />
 
 
+       <report
+            id="action_report_fiche_controle"
+            string="Fiche de contrôle"
+            model="is.fiche.controle"
+            report_type="qweb-pdf"
+            name="is_bsa.report_fiche_controle"
+            file="is_bsa.report_fiche_controle"
+        />
+
+
 
 </data>
 </openerp>

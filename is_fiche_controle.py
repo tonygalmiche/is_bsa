@@ -9,11 +9,12 @@ class is_fiche_controle(models.Model):
     _order='name desc'
 
     name               = fields.Char("Fiche", readonly=True)
-    type_fiche         = fields.Selection([('interne', u'Interne'),('cient', u'Client')], "Type de fiche", required=True)
+    type_fiche         = fields.Selection([('interne', u'Interne'),('client', u'Client')], "Type de fiche", required=True)
     product_id         = fields.Many2one('product.product', 'Article', required=True)
     date_creation      = fields.Date("Date de création"              , required=True)
     createur_id        = fields.Many2one('res.users', 'Créateur'     , required=True)
     ligne_ids          = fields.One2many('is.fiche.controle.ligne', 'fiche_id', u'Lignes')
+    observation        = fields.Text("Observations")
 
 
     _defaults = {

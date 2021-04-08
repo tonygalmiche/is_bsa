@@ -24,6 +24,7 @@
                     <field name="product_id" />
                     <field name="date_creation"/>
                     <field name="createur_id"/>
+                    <field name="observation"/>
                 </tree>
             </field>
         </record>
@@ -49,6 +50,9 @@
                                 <field name="action_corrective" attrs="{'required': [('conforme','=', 'non')]}"/>
                             </tree>
                         </field>
+                        <group>
+                            <field name="observation"/>
+                        </group>
                     </sheet>
                 </form>
             </field>
