@@ -65,6 +65,11 @@
                                 <strong>Imputation Client:</strong>
                                 <p t-field="o.is_imputation_partenaire"/>
                             </td>
+                            <td t-if="o.origin and o.type == 'out_refund'"> 
+                                <strong>Facture d'origine:</strong>
+                                <p t-field="o.origin"/>
+                            </td>
+
                         </tr>
                     </table><br />
 
