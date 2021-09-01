@@ -52,11 +52,10 @@
             sequence="800"
         />
 
-
-        <!-- Export Compta -->
         <menuitem   action="is_export_vente_compta_action"  id="is_export_vente_compta_menu" parent="account.menu_finance_receivables" sequence="900"/>
-        <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu" parent="account.menu_finance_payables" sequence="900"/>
+        <menuitem   action="is_balance_agee_action"         id="is_balance_agee_menu"        parent="account.menu_finance_receivables" sequence="910"/>
 
+        <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu" parent="account.menu_finance_payables" sequence="900"/>
 
         <menuitem   
             id="is_mode_reglement_menu" 

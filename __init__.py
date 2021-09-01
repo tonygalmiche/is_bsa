@@ -23,6 +23,7 @@ import hr
 import project
 import is_personnel_present
 import is_fiche_controle
+import is_balance_agee
 import views
 
 

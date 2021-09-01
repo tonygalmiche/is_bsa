@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <!-- is.balance.agee.ligne -->
+        <record id="is_balance_agee_ligne_tree" model="ir.ui.view">
+            <field name="name">is.balance.agee.ligne.tree</field>
+            <field name="model">is.balance.agee.ligne</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="partner_id"/>
+                    <field name="solde"    sum="Total"/>
+                    <field name="creance1" sum="Total"/>
+                    <field name="creance2" sum="Total"/>
+                    <field name="creance3" sum="Total"/>
+                    <field name="creance4" sum="Total"/>
+                    <field name="creance5" sum="Total"/>
+                    <field name="creance6" sum="Total"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_balance_agee_ligne_form" model="ir.ui.view">
+            <field name="name">is.balance.agee.ligne.form</field>
+            <field name="model">is.balance.agee.ligne</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="solde"    sum="Total"/>
+                            <field name="creance1" sum="Total"/>
+                            <field name="creance2" sum="Total"/>
+                            <field name="creance3" sum="Total"/>
+                            <field name="creance4" sum="Total"/>
+                            <field name="creance5" sum="Total"/>
+                            <field name="creance6" sum="Total"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_balance_agee_ligne_search" model="ir.ui.view">
+            <field name="name">is.balance.agee.ligne.search</field>
+            <field name="model">is.balance.agee.ligne</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="partner_id"/>
+               </search>
+            </field>
+        </record>
+       <record  id="is_balance_agee_ligne_action" model="ir.actions.act_window">
+            <field name="name">Lignes balance agée</field>
+            <field name="res_model">is.balance.agee.ligne</field>
+            <field name="view_type">form</field>
+            <field name="limit">1000</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('balance_id','=',active_id)]</field>
+            <field name="context">{'balance_id': active_id}</field>
+        </record>
+
+
+        <!-- is.balance.agee -->
+        <record id="is_balance_agee_tree" model="ir.ui.view">
+            <field name="name">is.balance.agee.tree</field>
+            <field name="model">is.balance.agee</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="date_creation" />
+                    <field name="type_balance" />
+                    <field name="avoir" />
+                    <field name="createur_id" />
+                </tree>
+            </field>
+        </record>
+        <record id="is_balance_agee_form" model="ir.ui.view">
+            <field name="name">is.balance.agee.form</field>
+            <field name="model">is.balance.agee</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="generer_lignes_action"            type="object" string="Générer les lignes"/>
+                        <button name="%(is_balance_agee_ligne_action)d" type="action" string="Voir les lignes"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="type_balance"/>
+                                <field name="avoir" />
+                            </group>
+                            <group>
+                                <field name="date_creation" readonly="1"/>
+                                <field name="createur_id"   readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_balance_agee_search" model="ir.ui.view">
+            <field name="name">is.balance.agee.search</field>
+            <field name="model">is.balance.agee</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="date_creation" />
+                    <field name="type_balance" />
+               </search>
+            </field>
+        </record>
+        <record id="is_balance_agee_action" model="ir.actions.act_window">
+            <field name="name">Balance agée</field>
+            <field name="res_model">is.balance.agee</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</openerp>

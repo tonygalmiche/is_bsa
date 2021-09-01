@@ -28,3 +28,5 @@ access_is_picking_line,access_is_picking_line,model_is_picking_line,base.group_u
 access_is_fiche_controle,access_is_fiche_controle,model_is_fiche_controle,base.group_user,1,1,1,1
 access_is_fiche_controle_ligne,access_is_fiche_controle_ligne,model_is_fiche_controle_ligne,base.group_user,1,1,1,1
 access_is_fiche_controle_point,access_is_fiche_controle_point,model_is_fiche_controle_point,base.group_user,1,1,1,1
+access_is_balance_agee,access_is_balance_agee,model_is_balance_agee,base.group_user,1,1,1,1
+access_is_balance_agee_ligne,access_is_balance_agee_ligne,model_is_balance_agee_ligne,base.group_user,1,1,1,1
