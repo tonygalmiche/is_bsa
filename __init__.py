@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
+import account_move_line
 import ir_mail_server
 import res_company
 import account_invoice

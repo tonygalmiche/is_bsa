@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="is_account_move_line_tree_view" model="ir.ui.view">
+            <field name="name">is_account_move_line_tree_view</field>
+            <field name="model">account.move.line</field>
+            <field name="priority" eval="99"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="journal_id"/>
+                    <field name="period_id"/>
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="statement_id" invisible="1"/>
+                    <field name="partner_id"/>
+                    <field name="account_id"/>
+                    <field name="account_tax_id" invisible="1"/>
+                    <field name="analytic_account_id" invisible="1"/>
+                    <field name="move_id"/>
+                    <field name="debit"    sum="Total"/>
+                    <field name="credit"   sum="Total"/>
+                    <field name="is_solde" sum="Total"/>
+                    <field name="date_maturity"/>
+                    <field name="reconcile_ref"/>
+                    <field name="invoice"/>
+                    <field name="state" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_account_move_line_graph_view" model="ir.ui.view">
+            <field name="name">is_account_move_line_graph_view</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <graph string="view" type="pivot">
+                    <field name="account_id"       type="row"/>
+                    <field name="date"  type="col" interval="year"/>
+                    <field name="debit"    type="measure"/>
+                    <field name="credit"   type="measure"/>
+                    <field name="is_solde" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <record id="is_view_account_move_line_filter" model="ir.ui.view">
+            <field name="name">is_view_account_move_line_filter</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter" />
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="invoice"/>
+                    <field name="reconcile_ref"/>
+                </field>
+            </field>
+        </record>
+        <record id="is_account_move_line_action" model="ir.actions.act_window">
+            <field name="name">Lignes d'écritures</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="view_ids" eval="[
+                (5, 0, 0),
+                (0, 0, {'view_mode': 'tree' , 'view_id': ref('is_bsa.is_account_move_line_tree_view'), 'sequence': 1}),
+                (0, 0, {'view_mode': 'form' , 'view_id': ref('account.view_move_line_form'), 'sequence': 2}),
+                (0, 0, {'view_mode': 'graph', 'view_id': ref('is_bsa.is_account_move_line_graph_view'), 'sequence': 2})
+            ]"/>
+        </record>
+    </data>
+</openerp>

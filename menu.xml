@@ -57,6 +57,20 @@
 
         <menuitem   action="is_export_achat_compta_action"  id="is_export_achat_compta_menu" parent="account.menu_finance_payables" sequence="900"/>
 
+
+
+
+        <menuitem   
+            id="is_account_move_line_menu" 
+            name="Lignes d'écritures"
+            action="is_account_move_line_action"  
+            parent="account.menu_finance_entries" 
+            sequence="0"
+        />
+
+
+
+
         <menuitem   
             id="is_mode_reglement_menu" 
             name="Mode de règlement"
