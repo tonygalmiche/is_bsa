@@ -34,6 +34,7 @@
                         string="Créer OF" name="action_creer_of" type="object" icon="gtk-add" 
                         attrs="{'invisible':['|',('state','not in',('draft','confirmed')),('is_reste','&lt;=',0)]}" 
                     />
+                    <field name="is_production_id"/>
                     <field name="salesman_id" readonly="True"/>
                     <field name="price_subtotal" sum="Total" readonly="True"/>
                     <field name="state" readonly="True"/>

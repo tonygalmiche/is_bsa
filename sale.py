@@ -84,6 +84,7 @@ class sale_order_line(models.Model):
     is_client_order_ref        = fields.Char('Référence Client', store=True, compute='_compute')
     is_remise1                 = fields.Integer('Remise 1 (%)')
     is_remise2                 = fields.Integer('Remise 2 (%)')
+    is_production_id           = fields.Many2one('mrp.production', "Ordre de fabrication")
 
 
     @api.depends('order_id','order_id.client_order_ref')
