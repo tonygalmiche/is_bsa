@@ -109,11 +109,8 @@ class product_template(models.Model):
             txt=txt+self.datamax(x=250,y=70,sizex=2,sizey=2,txt="ID:")
             txt=txt+self.datamax(x=250,y=50,sizex=4,sizey=4,txt=str(obj.id))
 
-
             txt=txt+self.datamax(x=15,y=30,sizex=2,sizey=2,txt="REFERENCE:")
             txt=txt+self.datamax(x=15,y=10 ,sizex=4,sizey=4,txt=obj.default_code.encode("utf-8"))
-
-
 
             txt=txt+"^01"+chr(10)
             txt=txt+"Q0001"+chr(10)
@@ -121,18 +118,12 @@ class product_template(models.Model):
             return txt
 
 
-
     @api.multi
     def imprimer_etiquette_direct(self):
         for obj in self:
-            print obj
             etiquettes=self.generer_etiquette()
-            print(etiquettes)
-
             etiquettes=unicode(etiquettes,'utf-8')
-            #print etiquettes
             etiquettes=etiquettes.encode("windows-1252")
-            #print etiquettes
             path="/tmp/etiquette.txt"
             err=""
             try:
@@ -142,16 +133,10 @@ class product_template(models.Model):
             if err=="":
                 fichier.write(etiquettes)
                 fichier.close()
-
                 user  = self.env['res.users'].browse(self._uid)
                 imprimante = user.company_id.is_nom_imprimante or 'Datamax'
-                print 'imprimante=',imprimante
-
                 cmd="lpr -h -P"+imprimante+" "+path
                 os.system(cmd)
-
-
-
 
 
     def message_new(self, cr, uid, msg_dict, custom_values=None, context=None):
@@ -273,6 +258,33 @@ class product_template(models.Model):
         prod_obj = self.pool.get('product.template')
         for obj in self:
             if obj.cost_method=='standard' and obj.is_recalcul_prix_revient:
-                res=prod_obj.compute_price(cr, uid, [], template_ids=[obj.id], real_time_accounting=False, recursive=True, test=False, context=context)
+                res=prod_obj.compute_price(cr, uid, [obj.id], template_ids=[obj.id], real_time_accounting=False, recursive=True, test=False, context=context)
+            if obj.cost_method=='real' and obj.is_recalcul_prix_revient:
+                SQL="""
+                    SELECT pol.price_unit
+                    FROM purchase_order po join purchase_order_line pol on po.id=pol.order_id
+                                           join product_product pp on pol.product_id=pp.id
+                                           join product_template pt on pt.id=pp.product_tmpl_id
+                    WHERE pol.price_unit>0 and pt.id=%s and po.state in ('approved','done')
+                    ORDER BY pol.id desc 
+                    limit 1
+                """
+                cr.execute(SQL,[obj.id])
+                for row in cr.fetchall():
+                    obj.standard_price=row[0]
+
+
+    @api.multi
+    def recalcul_all_prix_revient(self):
+        products=self.env['product.template'].search([])
+        for product in products:
+            product.recalcul_prix_revient_action()
+
+
+    def recalcul_prix_revient_scheduler_action(self, cr, uid, use_new_cursor=False, company_id = False, context=None):
+        self.recalcul_all_prix_revient(cr, uid, context)
+
+
+
 
 

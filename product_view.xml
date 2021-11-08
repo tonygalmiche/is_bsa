@@ -58,6 +58,23 @@
             <field name="name">Recalcul du prix de revient</field>
             <field eval="'ir.actions.server,%d'%is_recalcul_prix_revient_action_server" name="value"/>
         </record>
+        <record forcecreate="True" id="recalcul_prix_revient_scheduler_action" model="ir.cron">
+            <field name="name">Calcul prix de revient</field>
+            <field name="active" eval="True" />
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="False" name="doall"/>
+            <field eval="'product.template'" name="model"/>
+            <field eval="'recalcul_prix_revient_scheduler_action'" name="function"/>
+            <field eval="'(True,)'" name="args"/>
+        </record>
+
+
+
+
+
 
 
         <record id="is_product_inherit_view" model="ir.ui.view">
