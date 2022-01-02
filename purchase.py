@@ -35,7 +35,7 @@ class purchase_order(models.Model):
             if montant>=seuil1 and montant<seuil2:
                 alerte1="Cette commande de %.2f € dépasse le montant limite de %.0f €.\nLa validation par le responsable des achats est nécessaire."%(obj.amount_untaxed, seuil1)
             if montant>=seuil2:
-                alerte2="Cette commande de %.2f € dépasse le montant limite de %.0f €.\nLa validation par la direction financière est nécessaire."%(obj.amount_untaxed, seuil1)
+                alerte2="Cette commande de %.2f € dépasse le montant limite de %.0f €.\nLa validation par la direction financière est nécessaire."%(obj.amount_untaxed, seuil2)
             obj.is_alerte_rsp_achat   = alerte1
             obj.is_alerte_dir_finance = alerte2
 
