@@ -26,11 +26,32 @@ class is_purchase_order_nomenclature(models.Model):
 class purchase_order(models.Model):
     _inherit = "purchase.order"
 
-    is_a_commander       = fields.Boolean(u"A commander", default=False)
-    is_arc               = fields.Boolean(u"ARC reçu"   , default=False)
-    is_article_vendu_id  = fields.Many2one('product.template', 'Article vendu', help=u"Utilsé pour l'importation de la nomenclature")
-    is_quantite_vendue   = fields.Integer(u"Qt article vendu")
-    is_nomenclature_ids  = fields.One2many('is.purchase.order.nomenclature', 'order_id', u"Importation nomenclature")
+    def _compute_is_alerte(self):
+        for obj in self:
+            alerte1=alerte2=False
+            seuil1 = self.env.user.company_id.is_seuil_validation_rsp_achat
+            seuil2 = self.env.user.company_id.is_seuil_validation_dir_finance
+            montant = obj.amount_untaxed
+            if montant>=seuil1 and montant<seuil2:
+                alerte1="Cette commande de %.2f € dépasse le montant limite de %.0f €.\nLa validation par le responsable des achats est nécessaire."%(obj.amount_untaxed, seuil1)
+            if montant>=seuil2:
+                alerte2="Cette commande de %.2f € dépasse le montant limite de %.0f €.\nLa validation par la direction financière est nécessaire."%(obj.amount_untaxed, seuil1)
+            obj.is_alerte_rsp_achat   = alerte1
+            obj.is_alerte_dir_finance = alerte2
+
+    def _compute_is_alerte_dir_finance(self):
+        for obj in self:
+            alerte=''
+            alerte="Montant HT x 2 : %s"%(obj.amount_untaxed*2)
+            obj.is_alerte_dir_finance=alerte
+
+    is_a_commander        = fields.Boolean(u"A commander", default=False)
+    is_arc                = fields.Boolean(u"ARC reçu"   , default=False)
+    is_article_vendu_id   = fields.Many2one('product.template', 'Article vendu', help=u"Utilsé pour l'importation de la nomenclature")
+    is_quantite_vendue    = fields.Integer(u"Qt article vendu")
+    is_nomenclature_ids   = fields.One2many('is.purchase.order.nomenclature', 'order_id', u"Importation nomenclature")
+    is_alerte_rsp_achat   = fields.Text('Alerte responsable des achats', compute=_compute_is_alerte)
+    is_alerte_dir_finance = fields.Text('Alerte direction financière'  , compute=_compute_is_alerte)
 
 
     # @api.multi

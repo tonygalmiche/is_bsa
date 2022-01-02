@@ -26,6 +26,26 @@
                     />
                 </field>
 
+
+                <notebook position="before">
+                    <div style="background:orange;font-weight:bold;padding-left:5pt" attrs="{'invisible':[('is_alerte_rsp_achat','=',False)]}">
+                        <field 
+                            name="is_alerte_rsp_achat"
+                            readonly="1" nolabel="1" 
+                            attrs="{'invisible': [('is_alerte_rsp_achat', '=', False)]}"
+                        />
+                    </div>
+                    <div style="background:red;color:white;font-weight:bold;padding-left:5pt" attrs="{'invisible':[('is_alerte_dir_finance','=',False)]}">
+                        <field 
+                            name="is_alerte_dir_finance"
+                            readonly="1" nolabel="1" 
+                            attrs="{'invisible': [('is_alerte_dir_finance', '=', False)]}"
+                        />
+                    </div>
+                </notebook>
+
+
+
                 <!-- 
                 <field name="pricelist_id" position="after">
                     <field name="is_article_vendu_id"/>

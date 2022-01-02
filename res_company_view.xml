@@ -10,6 +10,8 @@
                     <group>
                         <group string="BSA">
                             <field name="is_site"/>
+                            <field name="is_seuil_validation_rsp_achat"/>
+                            <field name="is_seuil_validation_dir_finance"/>
                         </group>
                     </group>
                 </xpath>
