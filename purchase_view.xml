@@ -42,6 +42,22 @@
                             attrs="{'invisible': [('is_alerte_dir_finance', '=', False)]}"
                         />
                     </div>
+                    <button 
+                        name="validation_action" 
+                        string="Validation direction financière" type="object" 
+                        attrs="{'invisible':[('is_alerte_dir_finance','=',False)]}"
+                        groups="is_bsa.is_validaton_direction_financier_group" 
+                    /> 
+                    <button 
+                        name="validation_action" 
+                        string="Validation responsable achat"    type="object" 
+                        attrs="{'invisible':[('is_alerte_rsp_achat','=',False)]}"
+                        groups="is_bsa.is_validaton_responsable_achat_group" 
+                    /> 
+                    <group>
+                        <field name="is_montant_valide" readonly="1" attrs="{'invisible':[('is_montant_valide','=',0)]}"/>
+                        <field name="is_valideur_id"    readonly="1" attrs="{'invisible':[('is_valideur_id','=',False)]}"/>
+                    </group>
                 </notebook>
 
 

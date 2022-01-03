@@ -2,6 +2,7 @@
 
 from openerp import models,fields,api
 from openerp.tools.translate import _
+from openerp.exceptions import Warning
 import datetime
 
 
@@ -34,8 +35,18 @@ class purchase_order(models.Model):
             montant = obj.amount_untaxed
             if montant>=seuil1 and montant<seuil2:
                 alerte1="Cette commande de %.2f € dépasse le montant limite de %.0f €.\nLa validation par le responsable des achats est nécessaire."%(obj.amount_untaxed, seuil1)
+                if obj.is_montant_valide==montant:
+                    alerte1=False
+                else:
+                    if obj.is_montant_valide>0:
+                        alerte1="Le montant validé de %.2f € ne correspond plus au montant actuel de %.2f €.\nLa validation par le responsable des achats est nécessaire."%(obj.is_montant_valide, obj.amount_untaxed)
             if montant>=seuil2:
                 alerte2="Cette commande de %.2f € dépasse le montant limite de %.0f €.\nLa validation par la direction financière est nécessaire."%(obj.amount_untaxed, seuil2)
+                if obj.is_montant_valide==montant:
+                    alerte2=False
+                else:
+                    if obj.is_montant_valide>0:
+                        alerte2="Le montant validé de %.2f € ne correspond plus au montant actuel de %.2f €.\nLa validation par la direction financière est nécessaire."%(obj.is_montant_valide, obj.amount_untaxed)
             obj.is_alerte_rsp_achat   = alerte1
             obj.is_alerte_dir_finance = alerte2
 
@@ -52,30 +63,23 @@ class purchase_order(models.Model):
     is_nomenclature_ids   = fields.One2many('is.purchase.order.nomenclature', 'order_id', u"Importation nomenclature")
     is_alerte_rsp_achat   = fields.Text('Alerte responsable des achats', compute=_compute_is_alerte)
     is_alerte_dir_finance = fields.Text('Alerte direction financière'  , compute=_compute_is_alerte)
+    is_montant_valide     = fields.Float(u"Montant validé")
+    is_valideur_id        = fields.Many2one('res.users', u'Valideur')
 
 
-    # @api.multi
-    # def import_nomenclature_action(self):
-    #     for obj in self:
-    #         if obj.is_article_vendu_id and obj.is_quantite_vendue:
-    #             obj.order_line.unlink()
-    #             boms = self.env['mrp.bom'].search([('product_tmpl_id','=',obj.is_article_vendu_id.id)], limit=1)
-    #             for bom in boms:
-    #                 for line in bom.bom_line_ids:
-    #                     for seller in line.product_id.seller_ids:
-    #                         if seller.name.id == obj.partner_id.id:
-    #                             qty    = line.product_qty*obj.is_quantite_vendue
-    #                             uom_id = line.product_id.uom_po_id.id
-    #                             res = self.env['purchase.order.line'].onchange_product_id(obj.pricelist_id.id,line.product_id.id,qty,uom_id,obj.partner_id.id,fiscal_position_id=obj.fiscal_position.id)
-    #                             vals=res['value']
-    #                             taxes_id = vals['taxes_id']
-    #                             vals.update({
-    #                                 'order_id'   : obj.id,
-    #                                 'is_sequence': line.sequence,
-    #                                 'product_id' : line.product_id.id,
-    #                                 'taxes_id'   : [(6,0,taxes_id)],
-    #                             })
-    #                             res = self.env['purchase.order.line'].create(vals)
+    @api.multi
+    def validation_action(self):
+        for obj in self:
+            obj.is_montant_valide = obj.amount_untaxed
+            obj.is_valideur_id    = self.env.user.id
+
+
+    def wkf_approve_order(self):
+        if self.is_alerte_rsp_achat or self.is_alerte_dir_finance:
+            raise Warning("Cette commande doit-être validée")
+        else:
+            self.write({'state': 'approved', 'date_approve': datetime.date.today()})
+        return True
 
 
     @api.multi

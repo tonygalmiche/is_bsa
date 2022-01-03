@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <record id="is_bsa_module_category" model="ir.module.category">
+            <field name="name">BSA</field>
+            <field name="description">BSA</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="is_validaton_direction_financier_group" model="res.groups">
+            <field name="name">Validation direction financière</field>
+            <field name="comment">Groupe utilisé pour valider les commandes d'achats</field>
+            <field name="category_id" ref="is_bsa_module_category"/>
+        </record>
+        <record id="is_validaton_responsable_achat_group" model="res.groups">
+            <field name="name">Validation responsable achat</field>
+            <field name="comment">Groupe utilisé pour valider les commandes d'achats</field>
+            <field name="category_id" ref="is_bsa_module_category"/>
+        </record>
+    </data>
+</openerp>

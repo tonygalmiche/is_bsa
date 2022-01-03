@@ -44,6 +44,8 @@ InfoSaône - Module Odoo pour BSA
   "init_xml" : [],
   "demo_xml" : [],
   "data" : [
+    "security/res.groups.xml",
+    "security/ir.model.access.csv",
     "assets.xml",
     "account_move_line_view.xml",
     "wizard/is_mrp_workcenter_temps_ouverture_wiz.xml",
@@ -93,7 +95,6 @@ InfoSaône - Module Odoo pour BSA
     "views/is_derniere_commande_achat.xml",
     "views/is_picking_line.xml",
     "menu.xml",
-    "security/ir.model.access.csv",
   ],
   "installable": True,
   "active": False,
