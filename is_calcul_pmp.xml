@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <!-- is.calcul.pmp.move -->
+        <record id="is_calcul_pmp_move_tree" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.move.tree</field>
+            <field name="model">is.calcul.pmp.move</field>
+            <field name="arch" type="xml">
+                <tree colors="red:product_uom_qty&lt;0;">
+                    <field name="product_id"/>
+                    <field name="date"/>
+                    <field name="picking_id"/>
+                    <field name="product_uom_qty" sum="Total"/>
+                    <field name="price_unit"/>
+                    <field name="stock_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_calcul_pmp_move_form" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.move.form</field>
+            <field name="model">is.calcul.pmp.move</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="date"/>
+                            <field name="product_uom_qty"/>
+                            <field name="location_id"/>
+                            <field name="location_dest_id"/>
+                            <field name="stock_date"/>
+                            <field name="product_uom"/>
+                            <field name="price_unit"/>
+                            <field name="origin"/>
+                            <field name="picking_id"/>
+                            <field name="move_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_calcul_pmp_move_search" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.move.search</field>
+            <field name="model">is.calcul.pmp.move</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Article"  context="{'group_by':'product_id'}"/>
+                     </group>
+               </search>
+            </field>
+        </record>
+       <record  id="is_calcul_pmp_move_action" model="ir.actions.act_window">
+            <field name="name">Mouvements</field>
+            <field name="res_model">is.calcul.pmp.move</field>
+            <field name="view_type">form</field>
+            <field name="limit">1000</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('calcul_id','=',active_id)]</field>
+            <field name="context">{'calcul_id': active_id}</field>
+        </record>
+
+
+        <!-- is.calcul.pmp.product -->
+        <record id="is_calcul_pmp_product_tree" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.product.tree</field>
+            <field name="model">is.calcul.pmp.product</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_id"/>
+                    <field name="last"/>
+                    <field name="mini"/>
+                    <field name="maxi"/>
+                    <field name="nb_rcp"/>
+                    <field name="total_qt"/>
+                    <field name="total_montant"/>
+                    <field name="pmp"/>
+                    <field name="stock_actuel"/>
+                    <field name="stock_date_limite"/>
+                </tree>
+            </field>
+        </record>
+        <record id="is_calcul_pmp_product_form" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.product.form</field>
+            <field name="model">is.calcul.pmp.product</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="product_id"/>
+                            <field name="last"/>
+                            <field name="mini"/>
+                            <field name="maxi"/>
+                            <field name="nb_rcp"/>
+                            <field name="total_qt"/>
+                            <field name="total_montant"/>
+                            <field name="pmp"/>
+                            <field name="stock_actuel"/>
+                            <field name="stock_date_limite"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_calcul_pmp_product_search" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.product.search</field>
+            <field name="model">is.calcul.pmp.product</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id"/>
+                </search>
+            </field>
+        </record>
+       <record  id="is_calcul_pmp_product_action" model="ir.actions.act_window">
+            <field name="name">Articles</field>
+            <field name="res_model">is.calcul.pmp.product</field>
+            <field name="view_type">form</field>
+            <field name="limit">1000</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('calcul_id','=',active_id)]</field>
+            <field name="context">{'calcul_id': active_id}</field>
+        </record>
+
+
+        <!-- is.calcul.pmp -->
+        <record id="is_calcul_pmp_tree" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.tree</field>
+            <field name="model">is.calcul.pmp</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="location_id"/>
+                    <field name="date_limite"/>
+                    <field name="stock_category_id"/>
+                    <field name="product_id"/>
+                    <field name="date_creation" />
+                    <field name="createur_id" />
+                </tree>
+            </field>
+        </record>
+        <record id="is_calcul_pmp_form" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.form</field>
+            <field name="model">is.calcul.pmp</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="calcul_pmp_action" type="object" string="Calculer le PMP"/>
+                        <button name="%(is_calcul_pmp_move_action)d"    type="action" string="Voir les mouvements"/>
+                        <button name="%(is_calcul_pmp_product_action)d" type="action" string="Voir les articles"/>
+                    </header>
+                    <sheet>
+                        <group>
+                             <group>
+                                <field name="location_id"/>
+                                <field name="date_limite"/>
+                                <field name="stock_category_id"/>
+                                <field name="product_id"/>
+                            </group>
+                            <group>
+                                <field name="date_creation" readonly="1"/>
+                                <field name="createur_id" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="is_calcul_pmp_search" model="ir.ui.view">
+            <field name="name">is.calcul.pmp.search</field>
+            <field name="model">is.calcul.pmp</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="date_creation" />
+                    <field name="createur_id" />
+               </search>
+            </field>
+        </record>
+        <record id="is_calcul_pmp_action" model="ir.actions.act_window">
+            <field name="name">Calcul PMP</field>
+            <field name="res_model">is.calcul.pmp</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="is_calcul_pmp_menu" sequence="90" name="Calculer PMP" parent="is_valorisation_stock_menu" action="is_calcul_pmp_action" />
+
+
+    </data>
+</openerp>

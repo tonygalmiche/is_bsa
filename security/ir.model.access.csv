@@ -30,3 +30,7 @@ access_is_fiche_controle_ligne,access_is_fiche_controle_ligne,model_is_fiche_con
 access_is_fiche_controle_point,access_is_fiche_controle_point,model_is_fiche_controle_point,base.group_user,1,1,1,1
 access_is_balance_agee,access_is_balance_agee,model_is_balance_agee,base.group_user,1,1,1,1
 access_is_balance_agee_ligne,access_is_balance_agee_ligne,model_is_balance_agee_ligne,base.group_user,1,1,1,1
+
+access_is_calcul_pmp,access_is_calcul_pmp,model_is_calcul_pmp,account.group_account_manager,1,1,1,1
+access_is_calcul_pmp_move,access_is_calcul_pmp_move,model_is_calcul_pmp_move,account.group_account_manager,1,1,1,1
+access_is_calcul_pmp_product,access_is_calcul_pmp_product,model_is_calcul_pmp_product,account.group_account_manager,1,1,1,1

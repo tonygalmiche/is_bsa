@@ -87,6 +87,7 @@ InfoSaône - Module Odoo pour BSA
     "is_export_compta.xml",
     "is_balance_agee.xml",
     "is_import_nomenclature.xml",
+    "is_calcul_pmp.xml",
     "account_invoice_view.xml",
     "views/is_liste_manquants.xml",
     "views/is_sale_order_line.xml",
