@@ -15,14 +15,23 @@ class is_calcul_pmp(models.Model):
     _rec_name = 'date_creation'
 
 
+#    date = fields.Datetime('Date du stock', default=lambda *a: time.strftime('%Y-%m-%d %H:%M:%S'), required=True)
+
+
     location_id       = fields.Many2one('stock.location', 'Emplacement', required=True)
-    date_limite       = fields.Date("Date limite"                      , required=True, default=datetime.date.today())
+    date_limite       = fields.Date("Date limite"                      , required=True)
     stock_category_id = fields.Many2one('is.stock.category', u'Catégorie de stock')
     product_id        = fields.Many2one('product.product', u'Article')
-    date_creation     = fields.Date("Date de création"                 , required=True, default=datetime.date.today())
-    createur_id       = fields.Many2one('res.users', 'Créateur'        , required=True, default=lambda obj, cr, uid, context: uid)
+    date_creation     = fields.Date("Date de création"                 , required=True)
+    createur_id       = fields.Many2one('res.users', 'Créateur'        , required=True)
     move_ids          = fields.One2many('is.calcul.pmp.move'   , 'calcul_id', u'Mouvements de stocks')
     product_ids       = fields.One2many('is.calcul.pmp.product', 'calcul_id', u'Articles')
+
+    _defaults = {
+        'date_limite'  : datetime.date.today(),
+        'date_creation': datetime.date.today(),
+        'createur_id'  : lambda obj, cr, uid, context: uid,
+    }
 
 
     @api.multi
