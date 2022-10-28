@@ -7,13 +7,20 @@
             <field name="name">is.calcul.pmp.move.tree</field>
             <field name="model">is.calcul.pmp.move</field>
             <field name="arch" type="xml">
-                <tree colors="red:product_uom_qty&lt;0;">
-                    <field name="product_id"/>
-                    <field name="date"/>
-                    <field name="picking_id"/>
+                <tree colors="red:product_uom_qty&lt;0;" editable="bottom">
+                    <field name="product_id" readonly="1"/>
+                    <field name="date"       readonly="1"/>
                     <field name="product_uom_qty" sum="Total"/>
                     <field name="price_unit"/>
-                    <field name="stock_date"/>
+                    <field name="stock_date" readonly="1"/>
+
+                    <field name="qt_rcp"      readonly="1"            optional="hide" sum="Total"/>
+                    <field name="montant_rcp" readonly="1"       optional="hide" sum="Total"/>
+                    <field name="pmp"         readonly="1"               optional="show"/>
+                    <field name="montant_pmp" readonly="1"       optional="show"/>
+                    <field name="periode_pmp" readonly="1"       optional="show"/>
+
+                    <field name="picking_id"/>
                 </tree>
             </field>
         </record>
@@ -70,15 +77,20 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="product_id"/>
+                    <button name="liste_mouvements_action" type="object"  icon="gtk-justify-fill" title="Liste des mouvements"/>
                     <field name="last"/>
                     <field name="mini"/>
                     <field name="maxi"/>
                     <field name="nb_rcp"/>
                     <field name="total_qt"/>
                     <field name="total_montant"/>
+                    <field name="prix_moyen"/>
                     <field name="pmp"/>
                     <field name="stock_actuel"/>
                     <field name="stock_date_limite"/>
+                    <field name="stock_valorise_last"  sum="Total"/>
+                    <field name="stock_valorise_moyen" sum="Total"/>
+                    <field name="stock_valorise_pmp"   sum="Total"/>
                 </tree>
             </field>
         </record>
@@ -145,7 +157,10 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="calcul_pmp_action" type="object" string="Calculer le PMP"/>
+
+                        <button name="extraire_mouvement_action" type="object" string="Extraire les mouvements"/>
+                        <button name="calcul_stock_date_action"  type="object" string="Calculer stock à date et période PMP"/>
+                        <button name="calcul_pmp_action"         type="object" string="Calculer le PMP"/>
                         <button name="%(is_calcul_pmp_move_action)d"    type="action" string="Voir les mouvements"/>
                         <button name="%(is_calcul_pmp_product_action)d" type="action" string="Voir les articles"/>
                     </header>
