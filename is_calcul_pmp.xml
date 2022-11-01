@@ -78,6 +78,7 @@
                 <tree>
                     <field name="product_id"/>
                     <button name="liste_mouvements_action" type="object"  icon="gtk-justify-fill" title="Liste des mouvements"/>
+                    <field name="stock_category_id"/>
                     <field name="last"/>
                     <field name="mini"/>
                     <field name="maxi"/>
@@ -102,6 +103,7 @@
                     <sheet>
                         <group>
                             <field name="product_id"/>
+                            <field name="stock_category_id"/>
                             <field name="last"/>
                             <field name="mini"/>
                             <field name="maxi"/>
@@ -122,6 +124,7 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="product_id"/>
+                    <field name="stock_category_id"/>
                 </search>
             </field>
         </record>

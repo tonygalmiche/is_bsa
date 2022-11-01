@@ -332,6 +332,7 @@ class is_calcul_pmp_product(models.Model):
 
     calcul_id     = fields.Many2one('is.calcul.pmp', u'Calcul PMP', required=True, select=True)
     product_id    = fields.Many2one('product.product', u'Article', required=True, select=True)
+    stock_category_id = fields.Many2one('is.stock.category', string='Catégorie de stock', related='product_id.is_stock_category_id' )
     last          = fields.Float(u"Dernier prix")
     mini          = fields.Float(u"Prix mini")
     maxi          = fields.Float(u"Prix maxi")
